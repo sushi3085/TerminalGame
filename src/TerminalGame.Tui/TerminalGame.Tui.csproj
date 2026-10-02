@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>TerminalGame.Tui</RootNamespace>
+    <AssemblyName>TerminalGame.Tui</AssemblyName>
+    <Description>A dependency-free text UI framework for terminal JRPGs.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="TerminalGame.Tui.Tests" />
+  </ItemGroup>
+</Project>

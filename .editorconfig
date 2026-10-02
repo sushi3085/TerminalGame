@@ -1,0 +1,28 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+[*.{csproj,props,sln,md,json,yml}]
+indent_size = 2
+
+[*.cs]
+# Naming: methods, properties, fields, events, locals and parameters use lowerCamelCase.
+# Types, namespaces and enum members stay PascalCase (the usual C# convention for those).
+dotnet_naming_style.lower_camel_case.capitalization = camel_case
+
+dotnet_naming_symbols.lower_camel_symbols.applicable_kinds = method, property, event, local, parameter, local_function
+dotnet_naming_rule.lower_camel_members.symbols = lower_camel_symbols
+dotnet_naming_rule.lower_camel_members.style = lower_camel_case
+dotnet_naming_rule.lower_camel_members.severity = warning
+
+dotnet_naming_symbols.instance_and_static_fields.applicable_kinds = field
+dotnet_naming_rule.lower_camel_fields.symbols = instance_and_static_fields
+dotnet_naming_rule.lower_camel_fields.style = lower_camel_case
+dotnet_naming_rule.lower_camel_fields.severity = warning
+
+dotnet_diagnostic.IDE1006.severity = warning
