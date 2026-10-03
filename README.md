@@ -2,7 +2,7 @@
 
 用 C# 寫文字 JRPG 的終端機 UI 框架（`TerminalGame.Tui`），附一個可玩的迷你 Demo。
 
-- .NET 8、零第三方執行期依賴，直接輸出 ANSI/VT 序列
+- .NET 10、零第三方執行期依賴，直接輸出 ANSI/VT 序列
 - 雙緩衝＋差異輸出（只送變動的格子）、真彩色（自動降級 256 / 16 色）
 - 全形字（中日韓）正確對齊，CJK 感知的換行與禁則處理
 - JRPG 元件：打字機對話框（逐字、分頁、標點停頓）、指令選單、HP/MP 條、視窗框、modal 選單
@@ -13,7 +13,7 @@
 
 ## 執行 Demo
 
-需要 [.NET 8 SDK](https://dotnet.microsoft.com/download) 與支援 UTF-8 的終端機（建議 80×24 以上）。
+需要 [.NET 10 SDK](https://dotnet.microsoft.com/download) 與支援 UTF-8 的終端機（建議 80×24 以上）。
 
 ```bash
 dotnet run --project src/TerminalGame.Demo
@@ -82,7 +82,7 @@ docs/DESIGN.md               設計文件
 
 ## 開發
 
-目標框架統一設定在 `Directory.Build.props`（目前 `net8.0`，這是開發時唯一驗證過的版本）。若要跟 Visual Studio 範本一樣用 `net10.0`，改那一行即可。
+目標框架統一設定在 `Directory.Build.props`（目前 `net10.0`），所有專案共用。
 
 ```bash
 dotnet build          # 同時以 .editorconfig 檢查命名規範（IDE1006）
