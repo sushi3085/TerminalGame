@@ -18,7 +18,7 @@
 
 | 決定 | 理由 |
 |---|---|
-| .NET 8（C# 12） | LTS；`System.Text.Rune`、`StringInfo` 內建 Unicode 字素叢集（grapheme cluster）切分，省去自己實作 UAX #29。 |
+| .NET 10（C# 14） | LTS；`System.Text.Rune`、`StringInfo` 內建 Unicode 字素叢集（grapheme cluster）切分，省去自己實作 UAX #29。 |
 | 直接輸出 ANSI/VT 序列 | 跨平台一致，且能精準控制「每幀送出什麼位元組」。.NET 的 `Console.SetCursorPosition` / `ForegroundColor` 呼叫次數多、不支援真彩色與同步輸出。 |
 | 自製框架，不包 Terminal.Gui / Spectre.Console | 我對它們的印象是前者以「視窗＋表單」的應用程式為出發點、後者以格式化輸出為主，並非以遊戲迴圈為中心（此為選型時的判斷，未做正式評測）；而本專案的需求（逐字顯示、場景堆疊、CJK 對齊）都落在核心路徑上，自己掌控比較單純。自製後整個框架約 3,900 行（含註解與空行），範圍小到可以完全掌控。 |
 | 保留模式（retained）widget 樹，不用 ECS 或立即模式 | JRPG 的 UI 是有狀態的（游標位置、打字進度、分頁），widget 物件天然持有這些狀態。 |
@@ -138,7 +138,7 @@ for 每個 cell（略過 continuation）:
 
 - **輪詢而非執行緒**：`Console.KeyAvailable` + `ReadKey(intercept: true)`，在遊戲迴圈內每幀排空。單執行緒，沒有鎖。
 - **`GameAction` 抽象**：widget 只看 `Confirm / Cancel / Up / …`，不看實體按鍵；`KeyMap` 集中綁定，可重新對應（預設：方向鍵、Enter/Space/Z 確認、Esc/Backspace/X 取消、Tab/M 選單）。
-- **Ctrl+C 當成按鍵**（`TreatControlCAsInput`），由 `Application` 優雅結束；`ProcessExit` 再補一道還原，涵蓋 `SIGTERM`。
+- **Ctrl+C 當成按鍵**（`TreatControlCAsInput`），由 `Application` 優雅結束；並明確註冊 `SIGTERM` / `SIGHUP` 處理器（`PosixSignalRegistration`）與 `ProcessExit` 來還原終端。升級到 .NET 10 時發現只靠 `ProcessExit` 在 `SIGTERM` 下不會還原終端，所以改為顯式處理；處理器不取消訊號，預設的終止行為照常發生。
 - **焦點與冒泡**：按鍵先給焦點 widget，沒處理（`handleInput` 回傳 false）就沿 `parent` 往上，最後落到 `scene.onKey`。`MenuList` 只在有人訂閱 `confirmed/cancelled` 時才吃掉對應按鍵，所以沒訂閱的取消鍵會自然冒泡給場景。
 - **Modal**：`showModal` 疊在場景上並取得焦點，開著時下層收不到任何按鍵；`closeModal` 還原先前焦點。
 
