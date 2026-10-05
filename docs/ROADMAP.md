@@ -48,10 +48,11 @@ src/
     World/     MapGraph、EncounterTable（M1）
     Script/    對話／事件腳本直譯器（M1）
   TerminalGame.Demo/    Scenes：把 Rpg 的狀態畫出來（日後可改名 TerminalGame.Game）
-  content/ 或 內嵌資源   JSON 內容檔
+content/                JSON 內容檔（建置時複製到輸出目錄）
 tests/
   TerminalGame.Tui.Tests/
   TerminalGame.Rpg.Tests/  規則與內容驗證測試
+  TerminalGame.Demo.Tests/ 無頭終端的遊玩流程測試
 tools/
   TerminalGame.Sim/        平衡模擬（M2）
 ```
@@ -68,20 +69,21 @@ tools/
 
 ## 3. 里程碑與待辦
 
-### M0 架構重構（行為不變）
+### M0 架構重構（行為不變）✅
 
-- [ ] 新增 `TerminalGame.Rpg` 類別庫與 `TerminalGame.Rpg.Tests`，加入 sln
-- [ ] `StatBlock`（maxHp, maxMp, attack, defense, magic, speed）與運算
-- [ ] Def 型別：`CharacterDef`、`EnemyDef`、`ItemDef`、`SkillDef`（含 `EquipSlot`、`ItemKind`、`TargetKind`）
-- [ ] `ContentDb`：從 JSON 載入（System.Text.Json），提供 `get*` 查詢與 `validate()` 交叉引用檢查
-- [ ] 內容 JSON 以內嵌資源打包（`content/*.json`），重現目前 Demo 的史萊姆、勇者、傷藥、火球術
-- [ ] State：`PartyMember`（level、exp、hp/mp、裝備）、`Inventory`、`GameSession`（隊伍、背包、金錢、旗標、亂數）
-- [ ] 經驗值曲線與升級（`Progression`）
-- [ ] `BattleEngine`：多對多、依速度排行動順序、攻擊／技能／道具／逃跑、敵人簡單 AI、勝敗判定與戰利品
-- [ ] `BattleEvent` 階層與 `DamageFormula`
-- [ ] Demo 的 `BattleScene`／`TownScene`／`StatusScene` 改用 Rpg 層，玩起來與重構前一致
-- [ ] 測試：傷害公式、行動順序、道具消耗、勝敗、升級、內容驗證
-- [ ] `--snapshot` 仍可執行
+- [x] 新增 `TerminalGame.Rpg` 類別庫與 `TerminalGame.Rpg.Tests`，加入 sln
+- [x] `StatBlock`（maxHp, maxMp, attack, defense, magic, speed）與運算
+- [x] Def 型別：`CharacterDef`、`EnemyDef`、`ItemDef`、`SkillDef`（含 `EquipSlot`、`ItemKind`、`TargetKind`）
+- [x] `ContentDb`：從 JSON 載入（System.Text.Json），提供查詢與交叉引用檢查（錯誤一次全部列出）
+- [x] 內容 JSON 放在 repo 根目錄 `content/`，建置時複製到輸出目錄（Demo 與測試皆同），重現 Demo 的史萊姆、勇者、傷藥、火球術
+- [x] State：`PartyMember`（level、exp、hp/mp、裝備）、`Inventory`、`Flags`、`GameSession`（隊伍、背包、金錢、旗標、亂數）
+- [x] 經驗值曲線與升級（`Progression`，升級時學會技能）
+- [x] `BattleEngine`：多對多、依速度排行動順序、攻擊／技能／道具／防禦／逃跑、敵人加權隨機 AI、勝敗判定與戰利品
+- [x] `BattleEvent` 階層與 `DamageFormula`
+- [x] Demo 的 `BattleScene`／`TownScene`／`StatusScene` 改用 Rpg 層（新增技能／道具子選單、多目標選擇、戰敗劇情）
+- [x] 測試：傷害公式、行動順序、道具消耗、勝敗、升級、內容驗證、同 seed 可重現、200 場自動對戰
+- [x] `TerminalGame.Demo.Tests`：用無頭終端按鍵打完勝利／戰敗流程
+- [x] `--snapshot` 仍可執行
 
 ### M1 垂直切片：第 1 章完整（目標 10–15 分鐘且好玩）
 
@@ -91,7 +93,7 @@ tools/
 - [ ] 商店（買／賣）、旅館（回復＋存檔）
 - [ ] 裝備畫面（顯示換裝前後數值差）、道具畫面
 - [ ] 存檔／讀檔（JSON，含 `version`）；標題畫面加「繼續」
-- [ ] 夥伴琳加入；隊伍戰鬥 UI（多人 HP/MP、選目標）
+- [ ] 夥伴琳加入；隊伍戰鬥 UI（目前隊伍面板每人 3 行，只容得下 2 人，需改成每人 1 行的精簡版；選目標已完成）
 - [ ] Boss：森林之主
 - [ ] 區域配色（Theme）與抵達新地點的 ASCII 圖／描述
 
@@ -117,8 +119,24 @@ tools/
 
 ---
 
-## 4. 進度日誌
+## 4. 給下一個 session 的交接
+
+- **環境**：雲端容器預設沒有 .NET。`builds.dotnet.microsoft.com` 被網路政策擋下，請改用 Ubuntu 套件：`apt-get install -y dotnet-sdk-10.0`（必要時先 `apt-get update`）。NuGet 可正常連線。
+- **驗證**：`dotnet build`（0 警告）、`dotnet test`（三個測試專案）、`dotnet run --project src/TerminalGame.Demo -- --snapshot`。
+- **sln 換行**：`dotnet sln add` 會把 `TerminalGame.sln` 改成 LF，加完專案後請轉回 CRLF（`sed -i 's/\r\{0,1\}$/\r/' TerminalGame.sln`）。
+- **M0 留下的設計決定**
+  - 戰鬥是「逐人行動」制（每回合依速度±10% 排序，輪到誰誰就行動），不是 DQ 式「先全員下指令再結算」。
+  - 勝利時存活的成員各自拿到全額經驗值；倒下的成員拿不到。
+  - 爆擊只發生在物理攻擊（1/16，×1.5）；防禦狀態傷害減半，持續到自己下次行動。
+  - 道具只能由我方使用；目前沒有復活效果（M2 可加 `Revive` EffectKind）。
+  - 敘述文字（`attackMessage`、`useMessage`）放在內容 JSON，讓每隻怪物／技能有自己的台詞。
+- **下一步**：M1 從世界節點圖（`World/MapGraph`）與旗標腳本（`Script/`）開始，再做商店／旅館／存檔。
+
+---
+
+## 5. 進度日誌
 
 | 日期 | 內容 |
 |---|---|
 | 2026-10-05 | 建立 ROADMAP |
+| 2026-10-05 | 完成 M0：`TerminalGame.Rpg`（資料／狀態／戰鬥引擎）、`content/` JSON、Demo 改用新架構、179 個測試全過 |

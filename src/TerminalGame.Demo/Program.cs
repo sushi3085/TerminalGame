@@ -1,25 +1,36 @@
 using TerminalGame.Demo;
+using TerminalGame.Rpg.Data;
 using TerminalGame.Tui.Backends;
 using TerminalGame.Tui.Input;
 using TerminalGame.Tui.Runtime;
 
+ContentDb content;
+try
+{
+    content = ContentDb.loadDirectory(Path.Combine(AppContext.BaseDirectory, "content"));
+}
+catch (ContentException ex)
+{
+    Console.Error.WriteLine(ex.Message);
+    return;
+}
+
 if (args.Contains("--snapshot"))
 {
-    runSnapshot();
+    runSnapshot(content);
     return;
 }
 
 using Application app = new(new ConsoleBackend());
-app.run(new TitleScene(new GameState()));
+app.run(new TitleScene(content));
 
 // Plays a scripted session on an in-memory terminal and prints the screen after each step.
 // Runs anywhere (CI, no TTY), and shows how scenes can be tested without a real terminal.
-static void runSnapshot()
+static void runSnapshot(ContentDb content)
 {
     HeadlessBackend backend = new(80, 24);
     Application app = new(backend);
-    GameState state = new(seed: 1);
-    app.pushScene(new TitleScene(state));
+    app.pushScene(new TitleScene(content, seed: 1));
 
     void show(string label, double seconds = 1.0)
     {
@@ -47,7 +58,9 @@ static void runSnapshot()
     show("battle: intro complete", 5);
     press(Key.Enter); // dismiss -> player's turn
     show("battle: command menu");
-    press(Key.Down, Key.Enter); // fireball
+    press(Key.Down, Key.Enter); // skills
+    show("battle: skill list");
+    press(Key.Enter); // fireball
     show("battle: fireball message", 5);
     press(Key.Enter);
     show("battle: enemy turn", 5);

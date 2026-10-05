@@ -1,3 +1,5 @@
+using TerminalGame.Rpg.Data;
+using TerminalGame.Rpg.State;
 using TerminalGame.Tui;
 using TerminalGame.Tui.Rendering;
 using TerminalGame.Tui.Runtime;
@@ -7,11 +9,14 @@ namespace TerminalGame.Demo;
 
 public sealed class TitleScene : Scene
 {
-    private readonly GameState state;
+    private readonly ContentDb content;
+    private readonly int? seed;
 
-    public TitleScene(GameState state)
+    /// <param name="seed">Fixes the random sequence of the new game (used by the scripted snapshot run).</param>
+    public TitleScene(ContentDb content, int? seed = null)
     {
-        this.state = state;
+        this.content = content;
+        this.seed = seed;
 
         StackPanel logoText = new(Orientation.Vertical);
         logoText.add(new Label("[gold b]光 之 試 煉[/]", HorizontalAlignment.Center));
@@ -59,7 +64,7 @@ public sealed class TitleScene : Scene
         switch (index)
         {
             case 0:
-                application!.replaceScene(new TownScene(state));
+                application!.replaceScene(new TownScene(GameSession.newGame(content, seed)));
                 break;
             case 1:
                 showHelp();

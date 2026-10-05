@@ -1,3 +1,6 @@
+using TerminalGame.Rpg.Battle;
+using TerminalGame.Rpg.Data;
+using TerminalGame.Rpg.State;
 using TerminalGame.Tui;
 using TerminalGame.Tui.Rendering;
 using TerminalGame.Tui.Runtime;
@@ -5,54 +8,68 @@ using TerminalGame.Tui.Widgets;
 
 namespace TerminalGame.Demo;
 
+/// <summary>
+/// Battle UI. All rules live in <see cref="BattleEngine"/>; this scene only collects the player's commands and plays
+/// back the events the engine returns, one message page at a time. HP/MP bars show the values as of the page being
+/// displayed, not the engine's live values, so the bars move in step with the narration.
+/// </summary>
 public sealed class BattleScene : Scene
 {
-    private const int enemyMaxHp = 40;
-    private const int skillCost = 5;
+    private sealed record EnemyView(Combatant combatant, Label name, ArtBlock art, ProgressBar hp);
 
-    private readonly GameState state;
-    private readonly ProgressBar enemyBar;
-    private readonly ProgressBar heroHp;
-    private readonly ProgressBar heroMp;
-    private readonly MenuList commands;
+    private sealed record MemberView(Combatant combatant, Label name, ProgressBar hp, ProgressBar mp);
+
+    private readonly GameSession session;
+    private readonly BattleEngine engine;
+    private readonly List<EnemyView> enemyViews = new();
+    private readonly List<MemberView> memberViews = new();
+    private readonly Dictionary<Combatant, (int hp, int mp)> shown = new();
+    private readonly MenuList commands = new();
     private readonly DialogueBox messages = new();
-    private int enemyHp = enemyMaxHp;
     private Action? afterMessage;
 
-    public BattleScene(GameState state)
+    public BattleScene(GameSession session, IEnumerable<string> enemyIds, bool canEscape = true)
     {
-        this.state = state;
+        this.session = session;
+        engine = new BattleEngine(session, enemyIds.Select(session.content.enemy), canEscape);
+        foreach (Combatant c in engine.party.Concat(engine.enemies))
+        {
+            shown[c] = (c.hp, c.mp);
+        }
 
-        ArtBlock slime = new(
-            """
-            [green]      _.---._      [/]
-            [green]    .'       '.    [/]
-            [green]   /  [/][white]●[/][green]     [/][white]●[/][green]  \   [/]
-            [green]  |     [/][red]\_/[/][green]     |  [/]
-            [green]   \_____________/  [/]
-            """);
-        enemyBar = new ProgressBar(enemyHp, enemyMaxHp, "HP") { layoutWidth = Length.cells(24) };
-        enemyBar.setGradient(Color.rgb(200, 50, 50), Color.rgb(210, 170, 40), Color.rgb(40, 160, 70));
+        StackPanel enemyRow = new(Orientation.Horizontal);
+        foreach (Combatant enemy in engine.enemies)
+        {
+            EnemyCombatant e = (EnemyCombatant)enemy;
+            Label name = new($"[red b]{e.name}[/]  Lv.{e.def.level}", HorizontalAlignment.Center);
+            ArtBlock art = new(string.Join("\n", e.def.art)) { layoutHeight = Length.cells(Math.Max(1, e.def.art.Count)) };
+            ProgressBar hp = new(e.hp, e.stats.maxHp, "HP") { layoutWidth = Length.cells(24) };
+            hp.setGradient(Color.rgb(200, 50, 50), Color.rgb(210, 170, 40), Color.rgb(40, 160, 70));
 
-        StackPanel enemyColumn = new(Orientation.Vertical);
-        enemyColumn.add(new Label("[red b]史萊姆[/]  Lv.2", HorizontalAlignment.Center));
-        enemyColumn.add(new Spacer());
-        slime.layoutHeight = Length.cells(5);
-        enemyColumn.add(slime);
-        enemyColumn.add(new Spacer());
-        enemyColumn.add(centered(enemyBar));
+            StackPanel column = new(Orientation.Vertical) { layoutWidth = Length.fill() };
+            column.add(name);
+            column.add(new Spacer());
+            column.add(art);
+            column.add(new Spacer());
+            column.add(centered(hp));
+            enemyRow.add(column);
+            enemyViews.Add(new EnemyView(enemy, name, art, hp));
+        }
 
-        commands = new MenuList();
+        StackPanel partyPanel = new(Orientation.Vertical);
+        foreach (Combatant member in engine.party)
+        {
+            Label name = new($"[gold]{member.name}[/]");
+            ProgressBar hp = new(member.hp, member.stats.maxHp, "HP");
+            hp.setGradient(Color.rgb(200, 50, 50), Color.rgb(210, 170, 40), Color.rgb(40, 160, 70));
+            ProgressBar mp = new(member.mp, member.stats.maxMp, "MP") { fillColor = Color.rgb(60, 110, 210) };
+            partyPanel.add(name);
+            partyPanel.add(hp);
+            partyPanel.add(mp);
+            memberViews.Add(new MemberView(member, name, hp, mp));
+        }
+
         commands.confirmed += onCommand;
-        heroHp = new ProgressBar(0, state.hero.maxHp, "HP");
-        heroHp.setGradient(Color.rgb(200, 50, 50), Color.rgb(210, 170, 40), Color.rgb(40, 160, 70));
-        heroMp = new ProgressBar(0, state.hero.maxMp, "MP") { fillColor = Color.rgb(60, 110, 210) };
-
-        StackPanel party = new(Orientation.Vertical);
-        party.add(new Label($"[gold]{state.hero.name}[/]"));
-        party.add(heroHp);
-        party.add(heroMp);
-
         messages.completed += () =>
         {
             Action? next = afterMessage;
@@ -63,21 +80,25 @@ public sealed class BattleScene : Scene
         StackPanel bottom = new(Orientation.Horizontal) { layoutHeight = Length.cells(8) };
         bottom.add(new Border(commands, "指令") { layoutWidth = Length.cells(16), padding = new Thickness(1, 0, 0, 0) });
         bottom.add(messages);
-        bottom.add(new Border(party, "隊伍") { layoutWidth = Length.cells(24) });
+        bottom.add(new Border(partyPanel, "隊伍") { layoutWidth = Length.cells(24) });
 
         StackPanel layout = new(Orientation.Vertical);
-        layout.add(new Border(enemyColumn, "[red]遭遇戰[/]") { layoutHeight = Length.fill() });
+        layout.add(new Border(enemyRow, canEscape ? "[red]遭遇戰[/]" : "[red b]強敵[/]") { layoutHeight = Length.fill() });
         layout.add(bottom);
         root = layout;
     }
 
+    public BattleOutcome outcome => engine.outcome;
+
+    /// <summary>Raised once the last message of the battle is dismissed, just before the scene pops itself.</summary>
+    public event Action<BattleOutcome>? finished;
+
     public override void onEnter()
     {
         syncBars();
-        say("[red]野生的史萊姆[/]出現了！", beginPlayerTurn);
+        engine.start();
+        say(BattleNarrator.encounter(engine.enemies), continueBattle);
     }
-
-    public override void onUpdate(double deltaSeconds) => syncBars();
 
     private static Widget centered(Widget child)
     {
@@ -90,9 +111,24 @@ public sealed class BattleScene : Scene
 
     private void syncBars()
     {
-        enemyBar.value = enemyHp;
-        heroHp.value = state.hero.hp;
-        heroMp.value = state.hero.mp;
+        foreach (EnemyView view in enemyViews)
+        {
+            int hp = shown[view.combatant].hp;
+            view.hp.value = hp;
+            if (hp <= 0)
+            {
+                view.art.setArt("");
+                view.name.setText($"[dim]{view.combatant.name}[/]");
+            }
+        }
+
+        foreach (MemberView view in memberViews)
+        {
+            (int hp, int mp) = shown[view.combatant];
+            view.hp.value = hp;
+            view.mp.value = mp;
+            view.name.setText(hp > 0 ? $"[gold]{view.combatant.name}[/]" : $"[dim]{view.combatant.name}[/]");
+        }
     }
 
     /// <summary>Shows a message in the log window; <paramref name="then"/> runs once the player dismisses it.</summary>
@@ -103,72 +139,191 @@ public sealed class BattleScene : Scene
         messages.show(markup);
     }
 
+    /// <summary>Narrates <paramref name="events"/> page by page, applying each page's HP/MP changes as it appears.</summary>
+    private void play(IReadOnlyList<BattleEvent> events, Action then)
+    {
+        IReadOnlyList<BattlePage> pages = BattleNarrator.narrate(events);
+        int index = 0;
+
+        void next()
+        {
+            while (index < pages.Count)
+            {
+                BattlePage page = pages[index++];
+                apply(page.events);
+                if (page.markup.Length > 0)
+                {
+                    say(page.markup, next);
+                    return;
+                }
+            }
+
+            then();
+        }
+
+        next();
+    }
+
+    private void apply(IEnumerable<BattleEvent> events)
+    {
+        foreach (BattleEvent e in events)
+        {
+            switch (e)
+            {
+                case DamageEvent d:
+                    shown[d.target] = (d.remainingHp, shown[d.target].mp);
+                    break;
+                case HealEvent h:
+                    shown[h.target] = (h.remainingHp, shown[h.target].mp);
+                    break;
+                case MpRestoreEvent m:
+                    shown[m.target] = (shown[m.target].hp, m.remainingMp);
+                    break;
+                case SkillUsedEvent s:
+                    shown[s.actor] = (shown[s.actor].hp, s.remainingMp);
+                    break;
+                case LevelUpEvent:
+                    // Level-ups raise max HP/MP; show the live values and maxima from here on.
+                    foreach (MemberView view in memberViews)
+                    {
+                        view.hp.maximum = view.combatant.stats.maxHp;
+                        view.mp.maximum = view.combatant.stats.maxMp;
+                        shown[view.combatant] = (view.combatant.hp, view.combatant.mp);
+                    }
+
+                    break;
+            }
+        }
+
+        syncBars();
+    }
+
+    /// <summary>Runs enemy turns until it is a party member's turn or the battle is over.</summary>
+    private void continueBattle()
+    {
+        if (engine.outcome != BattleOutcome.Ongoing)
+        {
+            finished?.Invoke(engine.outcome);
+            application!.popScene();
+            return;
+        }
+
+        Combatant actor = engine.currentActor!;
+        if (actor.side == Side.Enemies)
+        {
+            play(engine.execute(engine.decideEnemyAction()), continueBattle);
+            return;
+        }
+
+        beginPlayerTurn();
+    }
+
     private void beginPlayerTurn()
     {
+        Combatant actor = engine.currentActor!;
         int keep = commands.selectedIndex;
         commands.setItems(new[]
         {
             MenuItem.of("攻擊"),
-            MenuItem.of($"[magenta]火球術[/] [dim]MP{skillCost}[/]", state.hero.mp >= skillCost),
-            MenuItem.of($"傷藥 x{state.potions}", state.potions > 0),
-            MenuItem.of("逃跑"),
+            MenuItem.of("技能", engine.skillsOf(actor).Count > 0),
+            MenuItem.of("道具", usableItems().Any()),
+            MenuItem.of("防禦"),
+            MenuItem.of("逃跑", engine.canEscape),
         });
         commands.select(keep);
         setFocus(commands);
+        if (engine.party.Count > 1)
+        {
+            messages.show($"{actor.name}要怎麼做？");
+        }
     }
+
+    private IEnumerable<(ItemDef item, int count)> usableItems() =>
+        session.inventory.entries
+            .Select(e => (item: session.content.item(e.itemId), e.count))
+            .Where(e => e.item.usableInBattle);
+
+    private void act(BattleAction action) => play(engine.execute(action), continueBattle);
 
     private void onCommand(int index)
     {
+        Combatant actor = engine.currentActor!;
         switch (index)
         {
             case 0:
-                hitEnemy(state.random.Next(8, 15), "勇者揮劍斬擊！");
+                chooseTarget(actor, TargetKind.SingleEnemy, target => act(new AttackAction(actor, target!)));
                 break;
             case 1:
-                state.hero.mp -= skillCost;
-                hitEnemy(state.random.Next(18, 25), "勇者詠唱[magenta]火球術[/]！");
+                chooseSkill(actor);
                 break;
             case 2:
-                state.potions--;
-                state.hero.hp = Math.Min(state.hero.maxHp, state.hero.hp + 25);
-                say("勇者喝下[green]傷藥[/]，恢復了 [gold]25[/] 點 HP。", enemyTurn);
+                chooseItem(actor);
+                break;
+            case 3:
+                act(new GuardAction(actor));
                 break;
             default:
-                say("勇者逃跑了！", () => application!.popScene());
+                act(new EscapeAction(actor));
                 break;
         }
     }
 
-    private void hitEnemy(int damage, string prefix)
+    private void chooseSkill(Combatant actor)
     {
-        enemyHp = Math.Max(0, enemyHp - damage);
-        string text = $"{prefix}\n對[red]史萊姆[/]造成 [gold b]{damage}[/] 點傷害！";
-        say(text, () =>
-        {
-            if (enemyHp > 0)
-            {
-                enemyTurn();
-                return;
-            }
-
-            state.experience += 30;
-            say("史萊姆倒下了！\n獲得 [gold]30[/] 點經驗值。", () => application!.popScene());
-        });
+        IReadOnlyList<SkillDef> skills = engine.skillsOf(actor);
+        showPicker(
+            "技能",
+            skills.Select(s => MenuItem.of($"{s.name} [dim]MP{s.mpCost}[/]", engine.canAfford(actor, s))),
+            i => chooseTarget(actor, skills[i].target, target => act(new SkillAction(actor, skills[i], target))));
     }
 
-    private void enemyTurn()
+    private void chooseItem(Combatant actor)
     {
-        int damage = state.random.Next(5, 11);
-        state.hero.hp = Math.Max(0, state.hero.hp - damage);
-        say($"[red]史萊姆[/]撲了過來！\n勇者受到 [red b]{damage}[/] 點傷害。", () =>
-        {
-            if (state.hero.hp > 0)
-            {
-                beginPlayerTurn();
-                return;
-            }
+        List<(ItemDef item, int count)> items = usableItems().ToList();
+        showPicker(
+            "道具",
+            items.Select(e => MenuItem.of($"{e.item.name} x{e.count}")),
+            i => chooseTarget(actor, items[i].item.target, target => act(new ItemAction(actor, items[i].item, target))));
+    }
 
-            say("勇者倒下了……\n在長老的照料下，你在鎮上醒了過來。", () => application!.popScene());
-        });
+    /// <summary>Asks for a target only when there is a real choice; otherwise picks the obvious one.</summary>
+    private void chooseTarget(Combatant actor, TargetKind kind, Action<Combatant?> then)
+    {
+        IReadOnlyList<Combatant> candidates = kind switch
+        {
+            TargetKind.SingleEnemy => engine.opponentsOf(actor),
+            TargetKind.SingleAlly => engine.alliesOf(actor),
+            _ => [],
+        };
+
+        if (candidates.Count == 0)
+        {
+            then(null);
+        }
+        else if (candidates.Count == 1)
+        {
+            then(candidates[0]);
+        }
+        else
+        {
+            showPicker(
+                "對象",
+                candidates.Select(c => MenuItem.of($"{BattleNarrator.nameOf(c)} [dim]HP {c.hp}/{c.stats.maxHp}[/]")),
+                i => then(candidates[i]));
+        }
+    }
+
+    /// <summary>A popup list next to the command window; confirming closes it and runs <paramref name="onPick"/>, cancel just closes it.</summary>
+    private void showPicker(string title, IEnumerable<MenuItem> items, Action<int> onPick)
+    {
+        MenuList list = new(items);
+        Border frame = new(list, title) { layoutWidth = Length.cells(30), layoutHeight = Length.cells(Math.Min(10, list.entries.Count + 2)) };
+        list.confirmed += i =>
+        {
+            closeModal(frame);
+            onPick(i);
+        };
+        list.cancelled += () => closeModal(frame);
+        showModal(frame, HorizontalAlignment.Left, VerticalAlignment.Bottom);
     }
 }

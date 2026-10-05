@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalGame.Rpg", "src\Ter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalGame.Rpg.Tests", "tests\TerminalGame.Rpg.Tests\TerminalGame.Rpg.Tests.csproj", "{C3E8BBE0-3569-43D9-B4E2-0959C6546507}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalGame.Demo.Tests", "tests\TerminalGame.Demo.Tests\TerminalGame.Demo.Tests.csproj", "{FBEFE176-6DD6-4439-864F-971A3354FE97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{C3E8BBE0-3569-43D9-B4E2-0959C6546507}.Release|x64.Build.0 = Release|Any CPU
 		{C3E8BBE0-3569-43D9-B4E2-0959C6546507}.Release|x86.ActiveCfg = Release|Any CPU
 		{C3E8BBE0-3569-43D9-B4E2-0959C6546507}.Release|x86.Build.0 = Release|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Debug|x64.Build.0 = Debug|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Debug|x86.Build.0 = Debug|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Release|x64.ActiveCfg = Release|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Release|x64.Build.0 = Release|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Release|x86.ActiveCfg = Release|Any CPU
+		{FBEFE176-6DD6-4439-864F-971A3354FE97}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +111,6 @@ Global
 		{30DD53D9-34DC-4563-8326-91CBC0099AF8} = {ACF20CC4-5031-486E-9F3F-615A99213AF5}
 		{6CED6203-D515-43E6-BC1A-4FD54F6C410F} = {D7C7278C-039F-44E4-960F-324241B76A7C}
 		{C3E8BBE0-3569-43D9-B4E2-0959C6546507} = {ACF20CC4-5031-486E-9F3F-615A99213AF5}
+		{FBEFE176-6DD6-4439-864F-971A3354FE97} = {ACF20CC4-5031-486E-9F3F-615A99213AF5}
 	EndGlobalSection
 EndGlobal

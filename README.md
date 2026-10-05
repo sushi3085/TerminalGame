@@ -75,10 +75,24 @@ src/TerminalGame.Tui/        框架
   Widgets/     Widget · StackPanel · Border · Label · TextBlock
                MenuList · DialogueBox · ProgressBar · ArtBlock · Spacer
   Runtime/     Application（主迴圈）· Scene（場景、焦點、modal）
-src/TerminalGame.Demo/       迷你 JRPG
-tests/TerminalGame.Tui.Tests/  xUnit 測試
-docs/DESIGN.md               設計文件
+src/TerminalGame.Rpg/        遊戲規則（不依賴 UI，可單元測試、可模擬）
+  Data/        *Def 定義 · ContentDb（載入 JSON 並驗證交叉引用）
+  State/       PartyMember · Inventory · Flags · GameSession · Progression
+  Battle/      BattleEngine（事件式）· BattleEvent · DamageFormula
+src/TerminalGame.Demo/       迷你 JRPG（Scenes：把 Rpg 的狀態畫出來）
+content/                     遊戲資料 JSON：技能、道具、角色、敵人、開局設定
+tests/TerminalGame.Tui.Tests/  框架測試
+tests/TerminalGame.Rpg.Tests/  規則與內容驗證測試
+tests/TerminalGame.Demo.Tests/ 以無頭終端實際按鍵遊玩的流程測試
+docs/DESIGN.md               框架設計文件
+docs/ROADMAP.md              遊戲開發路線圖與進度
 ```
+
+### 遊戲資料
+
+`content/*.json` 會複製到執行檔旁的 `content/` 目錄，啟動時載入。所有 id 引用（技能、道具、掉落物、初始裝備…）在載入時檢查，打錯字會直接列出錯誤而不是遊戲中途當掉。改數值不需要改程式碼。
+
+戰鬥規則集中在 `BattleEngine` 與 `DamageFormula`：引擎每次行動回傳一串 `BattleEvent`，`BattleScene` 只負責把事件轉成訊息並播放，因此規則可以脫離畫面測試與模擬。
 
 ## 開發
 

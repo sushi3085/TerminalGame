@@ -1,3 +1,5 @@
+using TerminalGame.Rpg.Battle;
+using TerminalGame.Rpg.State;
 using TerminalGame.Tui;
 using TerminalGame.Tui.Input;
 using TerminalGame.Tui.Runtime;
@@ -18,14 +20,15 @@ public sealed class TownScene : Scene
         None,
         ReopenChoices,
         WelcomeBack,
+        Rescued,
     }
 
-    private readonly GameState state;
+    private readonly GameSession state;
     private readonly DialogueBox dialogue = new();
     private int introIndex;
     private ReturnAction returnAction;
 
-    public TownScene(GameState state)
+    public TownScene(GameSession state)
     {
         this.state = state;
 
@@ -59,8 +62,13 @@ public sealed class TownScene : Scene
         returnAction = ReturnAction.None;
         if (action == ReturnAction.WelcomeBack)
         {
-            state.hero.restore();
+            state.restoreParty();
             dialogue.show("歡迎回來。傷口還好嗎？\n要休息的話，隨時告訴我。", "[cyan]長老[/]");
+        }
+        else if (action == ReturnAction.Rescued)
+        {
+            state.restoreParty();
+            dialogue.show("你倒在森林裡，是路過的獵人把你揹回來的。\n別逞強，先好好休息吧。", "[cyan]長老[/]");
         }
         else if (action == ReturnAction.ReopenChoices)
         {
@@ -103,15 +111,17 @@ public sealed class TownScene : Scene
             switch (index)
             {
                 case 0:
-                    returnAction = ReturnAction.WelcomeBack;
-                    application!.pushScene(new BattleScene(state));
+                    BattleScene battle = new(state, ["slime"]);
+                    battle.finished += outcome =>
+                        returnAction = outcome == BattleOutcome.Defeat ? ReturnAction.Rescued : ReturnAction.WelcomeBack;
+                    application!.pushScene(battle);
                     break;
                 case 1:
                     returnAction = ReturnAction.ReopenChoices;
                     application!.pushScene(new StatusScene(state));
                     break;
                 default:
-                    application!.replaceScene(new TitleScene(state));
+                    application!.replaceScene(new TitleScene(state.content));
                     break;
             }
         };
