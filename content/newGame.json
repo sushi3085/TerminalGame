@@ -1,0 +1,5 @@
+{
+  "party": [ { "characterId": "hero", "level": 3 } ],
+  "items": [ { "itemId": "potion", "count": 3 } ],
+  "gold": 50
+}

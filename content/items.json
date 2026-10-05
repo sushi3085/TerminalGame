@@ -1,0 +1,26 @@
+[
+  {
+    "id": "potion",
+    "name": "傷藥",
+    "kind": "Consumable",
+    "price": 8,
+    "target": "SingleAlly",
+    "effect": { "kind": "Heal", "power": 25 },
+    "description": "恢復 25 點 HP。"
+  },
+  {
+    "id": "ether",
+    "name": "魔力水",
+    "kind": "Consumable",
+    "price": 30,
+    "target": "SingleAlly",
+    "effect": { "kind": "RestoreMp", "power": 15 },
+    "description": "恢復 15 點 MP。"
+  },
+  { "id": "woodenSword", "name": "木劍", "kind": "Equipment", "slot": "Weapon", "price": 30, "bonus": { "attack": 2 }, "description": "練習用的木劍。" },
+  { "id": "bronzeSword", "name": "青銅劍", "kind": "Equipment", "slot": "Weapon", "price": 120, "bonus": { "attack": 6 }, "description": "鎮上鐵匠打的青銅劍。" },
+  { "id": "clothTunic", "name": "布衣", "kind": "Equipment", "slot": "Body", "price": 20, "bonus": { "defense": 2 }, "description": "普通的旅行布衣。" },
+  { "id": "leatherArmor", "name": "皮甲", "kind": "Equipment", "slot": "Body", "price": 90, "bonus": { "defense": 5 }, "description": "鞣製過的皮革護甲。" },
+  { "id": "leatherCap", "name": "皮帽", "kind": "Equipment", "slot": "Head", "price": 40, "bonus": { "defense": 2 }, "description": "擋得住樹枝的皮帽。" },
+  { "id": "swiftCharm", "name": "疾風護符", "kind": "Equipment", "slot": "Accessory", "price": 150, "bonus": { "speed": 3 }, "description": "刻著風紋的護符，讓腳步變輕。" }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "hero",
+    "name": "艾倫",
+    "baseStats": { "maxHp": 44, "maxMp": 14, "attack": 7, "defense": 4, "magic": 6, "speed": 6 },
+    "growth": { "maxHp": 8, "maxMp": 3, "attack": 2, "defense": 1, "magic": 2, "speed": 1 },
+    "skills": [
+      { "skillId": "fireball", "level": 1 },
+      { "skillId": "heal", "level": 4 }
+    ],
+    "initialEquipment": [ "woodenSword", "clothTunic" ],
+    "attackMessage": "揮劍斬擊！"
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "slime",
+    "name": "史萊姆",
+    "level": 2,
+    "stats": { "maxHp": 40, "attack": 12, "defense": 4, "speed": 5 },
+    "exp": 30,
+    "gold": 12,
+    "drops": [ { "itemId": "potion", "chance": 0.25 } ],
+    "attackMessage": "撲了過來！",
+    "art": [
+      "[green]      _.---._      [/]",
+      "[green]    .'       '.    [/]",
+      "[green]   /  [/][white]●[/][green]     [/][white]●[/][green]  \\   [/]",
+      "[green]  |     [/][red]\\_/[/][green]     |  [/]",
+      "[green]   \\_____________/  [/]"
+    ]
+  }
+]

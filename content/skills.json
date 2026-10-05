@@ -1,0 +1,20 @@
+[
+  {
+    "id": "fireball",
+    "name": "火球術",
+    "mpCost": 5,
+    "target": "SingleEnemy",
+    "effect": { "kind": "Magical", "power": 220 },
+    "description": "對一名敵人造成火焰傷害。",
+    "useMessage": "詠唱[magenta]火球術[/]！"
+  },
+  {
+    "id": "heal",
+    "name": "治癒術",
+    "mpCost": 4,
+    "target": "SingleAlly",
+    "effect": { "kind": "Heal", "power": 20, "magicScaling": 60 },
+    "description": "恢復一名同伴的 HP。",
+    "useMessage": "詠唱[green]治癒術[/]！"
+  }
+]
