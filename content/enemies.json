@@ -4,13 +4,13 @@
     "name": "史萊姆",
     "level": 2,
     "stats": {
-      "maxHp": 40,
-      "attack": 12,
+      "maxHp": 32,
+      "attack": 11,
       "defense": 4,
       "speed": 5
     },
-    "exp": 30,
-    "gold": 12,
+    "exp": 24,
+    "gold": 10,
     "drops": [
       {
         "itemId": "potion",
@@ -31,12 +31,12 @@
     "name": "森林蝙蝠",
     "level": 2,
     "stats": {
-      "maxHp": 28,
-      "attack": 11,
+      "maxHp": 26,
+      "attack": 10,
       "defense": 3,
       "speed": 12
     },
-    "exp": 22,
+    "exp": 18,
     "gold": 8,
     "drops": [
       {
@@ -65,7 +65,7 @@
       "magic": 12,
       "speed": 4
     },
-    "exp": 38,
+    "exp": 30,
     "gold": 15,
     "actions": [
       {
@@ -102,7 +102,7 @@
       "defense": 6,
       "speed": 11
     },
-    "exp": 44,
+    "exp": 36,
     "gold": 16,
     "actions": [
       {
@@ -133,7 +133,7 @@
     "name": "森林之主",
     "level": 7,
     "stats": {
-      "maxHp": 420,
+      "maxHp": 380,
       "maxMp": 60,
       "attack": 22,
       "defense": 10,

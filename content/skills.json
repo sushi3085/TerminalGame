@@ -76,7 +76,7 @@
     "target": "AllEnemies",
     "effect": {
       "kind": "Magical",
-      "power": 110
+      "power": 100
     },
     "useMessage": "傘蓋劇烈震動，捲起[red]孢子風暴[/]！"
   },

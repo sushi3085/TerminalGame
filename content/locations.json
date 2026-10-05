@@ -149,9 +149,8 @@
       },
       {
         "enemies": [
-          "slime",
-          "slime",
-          "slime"
+          "venomShroom",
+          "forestBat"
         ],
         "weight": 1
       }
@@ -233,6 +232,7 @@
     "encounters": [
       {
         "enemies": [
+          "wolf",
           "wolf"
         ],
         "weight": 3
@@ -240,20 +240,22 @@
       {
         "enemies": [
           "venomShroom",
-          "venomShroom"
-        ],
-        "weight": 2
-      },
-      {
-        "enemies": [
-          "wolf",
+          "venomShroom",
           "forestBat"
         ],
         "weight": 2
       },
       {
         "enemies": [
-          "slime",
+          "wolf",
+          "forestBat",
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "wolf",
           "slime",
           "slime"
         ],
@@ -302,12 +304,14 @@
       {
         "enemies": [
           "wolf",
+          "wolf",
           "venomShroom"
         ],
         "weight": 3
       },
       {
         "enemies": [
+          "wolf",
           "wolf",
           "wolf"
         ],

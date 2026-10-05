@@ -90,6 +90,7 @@ tests/TerminalGame.Demo.Tests/ 以無頭終端實際按鍵遊玩的流程測試
 docs/DESIGN.md               框架設計文件
 docs/ROADMAP.md              遊戲開發路線圖與進度
 docs/CONTENT.md              內容 JSON 撰寫指南
+tools/TerminalGame.Sim/      平衡模擬器（dotnet run --project tools/TerminalGame.Sim）
 ```
 
 ### 遊戲資料
