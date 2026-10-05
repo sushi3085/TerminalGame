@@ -171,4 +171,7 @@ public sealed record NewGameDef
     public required IReadOnlyList<StartingMemberDef> party { get; init; }
     public IReadOnlyList<ItemStackDef> items { get; init; } = [];
     public int gold { get; init; }
+
+    /// <summary>Where the party starts (and is carried back to after a defeat until they rest at an inn).</summary>
+    public string? location { get; init; }
 }

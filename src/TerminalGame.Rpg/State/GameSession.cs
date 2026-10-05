@@ -48,13 +48,26 @@ public sealed class GameSession
     public Flags flags { get; } = new();
     public int gold { get; set; }
 
+    /// <summary>Where the party is; null only in sessions built without a world (tests, battle sandboxes).</summary>
+    public string? locationId { get; set; }
+
+    /// <summary>Where the party wakes up after losing a battle: the start, then the last inn they stayed at.</summary>
+    public string? respawnLocationId { get; set; }
+
+    public double playSeconds { get; set; }
+
     public bool isPartyDefeated => members.All(m => !m.isAlive);
 
     /// <summary>Starts a game from <see cref="ContentDb.newGame"/>.</summary>
     public static GameSession newGame(ContentDb content, int? seed = null)
     {
         NewGameDef start = content.newGame ?? throw new InvalidOperationException($"content has no {ContentDb.newGameFile}");
-        GameSession session = new(content, seed) { gold = start.gold };
+        GameSession session = new(content, seed)
+        {
+            gold = start.gold,
+            locationId = start.location,
+            respawnLocationId = start.location,
+        };
         foreach (StartingMemberDef member in start.party)
         {
             session.addMember(member.characterId, member.level);
@@ -91,5 +104,45 @@ public sealed class GameSession
         {
             member.restore();
         }
+    }
+
+    /// <summary>
+    /// Equips an item from the inventory; whatever was in that slot goes back to the inventory.
+    /// Returns false (and changes nothing) if the item is not in the inventory.
+    /// </summary>
+    public bool equipFromInventory(PartyMember member, ItemDef item)
+    {
+        if (item.kind != ItemKind.Equipment || !inventory.has(item.id))
+        {
+            return false;
+        }
+
+        inventory.remove(item.id);
+        ItemDef? previous = member.equip(item);
+        if (previous is not null)
+        {
+            inventory.add(previous.id);
+        }
+
+        return true;
+    }
+
+    public void unequipToInventory(PartyMember member, EquipSlot slot)
+    {
+        ItemDef? previous = member.unequip(slot);
+        if (previous is not null)
+        {
+            inventory.add(previous.id);
+        }
+    }
+
+    /// <summary>After a lost battle: lose half the gold, wake up fully healed at the respawn point.</summary>
+    public int applyDefeat()
+    {
+        int lost = gold / 2;
+        gold -= lost;
+        restoreParty();
+        locationId = respawnLocationId ?? locationId;
+        return lost;
     }
 }

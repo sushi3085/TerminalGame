@@ -131,6 +131,26 @@ public sealed class PartyMember
         return levelUps;
     }
 
+    /// <summary>Overwrites progress with saved values. Unknown or misplaced equipment ids are dropped.</summary>
+    internal void load(int savedLevel, int savedExp, IReadOnlyDictionary<EquipSlot, string> savedEquipment, int savedHp, int savedMp)
+    {
+        level = Math.Clamp(savedLevel, 1, Progression.maxLevel);
+        exp = Math.Max(0, savedExp);
+        equipped.Clear();
+        foreach ((EquipSlot slot, string itemId) in savedEquipment)
+        {
+            if (content.hasItem(itemId) && content.item(itemId).slot == slot)
+            {
+                equipped[slot] = itemId;
+            }
+        }
+
+        currentHp = 0;
+        currentMp = 0;
+        hp = savedHp;
+        mp = savedMp;
+    }
+
     private void clampResources()
     {
         hp = currentHp;

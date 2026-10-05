@@ -53,7 +53,55 @@ internal static class TestContent
         """;
 
     public const string newGame = """
-        { "party": [ { "characterId": "hero", "level": 1 } ], "items": [ { "itemId": "potion", "count": 2 } ], "gold": 100 }
+        { "party": [ { "characterId": "hero", "level": 1 } ], "items": [ { "itemId": "potion", "count": 2 } ], "gold": 100, "location": "town" }
+        """;
+
+    public const string locations = """
+        [
+          { "id": "town", "name": "Town", "kind": "Town",
+            "exits": [ { "to": "woods" }, { "to": "cave", "label": "Into the cave", "if": "flag:caveOpen" } ],
+            "spots": [ { "label": "Elder", "script": "elder" }, { "label": "Shop", "script": "openShop", "if": "flag:metElder" } ],
+            "onEnter": [ { "if": "flag:metElder == 0", "script": "elder" } ] },
+          { "id": "woods", "name": "Woods", "encounterRate": 0.5,
+            "exits": [ { "to": "town" } ],
+            "encounters": [ { "enemies": [ "blob" ], "weight": 3 }, { "enemies": [ "blob", "wisp" ], "weight": 1 } ] },
+          { "id": "cave", "name": "Cave", "kind": "Dungeon", "exits": [ { "to": "town" } ] }
+        ]
+        """;
+
+    public const string shops = """
+        [ { "id": "general", "name": "General Store", "items": [ "potion", "ether", "blade" ] } ]
+        """;
+
+    public const string scripts = """
+        {
+          "elder": [
+            { "say": "Hello.", "speaker": "Elder" },
+            { "if": "flag:metElder == 0", "then": [
+                { "setFlag": "metElder" },
+                { "giveItem": "potion", "count": 2 }
+              ], "else": [ { "say": "Again?" } ] }
+          ],
+          "openShop": [ { "shop": "general" } ],
+          "quiz": [
+            { "say": "Pick one." },
+            { "choice": [
+                { "label": "Gold", "then": [ { "giveGold": 50 } ] },
+                { "label": "Secret", "if": "flag:secret", "then": [ { "setFlag": "foundSecret" } ] },
+                { "label": "Friend", "then": [ { "join": "slowpoke", "level": 2 } ] }
+              ] },
+            { "addFlag": "quizzes", "value": 1 }
+          ],
+          "ambush": [
+            { "battle": [ "blob" ], "canEscape": false },
+            { "setFlag": "ambushWon" },
+            { "travel": "cave" },
+            { "say": "Made it." }
+          ],
+          "toll": [ { "takeGold": 30 }, { "takeItem": "potion", "count": 5 }, { "run": "inn" }, { "end": true }, { "say": "never" } ],
+          "inn": [ { "inn": 10 } ],
+          "loop": [ { "run": "loop" } ]
+        }
         """;
 
     public static Dictionary<string, string> files() => new()
@@ -63,6 +111,9 @@ internal static class TestContent
         [ContentDb.charactersFile] = characters,
         [ContentDb.enemiesFile] = enemies,
         [ContentDb.newGameFile] = newGame,
+        [ContentDb.locationsFile] = locations,
+        [ContentDb.shopsFile] = shops,
+        [ContentDb.scriptsFile] = scripts,
     };
 
     public static ContentDb load() => ContentDb.parse(files());
