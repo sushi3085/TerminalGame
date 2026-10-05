@@ -1,3 +1,4 @@
+using TerminalGame.Rpg.Battle;
 using TerminalGame.Rpg.Data;
 using TerminalGame.Rpg.Script;
 using TerminalGame.Rpg.State;
@@ -85,5 +86,71 @@ public static class ShopRules
 
         session.gold += sellPrice(item) * count;
         return true;
+    }
+}
+
+/// <summary>Using healing items and skills from the party menu, outside battle.</summary>
+public static class FieldRules
+{
+    public static bool isFieldEffect(EffectDef? effect) => effect?.kind is EffectKind.Heal or EffectKind.RestoreMp;
+
+    public static bool usableInField(ItemDef item) => item.kind == ItemKind.Consumable && isFieldEffect(item.effect);
+
+    public static bool usableInField(SkillDef skill) => isFieldEffect(skill.effect);
+
+    /// <summary>Whether <paramref name="target"/> would gain anything (fallen members cannot be healed).</summary>
+    public static bool wouldHelp(EffectDef effect, PartyMember target) => target.isAlive && effect.kind switch
+    {
+        EffectKind.Heal => target.hp < target.stats.maxHp,
+        EffectKind.RestoreMp => target.mp < target.stats.maxMp,
+        _ => false,
+    };
+
+    /// <summary>Consumes one <paramref name="item"/> on <paramref name="target"/> (or the whole party for All* items).</summary>
+    public static IReadOnlyList<(PartyMember member, int amount)> useItem(GameSession session, ItemDef item, PartyMember target)
+    {
+        if (!usableInField(item) || !session.inventory.remove(item.id))
+        {
+            throw new InvalidOperationException($"cannot use {item.id} here");
+        }
+
+        // Items have no user; their heal does not scale with anyone's magic.
+        return apply(session, default, item.effect!, targetsFor(session, item.target, target));
+    }
+
+    public static IReadOnlyList<(PartyMember member, int amount)> castSkill(GameSession session, PartyMember caster, SkillDef skill, PartyMember target)
+    {
+        if (!usableInField(skill) || !caster.isAlive || !caster.skills.Contains(skill) || caster.mp < skill.mpCost)
+        {
+            throw new InvalidOperationException($"{caster.name} cannot cast {skill.id} now");
+        }
+
+        caster.mp -= skill.mpCost;
+        return apply(session, caster.stats, skill.effect, targetsFor(session, skill.target, skill.target == TargetKind.Self ? caster : target));
+    }
+
+    private static IEnumerable<PartyMember> targetsFor(GameSession session, TargetKind kind, PartyMember chosen) =>
+        kind == TargetKind.AllAllies ? session.party.Where(m => m.isAlive) : [chosen];
+
+    private static IReadOnlyList<(PartyMember member, int amount)> apply(GameSession session, StatBlock user, EffectDef effect, IEnumerable<PartyMember> targets)
+    {
+        List<(PartyMember, int)> results = new();
+        foreach (PartyMember member in targets.Where(m => m.isAlive))
+        {
+            if (effect.kind == EffectKind.Heal)
+            {
+                int before = member.hp;
+                member.hp += DamageFormula.rollHeal(user, effect, session.random);
+                results.Add((member, member.hp - before));
+            }
+            else
+            {
+                int before = member.mp;
+                member.mp += effect.power;
+                results.Add((member, member.mp - before));
+            }
+        }
+
+        return results;
     }
 }

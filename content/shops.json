@@ -1,0 +1,23 @@
+[
+  {
+    "id": "dawnItems",
+    "name": "晨曦鎮・道具店「綠葉」",
+    "items": [
+      "potion",
+      "hiPotion",
+      "ether"
+    ]
+  },
+  {
+    "id": "dawnSmith",
+    "name": "晨曦鎮・鐵匠鋪",
+    "items": [
+      "bronzeSword",
+      "huntersBow",
+      "leatherArmor",
+      "leatherCap",
+      "acornCharm",
+      "swiftCharm"
+    ]
+  }
+]

@@ -2,13 +2,71 @@
   {
     "id": "hero",
     "name": "艾倫",
-    "baseStats": { "maxHp": 44, "maxMp": 14, "attack": 7, "defense": 4, "magic": 6, "speed": 6 },
-    "growth": { "maxHp": 8, "maxMp": 3, "attack": 2, "defense": 1, "magic": 2, "speed": 1 },
+    "baseStats": {
+      "maxHp": 44,
+      "maxMp": 14,
+      "attack": 7,
+      "defense": 4,
+      "magic": 6,
+      "speed": 6
+    },
+    "growth": {
+      "maxHp": 8,
+      "maxMp": 3,
+      "attack": 2,
+      "defense": 1,
+      "magic": 2,
+      "speed": 1
+    },
     "skills": [
-      { "skillId": "fireball", "level": 1 },
-      { "skillId": "heal", "level": 4 }
+      {
+        "skillId": "fireball",
+        "level": 1
+      },
+      {
+        "skillId": "heal",
+        "level": 4
+      }
     ],
-    "initialEquipment": [ "woodenSword", "clothTunic" ],
+    "initialEquipment": [
+      "woodenSword",
+      "clothTunic"
+    ],
     "attackMessage": "揮劍斬擊！"
+  },
+  {
+    "id": "rin",
+    "name": "琳",
+    "baseStats": {
+      "maxHp": 36,
+      "maxMp": 10,
+      "attack": 9,
+      "defense": 3,
+      "magic": 4,
+      "speed": 10
+    },
+    "growth": {
+      "maxHp": 7,
+      "maxMp": 2,
+      "attack": 2,
+      "defense": 1,
+      "magic": 1,
+      "speed": 2
+    },
+    "skills": [
+      {
+        "skillId": "pierceArrow",
+        "level": 1
+      },
+      {
+        "skillId": "arrowRain",
+        "level": 6
+      }
+    ],
+    "initialEquipment": [
+      "huntersBow",
+      "clothTunic"
+    ],
+    "attackMessage": "拉弓放箭！"
   }
 ]

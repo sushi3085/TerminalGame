@@ -1,0 +1,421 @@
+{
+  "elderIntro": [
+    {
+      "say": "清晨的鐘聲響過三下。長老拄著拐杖，已經在你家門口等著了。"
+    },
+    {
+      "say": "艾倫，你來得正好。這幾天，[green]低語森林[/]安靜得反常——連風吹過樹梢的聲音都聽不見了。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "更糟的是，獵人的女兒[cyan]琳[/]三天前進了森林，到現在還沒回來。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "鎮上能拿劍的年輕人，只剩你了。拜託你，去把她找回來。\n這些傷藥你帶著。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "giveItem": "potion",
+      "count": 3
+    },
+    {
+      "say": "受了傷就回鎮上，[gold]旅館[/]可以讓你好好休息，也能記錄冒險。\n去吧，願晨光指引你。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "[dim](按 Tab 或 M 可以打開隊伍選單。)[/]"
+    },
+    {
+      "setFlag": "introDone"
+    }
+  ],
+  "elderTalk": [
+    {
+      "if": "flag:chapter1Done",
+      "then": [
+        {
+          "say": "河港村的事……等你們準備好了再說吧。今晚好好睡一覺。",
+          "speaker": "[cyan]長老[/]"
+        }
+      ],
+      "else": [
+        {
+          "if": "flag:metRin",
+          "then": [
+            {
+              "say": "琳平安就好……\n森林深處的事，就拜託你們兩個了。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ],
+          "else": [
+            {
+              "say": "琳就拜託你了。\n從森林入口沿著小徑往裡走，就能到林間空地。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dawnItemShop": [
+    {
+      "shop": "dawnItems"
+    }
+  ],
+  "dawnSmithShop": [
+    {
+      "say": "喲，艾倫。要出遠門的話，可別再拿著那把木劍了。",
+      "speaker": "[cyan]鐵匠[/]"
+    },
+    {
+      "shop": "dawnSmith"
+    }
+  ],
+  "dawnInn": [
+    {
+      "inn": 8
+    }
+  ],
+  "townWoman": [
+    {
+      "if": "flag:bossDefeated",
+      "then": [
+        {
+          "say": "森林裡又有鳥叫聲了呢。謝謝你們。",
+          "speaker": "[cyan]婦人[/]"
+        }
+      ],
+      "else": [
+        {
+          "if": "flag:metRin",
+          "then": [
+            {
+              "say": "琳回來了？太好了……那孩子的弓術是她爹親手教的，鎮上沒人比得上。",
+              "speaker": "[cyan]婦人[/]"
+            }
+          ],
+          "else": [
+            {
+              "say": "聽說森林裡的史萊姆最近會成群出沒……\n要是遇到三隻以上，可別硬拚啊。",
+              "speaker": "[cyan]婦人[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "townKid": [
+    {
+      "if": "flag:metRin",
+      "then": [
+        {
+          "say": "琳姐姐好帥！她說她一箭就能射中松果！",
+          "speaker": "[cyan]小孩[/]"
+        }
+      ],
+      "else": [
+        {
+          "say": "森林入口有一個空心的樹樁喔！\n我上次在裡面看到一個布包……可是我不敢拿。",
+          "speaker": "[cyan]小孩[/]"
+        }
+      ]
+    }
+  ],
+  "chestStump": [
+    {
+      "if": "flag:chestStump",
+      "then": [
+        {
+          "say": "樹樁裡已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "樹樁的空洞裡塞著一個布包……"
+        },
+        {
+          "giveItem": "potion",
+          "count": 2
+        },
+        {
+          "setFlag": "chestStump"
+        }
+      ]
+    }
+  ],
+  "tracksEvent": [
+    {
+      "say": "泥地上有一串新鮮的腳印，旁邊插著一支斷掉的箭。"
+    },
+    {
+      "say": "……箭羽上綁著紅色的線。是獵人家的箭。\n腳印往[cyan]林間空地[/]的方向去了。"
+    },
+    {
+      "setFlag": "sawTracks"
+    }
+  ],
+  "chestLog": [
+    {
+      "if": "flag:chestLog",
+      "then": [
+        {
+          "say": "樹幹下只剩下泥土。"
+        }
+      ],
+      "else": [
+        {
+          "say": "倒下的樹幹下壓著一個舊皮袋。"
+        },
+        {
+          "giveItem": "ether"
+        },
+        {
+          "giveGold": 40
+        },
+        {
+          "setFlag": "chestLog"
+        }
+      ]
+    }
+  ],
+  "hutRest": [
+    {
+      "say": "你在小屋的床上躺了一會兒。松脂的香氣讓人安心……"
+    },
+    {
+      "restore": true
+    },
+    {
+      "say": "全員的 HP 與 MP 都恢復了。\n[dim](這裡無法記錄冒險。)[/]"
+    }
+  ],
+  "hutMap": [
+    {
+      "say": "牆上釘著一張手繪的森林地圖。"
+    },
+    {
+      "say": "森林深處的一塊空地被炭筆重重圈了起來，旁邊寫著：\n「[red]蘑菇圈——森林之主的寢床。千萬別吵醒它。[/]」"
+    }
+  ],
+  "chestHut": [
+    {
+      "if": "flag:chestHut",
+      "then": [
+        {
+          "say": "櫃子裡只剩幾支沒做完的箭。"
+        }
+      ],
+      "else": [
+        {
+          "say": "櫃子裡放著一頂小小的皮帽，上面繡著「琳」。"
+        },
+        {
+          "giveItem": "leatherCap"
+        },
+        {
+          "setFlag": "chestHut"
+        }
+      ]
+    }
+  ],
+  "rinEvent": [
+    {
+      "say": "空地中央，一名少女背靠著大樹，弓弦拉得滿滿的。"
+    },
+    {
+      "say": "幾頭眼睛發著紅光的[red]野狼[/]，正一步一步逼近她！"
+    },
+    {
+      "say": "別、別過來……！",
+      "speaker": "[cyan]少女[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "衝上前幫忙！",
+          "then": [
+            {
+              "run": "rinRescue"
+            }
+          ]
+        },
+        {
+          "label": "先觀察一下……",
+          "then": [
+            {
+              "say": "狼群低吼著。少女的箭袋裡，只剩下兩支箭了。\n不能再等了！"
+            },
+            {
+              "run": "rinRescue"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rinRescue": [
+    {
+      "join": "rin",
+      "level": 4
+    },
+    {
+      "say": "……你是鎮上的艾倫？來得正好，幫我一把！",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "battle": [
+        "wolf",
+        "wolf"
+      ],
+      "canEscape": false
+    },
+    {
+      "setFlag": "metRin"
+    },
+    {
+      "say": "呼……謝謝你。我是[cyan]琳[/]，獵人的女兒。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "這些狼不對勁。牠們的眼睛……跟森林深處那些發光的孢子一樣紅。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "一定是[red]森林之主[/]出事了。我要去深處看看——\n你也一起來吧？兩個人總比一個人強。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "[dim](通往[cyan]森林深處[/]的路打開了。)[/]"
+    }
+  ],
+  "rinTalk": [
+    {
+      "if": "flag:bossDefeated",
+      "then": [
+        {
+          "say": "聽，鳥又開始叫了。……回鎮上跟長老報告吧。",
+          "speaker": "[cyan]琳[/]"
+        }
+      ],
+      "else": [
+        {
+          "say": "森林之主平常很溫和的。爹說過，牠是這片森林的「心」。\n到底是什麼讓牠變成這樣……",
+          "speaker": "[cyan]琳[/]"
+        }
+      ]
+    }
+  ],
+  "chestMoss": [
+    {
+      "if": "flag:chestMoss",
+      "then": [
+        {
+          "say": "木箱已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "厚厚的苔蘚下面，藏著一個長條形的木箱。"
+        },
+        {
+          "giveItem": "longBow"
+        },
+        {
+          "setFlag": "chestMoss"
+        }
+      ]
+    }
+  ],
+  "bossFight": [
+    {
+      "say": "蘑菇圈中央，一株巨大的蕈類緩緩抬起了傘蓋。\n紅色的孢子像呼吸一樣，一明，一暗。"
+    },
+    {
+      "say": "就是牠……[red]森林之主[/]。可是牠本來是守護這片森林的啊！",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "上吧！",
+          "then": [
+            {
+              "say": "巨蕈發出一陣低沉的轟鳴，周圍的毒孢菇也甦醒了！"
+            },
+            {
+              "battle": [
+                "venomShroom",
+                "forestLord",
+                "venomShroom"
+              ],
+              "canEscape": false
+            },
+            {
+              "setFlag": "bossDefeated"
+            },
+            {
+              "say": "巨蕈發出一聲長長的嘆息。紅光從牠的傘蓋上，一點一點地褪去了……"
+            },
+            {
+              "say": "一團黑色的霧氣從牠體內竄出，消失在樹冠之間。"
+            },
+            {
+              "say": "一顆溫暖的、翠綠色的種子，從牠身上滾落下來。"
+            },
+            {
+              "giveItem": "forestHeart"
+            },
+            {
+              "say": "牠……恢復原狀了。可是剛才那團黑氣到底是什麼？",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "遠處，久違的鳥鳴聲響了起來。\n[dim](回[gold]晨曦鎮[/]向長老報告吧。)[/]"
+            }
+          ]
+        },
+        {
+          "label": "還沒準備好",
+          "then": [
+            {
+              "say": "你們悄悄地退後了幾步。孢子的紅光依舊一明一暗。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "afterBoss": [
+    {
+      "say": "巨蕈靜靜地睡著。細小的綠色孢子在空中飄舞，像是螢火蟲。"
+    }
+  ],
+  "chapter1End": [
+    {
+      "say": "你們回來了！……森林又開始低語了，我在鎮上都聽得見。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "長老，森林之主身上……有一股不屬於這片森林的黑色氣息。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "……果然。南方的[cyan]河港村[/]也傳來了怪事，說是河水在夜裡會發光。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "這是謝禮。先好好休息幾天吧——接下來的路，恐怕會更長。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "giveGold": 100
+    },
+    {
+      "setFlag": "chapter1Done"
+    },
+    {
+      "say": "[gold b]── 第一章「低語森林」 完 ──[/]\n\n感謝遊玩！第二章「河港村」製作中。"
+    }
+  ]
+}

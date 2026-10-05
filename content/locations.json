@@ -1,0 +1,348 @@
+[
+  {
+    "id": "dawnTown",
+    "name": "晨曦鎮",
+    "kind": "Town",
+    "palette": "town",
+    "art": [
+      "      [dim]*[/]      [dim].[/]          [dim]*[/]        [dim].[/]            [dim]*[/]           ",
+      "        [orange]/\\[/]                [cyan]~ ~ ~ ~[/]             [orange]/\\[/]          ",
+      "       [orange]/  \\[/]       [gold]___[/]    [cyan]~ ~ ~ ~ ~[/]           [orange]/  \\[/]         ",
+      "      [orange]/____\\[/]     [gold]|[/][red]田[/][gold]|_[/]                      [orange]/____\\[/]        ",
+      "      [orange]| [] |[/]     [gold]|___|[/]         [gray]___[/]          [orange]|_[]_|[/]        ",
+      " [green],,,,,[/][orange]|____|[/][green],,,,,,,,,,,,,,,,,,[/][gray]|井|[/][green],,,,,,,,,,[/][orange]|____|[/][green],,,,,,,[/] "
+    ],
+    "description": "炊煙從石砌屋頂升起。[gold]晨曦鎮[/]的早晨總是很安靜。",
+    "onEnter": [
+      {
+        "script": "elderIntro",
+        "if": "flag:introDone == 0"
+      },
+      {
+        "script": "chapter1End",
+        "if": "flag:bossDefeated && flag:chapter1Done == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "長老家",
+        "script": "elderTalk"
+      },
+      {
+        "label": "道具店",
+        "script": "dawnItemShop"
+      },
+      {
+        "label": "鐵匠鋪",
+        "script": "dawnSmithShop"
+      },
+      {
+        "label": "旅館",
+        "script": "dawnInn"
+      },
+      {
+        "label": "廣場的婦人",
+        "script": "townWoman"
+      },
+      {
+        "label": "井邊的小孩",
+        "script": "townKid"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsEdge"
+      }
+    ]
+  },
+  {
+    "id": "woodsEdge",
+    "name": "低語森林・入口",
+    "palette": "forest",
+    "art": [
+      "[green]     ^        ^^       ^         ^^^       ^       ^^     [/]",
+      "[green]    /|\\      /||\\     /|\\       /|||\\     /|\\     /||\\    [/]",
+      "[green]   //|\\\\    //||\\\\   //|\\\\     //|||\\\\   //|\\\\   //||\\\\   [/]",
+      "[orange]     |        ||       |         |||       |       ||     [/]",
+      "[green] ,,,,|,,,,,,,,||,,,,,,,|,,,,,,,,,|||,,,,,,,|,,,,,,,||,,,, [/]"
+    ],
+    "description": "高大的櫸木遮住了陽光。林間本該有的鳥鳴，此刻一聲也聽不見。",
+    "encounterRate": 0.35,
+    "encounters": [
+      {
+        "enemies": [
+          "slime"
+        ],
+        "weight": 4
+      },
+      {
+        "enemies": [
+          "slime",
+          "slime"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "slime",
+          "forestBat"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查樹樁",
+        "script": "chestStump"
+      }
+    ],
+    "exits": [
+      {
+        "to": "dawnTown",
+        "label": "回晨曦鎮"
+      },
+      {
+        "to": "woodsPath",
+        "label": "沿小徑深入"
+      }
+    ]
+  },
+  {
+    "id": "woodsPath",
+    "name": "低語森林・小徑",
+    "palette": "forest",
+    "art": [
+      "[green]  ^^      ^      ^^^          ^^^      ^      ^^       [/]",
+      "[green] /||\\    /|\\    /|||\\        /|||\\    /|\\    /||\\      [/]",
+      "[green]//||\\\\  //|\\\\  //|||\\\\      //|||\\\\  //|\\\\  //||\\\\     [/]",
+      "[orange]  ||      |      |||   [/][gray]. . .[/][orange]  |||      |      ||       [/]",
+      "[gray]  ..:...:....:...:..: [/][orange]~~~~~~~~[/][gray] :..:...:....:...:..  [/]"
+    ],
+    "description": "小徑被落葉蓋住了一半。偶爾有東西從頭頂的枝葉間掠過。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "forestBat",
+          "forestBat"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "slime",
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "venomShroom"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "slime",
+          "slime",
+          "slime"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "tracksEvent",
+        "if": "flag:sawTracks == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查倒下的樹幹",
+        "script": "chestLog"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsEdge",
+        "label": "回森林入口"
+      },
+      {
+        "to": "hunterHut",
+        "label": "獵人小屋"
+      },
+      {
+        "to": "woodsClearing",
+        "label": "前往林間空地"
+      }
+    ]
+  },
+  {
+    "id": "hunterHut",
+    "name": "獵人小屋",
+    "kind": "Town",
+    "palette": "forest",
+    "art": [
+      "[green]   ^^                                  ^^     [/]",
+      "[green]  /||\\        [/][orange]  ________________ [/][green]   /||\\    [/]",
+      "[green] //||\\\\       [/][orange] /________________\\[/][green]  //||\\\\   [/]",
+      "[orange]   ||         [/][orange] |  [/][gold][][/][orange]    __    [/][gold][][/][orange] |[/][orange]    ||     [/]",
+      "[green] ,,||,,,,,,,,,[/][orange]|______|  |______|[/][green],,,,||,,,, [/]"
+    ],
+    "description": "一間爬滿藤蔓的木屋。屋裡還留著淡淡的松脂香。",
+    "spots": [
+      {
+        "label": "躺在床上休息",
+        "script": "hutRest"
+      },
+      {
+        "label": "看牆上的地圖",
+        "script": "hutMap"
+      },
+      {
+        "label": "打開櫃子",
+        "script": "chestHut"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsPath",
+        "label": "回到小徑"
+      }
+    ]
+  },
+  {
+    "id": "woodsClearing",
+    "name": "低語森林・林間空地",
+    "palette": "forest",
+    "art": [
+      "[green]    ^^^                                        ^^^     [/]",
+      "[green]   /|||\\              [/][gold]  .  *  .  [/][green]              /|||\\    [/]",
+      "[green]  //|||\\\\                                   //|||\\\\   [/]",
+      "[orange]    |||        [/][green],,,,,,,,,,,,,,,,,,,,,,[/][orange]          |||     [/]",
+      "[green] ,,,|||,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|||,,,  [/]"
+    ],
+    "description": "樹林在這裡忽然開闊起來，陽光灑在一片柔軟的草地上。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "wolf"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "venomShroom",
+          "venomShroom"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "wolf",
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "slime",
+          "slime",
+          "slime"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "rinEvent",
+        "if": "flag:metRin == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "和琳說話",
+        "script": "rinTalk",
+        "if": "party:rin"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsPath",
+        "label": "回到小徑"
+      },
+      {
+        "to": "woodsDeep",
+        "label": "前往森林深處",
+        "if": "flag:metRin"
+      }
+    ]
+  },
+  {
+    "id": "woodsDeep",
+    "name": "低語森林・深處",
+    "palette": "deepForest",
+    "art": [
+      "[dim] ^^^^  ^^^^^  ^^^^   ^^^^^^   ^^^^  ^^^^^  ^^^^  [/]",
+      "[dim]/||||\\/|||||\\/||||\\ /||||||\\ /||||\\/|||||\\/||||\\ [/]",
+      "[dim] |||| [/][red]. [/][dim]||||| [/][red]  ·  [/][dim]||||||  [/][red]·[/][dim] |||| [/][red] .[/][dim] |||||  |||| [/]",
+      "[dim] ||||  ||||| [/][red]·[/][dim] ||||  |||||| [/][red]  ·[/][dim] ||||  |||||  [/][red]·[/][dim]||| [/]",
+      "[green] ,,,,,,,,,,,,,,,[/][red](o)  (O)  (o)[/][green],,,,,,,,,,,,,,,,,,,,, [/]"
+    ],
+    "description": "樹冠密得透不進一絲光。空氣裡飄著細細的、發著紅光的孢子。",
+    "encounterRate": 0.55,
+    "encounters": [
+      {
+        "enemies": [
+          "wolf",
+          "venomShroom"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "wolf",
+          "wolf"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "venomShroom",
+          "venomShroom",
+          "venomShroom"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查苔蘚下的箱子",
+        "script": "chestMoss"
+      },
+      {
+        "label": "走向發光的蘑菇圈",
+        "script": "bossFight",
+        "if": "flag:bossDefeated == 0"
+      },
+      {
+        "label": "安靜下來的蘑菇圈",
+        "script": "afterBoss",
+        "if": "flag:bossDefeated"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsClearing",
+        "label": "回林間空地"
+      }
+    ]
+  }
+]

@@ -1,5 +1,11 @@
 {
-  "party": [ { "characterId": "hero", "level": 3 } ],
-  "items": [ { "itemId": "potion", "count": 3 } ],
-  "gold": 50
+  "party": [
+    {
+      "characterId": "hero",
+      "level": 3
+    }
+  ],
+  "items": [],
+  "gold": 50,
+  "location": "dawnTown"
 }

@@ -1,4 +1,3 @@
-using TerminalGame.Rpg.Battle;
 using TerminalGame.Rpg.Data;
 using TerminalGame.Rpg.State;
 using TerminalGame.Tui.Backends;
@@ -8,8 +7,8 @@ using TerminalGame.Tui.Widgets;
 
 namespace TerminalGame.Demo.Tests;
 
-/// <summary>Drives the real scenes with key presses on an in-memory terminal.</summary>
-public class GameFlowTests
+/// <summary>Drives the real scenes with key presses on an in-memory terminal, using the shipped content.</summary>
+public sealed class GameFlowTests : IDisposable
 {
     private sealed class EmptyScene : Scene
     {
@@ -18,12 +17,25 @@ public class GameFlowTests
 
     private readonly HeadlessBackend backend = new(80, 24);
     private readonly Application app;
-    private readonly ContentDb content = ContentDb.loadDirectory(Path.Combine(AppContext.BaseDirectory, "content"));
+    private readonly string saveDirectory = Path.Combine(Path.GetTempPath(), "tg-flow-" + Guid.NewGuid().ToString("N"));
+    private readonly Game game;
 
     public GameFlowTests()
     {
         app = new Application(backend);
+        ContentDb content = ContentDb.loadDirectory(Path.Combine(AppContext.BaseDirectory, "content"));
+        game = new Game(content, new SaveStore(saveDirectory), seed: 3);
     }
+
+    public void Dispose()
+    {
+        if (Directory.Exists(saveDirectory))
+        {
+            Directory.Delete(saveDirectory, recursive: true);
+        }
+    }
+
+    private string screen => backend.screenText;
 
     /// <summary>Lets typewriter text finish.</summary>
     private void pump()
@@ -34,69 +46,263 @@ public class GameFlowTests
         }
     }
 
+    private void press(params Key[] keys)
+    {
+        foreach (Key key in keys)
+        {
+            backend.queueKeys(key);
+            app.step(0);
+            pump();
+        }
+    }
+
     /// <summary>Presses Enter until <paramref name="done"/> holds; returns every screen seen on the way.</summary>
-    private List<string> pressEnterUntil(Func<bool> done, int maxPresses = 100)
+    private List<string> pressEnterUntil(Func<bool> done, int maxPresses = 200)
     {
         List<string> screens = new();
         app.step(0);
         pump();
+        screens.Add(screen);
         for (int i = 0; !done(); i++)
         {
-            Assert.True(i < maxPresses, "gave up; last screen:\n" + backend.screenText);
-            backend.queueKeys(Key.Enter);
-            app.step(0);
-            pump();
-            screens.Add(backend.screenText);
+            Assert.True(i < maxPresses, "gave up; last screen:\n" + screen);
+            press(Key.Enter);
+            screens.Add(screen);
         }
 
         return screens;
     }
 
-    [Fact]
-    public void fightingInTheForestWinsAndReturnsToTown()
+    private List<string> pressEnterUntil(string text) => pressEnterUntil(() => screen.Contains(text));
+
+    /// <summary>True when a location's action menu is waiting for input (no message, popup or other scene on top).</summary>
+    private bool atActions() => app.currentScene is LocationScene scene && scene.focusedWidget is MenuList && !scene.hasModal;
+
+    private List<string> pressEnterUntilActions(string selected) => pressEnterUntil(() => atActions() && screen.Contains("▶ " + selected));
+
+    /// <summary>Starts at <paramref name="locationId"/> with the intro already seen.</summary>
+    private GameSession startAt(string locationId, params string[] flags)
     {
-        app.pushScene(new TitleScene(content, seed: 1));
+        GameSession session = game.startNew();
+        session.flags["introDone"] = 1;
+        foreach (string flag in flags)
+        {
+            session.flags[flag] = 1;
+        }
 
-        // Title → town intro → choices → forest; Enter on the battle menu always attacks.
-        List<string> screens = pressEnterUntil(() => backend.screenText.Contains("歡迎回來"));
-
-        Assert.Contains(screens, s => s.Contains("野生的史萊姆出現了"));
-        Assert.Contains(screens, s => s.Contains("戰鬥勝利"));
-        Assert.Contains(screens, s => s.Contains("獲得 30 點經驗值"));
-        Assert.IsType<TownScene>(app.currentScene);
+        session.locationId = locationId;
+        app.pushScene(new LocationScene(game));
+        return session;
     }
 
     [Fact]
-    public void losingRaisesFinishedWithDefeat()
+    public void newGamePlaysTheIntroThenShowsTheTownMenu()
     {
-        GameSession session = GameSession.newGame(content, seed: 7);
+        app.pushScene(new TitleScene(game));
+
+        List<string> screens = pressEnterUntilActions("長老家");
+
+        Assert.Contains(screens, s => s.Contains("低語森林"));
+        Assert.Contains(screens, s => s.Contains("獲得了傷藥 x3"));
+        Assert.Equal(3, game.session.inventory.count("potion"));
+        Assert.Equal(1, game.session.flags["introDone"]);
+        Assert.IsType<LocationScene>(app.currentScene);
+    }
+
+    [Fact]
+    public void exploringTheWoodsLeadsToABattleAndBack()
+    {
+        GameSession session = startAt("woodsEdge");
+        session.party[0].gainExp(3000); // strong enough that "attack every turn" always wins
+        pressEnterUntilActions("調查樹樁");
+
+        press(Key.Down, Key.Down, Key.Down, Key.Enter); // 調查樹樁, 回晨曦鎮, 沿小徑深入, [四處探索]
+        List<string> screens = pressEnterUntilActions("四處探索");
+
+        Assert.Contains(screens, s => s.Contains("遭遇戰"));
+        Assert.Contains(screens, s => s.Contains("戰鬥勝利"));
+        Assert.True(session.gold > 50);
+        Assert.Equal("woodsEdge", ((LocationScene)app.currentScene!).place.id);
+    }
+
+    [Fact]
+    public void losingSendsThePartyBackToTownForHalfTheGold()
+    {
+        GameSession session = startAt("woodsEdge");
+        pressEnterUntilActions("調查樹樁");
         session.party[0].hp = 1;
-        BattleOutcome? outcome = null;
-        BattleScene battle = new(session, ["slime"]);
-        battle.finished += o => outcome = o;
-        app.pushScene(new EmptyScene());
-        app.pushScene(battle);
+        session.gold = 80;
 
-        List<string> screens = pressEnterUntil(() => outcome is not null);
+        press(Key.Down, Key.Down, Key.Down);
+        List<string> screens = pressEnterUntilActions("長老家");
 
-        Assert.Equal(BattleOutcome.Defeat, outcome);
         Assert.Contains(screens, s => s.Contains("全員倒下了"));
+        Assert.Contains(screens, s => s.Contains("失去了 40 G"));
+        Assert.Equal("dawnTown", session.locationId);
+        Assert.Equal(40, session.gold);
+        Assert.Equal(session.party[0].stats.maxHp, session.party[0].hp);
+    }
+
+    [Fact]
+    public void restingAtTheInnHealsMovesRespawnAndSaves()
+    {
+        GameSession session = startAt("dawnTown");
+        pressEnterUntilActions("長老家");
+        session.party[0].hp = 3;
+
+        press(Key.Down, Key.Down, Key.Down); // 旅館
+        pressEnterUntil("住宿 8 G？");
+        press(Key.Enter); // 是
+        pressEnterUntil("要記錄冒險嗎？");
+        press(Key.Enter); // 是
+        pressEnterUntilActions("旅館");
+
+        Assert.Equal(42, session.gold);
+        Assert.Equal(session.party[0].stats.maxHp, session.party[0].hp);
+        Assert.True(game.hasSave);
+
+        GameSession loaded = game.loadSaved();
+        Assert.Equal(42, loaded.gold);
+        Assert.Equal("dawnTown", loaded.respawnLocationId);
+        Assert.Equal(3, loaded.party[0].level);
+    }
+
+    [Fact]
+    public void titleOffersContinueOnlyWithASave()
+    {
+        app.pushScene(new TitleScene(game));
         app.step(0);
-        Assert.IsType<EmptyScene>(app.currentScene);
+        Assert.DoesNotContain("艾倫 Lv.3", screen);
+
+        game.startNew().gold = 77;
+        game.save();
+        app.replaceScene(new TitleScene(game));
+        app.step(0);
+        Assert.Contains("艾倫 Lv.3", screen);
+
+        press(Key.Down, Key.Enter); // 繼續冒險
+        Assert.IsType<LocationScene>(app.currentScene);
+        Assert.Equal(77, game.session.gold);
+    }
+
+    [Fact]
+    public void shopSellsOneItemPerConfirm()
+    {
+        GameSession session = game.startNew();
+        app.pushScene(new EmptyScene());
+        app.pushScene(new ShopScene(game, game.content.shop("dawnItems")));
+        app.step(0);
+
+        press(Key.Enter); // 買東西
+        Assert.Contains("恢復 25 點 HP", screen);
+        press(Key.Enter, Key.Enter); // two potions
+
+        Assert.Equal(50 - 2 * 8, session.gold);
+        Assert.Equal(2, session.inventory.count("potion"));
+        Assert.Contains("持有金幣 34 G", screen);
+
+        press(Key.Escape, Key.Down, Key.Enter, Key.Enter); // back, 賣東西, sell a potion
+        Assert.Equal(34 + 4, session.gold);
+        Assert.Equal(1, session.inventory.count("potion"));
+    }
+
+    [Fact]
+    public void equipmentScreenPreviewsAndSwaps()
+    {
+        GameSession session = game.startNew();
+        session.inventory.add("bronzeSword");
+        app.pushScene(new EmptyScene());
+        app.pushScene(new EquipScene(game));
+        app.step(0);
+        int attack = session.party[0].stats.attack;
+
+        press(Key.Enter); // weapon slot → candidates, bronze sword highlighted
+        Assert.Contains($"攻擊 {attack,3} → {attack + 4,3}", screen);
+        press(Key.Enter);
+
+        Assert.Equal("bronzeSword", session.party[0].equippedIn(EquipSlot.Weapon)?.id);
+        Assert.Equal(1, session.inventory.count("woodenSword"));
+        Assert.Equal(attack + 4, session.party[0].stats.attack);
+    }
+
+    [Fact]
+    public void rescuingRinAddsHerToTheParty()
+    {
+        GameSession session = startAt("woodsClearing", "sawTracks");
+        session.party[0].gainExp(3000);
+
+        List<string> screens = pressEnterUntilActions("和琳說話");
+
+        Assert.Contains(screens, s => s.Contains("琳加入了隊伍"));
+        Assert.Contains(screens, s => s.Contains("野狼 A") && s.Contains("野狼 B"));
+        Assert.Equal(new[] { "hero", "rin" }, session.party.Select(m => m.def.id));
+        Assert.Equal(1, session.flags["metRin"]);
+        Assert.Contains("前往森林深處", screen);
+    }
+
+    /// <summary>Waits for the action menu (pressing Enter through messages and battles), then picks <paramref name="label"/>.</summary>
+    private void act(string label)
+    {
+        pressEnterUntil(atActions);
+        for (int i = 0; i < 12 && !screen.Contains("▶ " + label); i++)
+        {
+            press(Key.Down);
+        }
+
+        Assert.True(screen.Contains("▶ " + label), $"no action '{label}' here:\n{screen}");
+        press(Key.Enter);
+    }
+
+    [Fact]
+    public void chapterOneCanBePlayedToTheEnd()
+    {
+        app.pushScene(new TitleScene(game));
+        press(Key.Enter); // new game
+        pressEnterUntil(atActions);
+        GameSession session = game.session;
+        session.party[0].gainExp(8000); // an "always attack" bot needs a big margin; this test is about the story wiring, not balance
+
+        act("前往低語森林・入口");
+        act("沿小徑深入");
+        act("前往林間空地");
+        pressEnterUntil(atActions); // tracks → Rin's rescue → wolves
+        Assert.Equal(1, session.flags["sawTracks"]);
+        Assert.Equal(1, session.flags["metRin"]);
+        session.party[1].gainExp(8000);
+
+        act("前往森林深處");
+        act("調查苔蘚下的箱子");
+        act("走向發光的蘑菇圈");
+        List<string> bossFight = pressEnterUntil(atActions);
+        Assert.Contains(bossFight, s => s.Contains("森林之主"));
+        Assert.Equal(1, session.flags["bossDefeated"]);
+        Assert.True(session.inventory.has("forestHeart"));
+        Assert.True(session.inventory.has("longBow"));
+
+        act("回林間空地");
+        act("回到小徑");
+        act("回森林入口");
+        act("回晨曦鎮");
+        List<string> ending = pressEnterUntil(atActions);
+
+        Assert.Contains(ending, s => s.Contains("第一章「低語森林」 完"));
+        Assert.Equal(1, session.flags["chapter1Done"]);
+        Assert.Equal("dawnTown", session.locationId);
     }
 
     [Fact]
     public void statusPanelShowsDerivedStatsAndEquipment()
     {
-        GameSession session = GameSession.newGame(content, seed: 1);
+        GameSession session = game.startNew();
+        session.inventory.add("potion", 3);
         app.pushScene(new EmptyScene());
         app.pushScene(new StatusScene(session));
         app.step(0);
 
-        string screen = backend.screenText;
         Assert.Contains("Lv.3", screen);
         Assert.Contains("木劍", screen);
         Assert.Contains($"攻擊 {session.party[0].stats.attack,3}", screen);
         Assert.Contains("傷藥 x3", screen);
+        Assert.Contains("火球術", screen);
     }
 }

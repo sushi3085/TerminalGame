@@ -5,8 +5,23 @@
     "kind": "Consumable",
     "price": 8,
     "target": "SingleAlly",
-    "effect": { "kind": "Heal", "power": 25 },
-    "description": "恢復 25 點 HP。"
+    "effect": {
+      "kind": "Heal",
+      "power": 25
+    },
+    "description": "用草藥熬成的藥膏。恢復 25 點 HP。"
+  },
+  {
+    "id": "hiPotion",
+    "name": "上等傷藥",
+    "kind": "Consumable",
+    "price": 40,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Heal",
+      "power": 70
+    },
+    "description": "加了蜂蜜的高級藥膏。恢復 70 點 HP。"
   },
   {
     "id": "ether",
@@ -14,13 +29,118 @@
     "kind": "Consumable",
     "price": 30,
     "target": "SingleAlly",
-    "effect": { "kind": "RestoreMp", "power": 15 },
-    "description": "恢復 15 點 MP。"
+    "effect": {
+      "kind": "RestoreMp",
+      "power": 15
+    },
+    "description": "泛著藍光的泉水。恢復 15 點 MP。"
   },
-  { "id": "woodenSword", "name": "木劍", "kind": "Equipment", "slot": "Weapon", "price": 30, "bonus": { "attack": 2 }, "description": "練習用的木劍。" },
-  { "id": "bronzeSword", "name": "青銅劍", "kind": "Equipment", "slot": "Weapon", "price": 120, "bonus": { "attack": 6 }, "description": "鎮上鐵匠打的青銅劍。" },
-  { "id": "clothTunic", "name": "布衣", "kind": "Equipment", "slot": "Body", "price": 20, "bonus": { "defense": 2 }, "description": "普通的旅行布衣。" },
-  { "id": "leatherArmor", "name": "皮甲", "kind": "Equipment", "slot": "Body", "price": 90, "bonus": { "defense": 5 }, "description": "鞣製過的皮革護甲。" },
-  { "id": "leatherCap", "name": "皮帽", "kind": "Equipment", "slot": "Head", "price": 40, "bonus": { "defense": 2 }, "description": "擋得住樹枝的皮帽。" },
-  { "id": "swiftCharm", "name": "疾風護符", "kind": "Equipment", "slot": "Accessory", "price": 150, "bonus": { "speed": 3 }, "description": "刻著風紋的護符，讓腳步變輕。" }
+  {
+    "id": "woodenSword",
+    "name": "木劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 30,
+    "bonus": {
+      "attack": 2
+    },
+    "description": "練習用的木劍。"
+  },
+  {
+    "id": "bronzeSword",
+    "name": "青銅劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 120,
+    "bonus": {
+      "attack": 6
+    },
+    "description": "鎮上鐵匠打的青銅劍，沉甸甸的。"
+  },
+  {
+    "id": "huntersBow",
+    "name": "獵弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 100,
+    "bonus": {
+      "attack": 4,
+      "speed": 1
+    },
+    "description": "琳的父親親手做的獵弓。"
+  },
+  {
+    "id": "longBow",
+    "name": "長弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 240,
+    "bonus": {
+      "attack": 9,
+      "speed": 1
+    },
+    "description": "紫杉木製的長弓，射程極遠。"
+  },
+  {
+    "id": "clothTunic",
+    "name": "布衣",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 20,
+    "bonus": {
+      "defense": 2
+    },
+    "description": "普通的旅行布衣。"
+  },
+  {
+    "id": "leatherArmor",
+    "name": "皮甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 90,
+    "bonus": {
+      "defense": 5
+    },
+    "description": "鞣製過的皮革護甲。"
+  },
+  {
+    "id": "leatherCap",
+    "name": "皮帽",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 40,
+    "bonus": {
+      "defense": 2
+    },
+    "description": "擋得住樹枝的皮帽。"
+  },
+  {
+    "id": "swiftCharm",
+    "name": "疾風護符",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 150,
+    "bonus": {
+      "speed": 3
+    },
+    "description": "刻著風紋的護符，讓腳步變輕。"
+  },
+  {
+    "id": "acornCharm",
+    "name": "橡實護符",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 60,
+    "bonus": {
+      "maxHp": 10,
+      "defense": 1
+    },
+    "description": "用森林橡實串成的護身符。"
+  },
+  {
+    "id": "forestHeart",
+    "name": "森林之心",
+    "kind": "Key",
+    "description": "森林之主留下的翠綠色種子。摸起來暖暖的。"
+  }
 ]

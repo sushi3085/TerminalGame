@@ -1,5 +1,6 @@
 using TerminalGame.Demo;
 using TerminalGame.Rpg.Data;
+using TerminalGame.Rpg.State;
 using TerminalGame.Tui.Backends;
 using TerminalGame.Tui.Input;
 using TerminalGame.Tui.Runtime;
@@ -22,7 +23,7 @@ if (args.Contains("--snapshot"))
 }
 
 using Application app = new(new ConsoleBackend());
-app.run(new TitleScene(content));
+app.run(new TitleScene(new Game(content, SaveStore.userDefault())));
 
 // Plays a scripted session on an in-memory terminal and prints the screen after each step.
 // Runs anywhere (CI, no TTY), and shows how scenes can be tested without a real terminal.
@@ -30,7 +31,8 @@ static void runSnapshot(ContentDb content)
 {
     HeadlessBackend backend = new(80, 24);
     Application app = new(backend);
-    app.pushScene(new TitleScene(content, seed: 1));
+    string saveDirectory = Path.Combine(Path.GetTempPath(), "TerminalGame-snapshot-" + Environment.ProcessId);
+    app.pushScene(new TitleScene(new Game(content, new SaveStore(saveDirectory), seed: 1)));
 
     void show(string label, double seconds = 1.0)
     {
@@ -41,29 +43,47 @@ static void runSnapshot(ContentDb content)
 
     void press(params Key[] keys)
     {
-        backend.queueKeys(keys);
-        app.step(0.0);
+        foreach (Key key in keys)
+        {
+            backend.queueKeys(key);
+            app.step(0.0);
+        }
+    }
+
+    // Dismisses messages (fully typing each one) until the screen shows the given text.
+    void pressEnterUntil(string text)
+    {
+        for (int i = 0; i < 60 && !backend.screenText.Contains(text); i++)
+        {
+            app.step(5);
+            press(Key.Enter);
+            app.step(5);
+        }
     }
 
     show("title");
+    press(Key.Enter); // new game
+    show("town: arrival typing", 0.5);
+    show("town: arrival", 5);
     press(Key.Enter);
-    show("town: first line typing", 0.5);
-    show("town: first line complete", 5);
-    press(Key.Enter); // next message
-    show("town: second line complete", 5);
-    press(Key.Enter); // dismiss -> choice popup
-    show("town: choices");
-    press(Key.Enter); // "go to the forest"
-    show("battle: intro typing", 0.4);
-    show("battle: intro complete", 5);
-    press(Key.Enter); // dismiss -> player's turn
+    show("town: elder", 5);
+    pressEnterUntil("▶ 長老家");
+    show("town: actions");
+    press(Key.Tab);
+    show("party menu");
+    press(Key.Escape, Key.Down, Key.Down, Key.Down, Key.Down, Key.Down, Key.Down, Key.Enter); // leave for the forest
+    show("woods: arrival", 5);
+    pressEnterUntil("▶ 調查樹樁");
+    press(Key.Down, Key.Down, Key.Down, Key.Enter); // search the area
+    pressEnterUntil("▶ 攻擊");
     show("battle: command menu");
     press(Key.Down, Key.Enter); // skills
     show("battle: skill list");
     press(Key.Enter); // fireball
-    show("battle: fireball message", 5);
-    press(Key.Enter);
-    show("battle: enemy turn", 5);
-    press(Key.Enter);
-    show("battle: back to commands");
+    show("battle: fireball", 5);
+
+    if (Directory.Exists(saveDirectory))
+    {
+        Directory.Delete(saveDirectory, recursive: true);
+    }
 }

@@ -17,7 +17,8 @@ public sealed class BattleScene : Scene
 {
     private sealed record EnemyView(Combatant combatant, Label name, ArtBlock art, ProgressBar hp);
 
-    private sealed record MemberView(Combatant combatant, Label name, ProgressBar hp, ProgressBar mp);
+    /// <summary>Solo: name, HP bar, MP bar. Party of 2+: one compact text line per member (bars are null).</summary>
+    private sealed record MemberView(Combatant combatant, Label name, ProgressBar? hp, ProgressBar? mp);
 
     private readonly GameSession session;
     private readonly BattleEngine engine;
@@ -28,7 +29,12 @@ public sealed class BattleScene : Scene
     private readonly DialogueBox messages = new();
     private Action? afterMessage;
 
-    public BattleScene(GameSession session, IEnumerable<string> enemyIds, bool canEscape = true)
+    public BattleScene(Game game, IEnumerable<string> enemyIds, bool canEscape = true, string? palette = null)
+        : this(game.session, enemyIds, canEscape, palette)
+    {
+    }
+
+    public BattleScene(GameSession session, IEnumerable<string> enemyIds, bool canEscape = true, string? palette = null)
     {
         this.session = session;
         engine = new BattleEngine(session, enemyIds.Select(session.content.enemy), canEscape);
@@ -43,30 +49,37 @@ public sealed class BattleScene : Scene
             EnemyCombatant e = (EnemyCombatant)enemy;
             Label name = new($"[red b]{e.name}[/]  Lv.{e.def.level}", HorizontalAlignment.Center);
             ArtBlock art = new(string.Join("\n", e.def.art)) { layoutHeight = Length.cells(Math.Max(1, e.def.art.Count)) };
-            ProgressBar hp = new(e.hp, e.stats.maxHp, "HP") { layoutWidth = Length.cells(24) };
-            hp.setGradient(Color.rgb(200, 50, 50), Color.rgb(210, 170, 40), Color.rgb(40, 160, 70));
+            ProgressBar hp = Ui.hpBar(e.hp, e.stats.maxHp);
+            hp.layoutWidth = Length.cells(Math.Min(24, 76 / engine.enemies.Count - 2));
 
             StackPanel column = new(Orientation.Vertical) { layoutWidth = Length.fill() };
             column.add(name);
             column.add(new Spacer());
             column.add(art);
             column.add(new Spacer());
-            column.add(centered(hp));
+            column.add(Ui.centered(hp));
             enemyRow.add(column);
             enemyViews.Add(new EnemyView(enemy, name, art, hp));
         }
 
         StackPanel partyPanel = new(Orientation.Vertical);
+        bool solo = engine.party.Count == 1;
         foreach (Combatant member in engine.party)
         {
-            Label name = new($"[gold]{member.name}[/]");
-            ProgressBar hp = new(member.hp, member.stats.maxHp, "HP");
-            hp.setGradient(Color.rgb(200, 50, 50), Color.rgb(210, 170, 40), Color.rgb(40, 160, 70));
-            ProgressBar mp = new(member.mp, member.stats.maxMp, "MP") { fillColor = Color.rgb(60, 110, 210) };
+            Label name = new();
             partyPanel.add(name);
-            partyPanel.add(hp);
-            partyPanel.add(mp);
-            memberViews.Add(new MemberView(member, name, hp, mp));
+            if (solo)
+            {
+                ProgressBar hp = Ui.hpBar(member.hp, member.stats.maxHp);
+                ProgressBar mp = Ui.mpBar(member.mp, member.stats.maxMp);
+                partyPanel.add(hp);
+                partyPanel.add(mp);
+                memberViews.Add(new MemberView(member, name, hp, mp));
+            }
+            else
+            {
+                memberViews.Add(new MemberView(member, name, null, null));
+            }
         }
 
         commands.confirmed += onCommand;
@@ -80,11 +93,12 @@ public sealed class BattleScene : Scene
         StackPanel bottom = new(Orientation.Horizontal) { layoutHeight = Length.cells(8) };
         bottom.add(new Border(commands, "指令") { layoutWidth = Length.cells(16), padding = new Thickness(1, 0, 0, 0) });
         bottom.add(messages);
-        bottom.add(new Border(partyPanel, "隊伍") { layoutWidth = Length.cells(24) });
+        bottom.add(new Border(partyPanel, "隊伍") { layoutWidth = Length.cells(solo ? 24 : 30) });
 
         StackPanel layout = new(Orientation.Vertical);
         layout.add(new Border(enemyRow, canEscape ? "[red]遭遇戰[/]" : "[red b]強敵[/]") { layoutHeight = Length.fill() });
         layout.add(bottom);
+        layout.theme = Palettes.forName(palette);
         root = layout;
     }
 
@@ -93,20 +107,13 @@ public sealed class BattleScene : Scene
     /// <summary>Raised once the last message of the battle is dismissed, just before the scene pops itself.</summary>
     public event Action<BattleOutcome>? finished;
 
+    public override void onUpdate(double deltaSeconds) => session.playSeconds += deltaSeconds;
+
     public override void onEnter()
     {
         syncBars();
         engine.start();
         say(BattleNarrator.encounter(engine.enemies), continueBattle);
-    }
-
-    private static Widget centered(Widget child)
-    {
-        StackPanel row = new(Orientation.Horizontal) { layoutHeight = Length.cells(1) };
-        row.add(new Spacer());
-        row.add(child);
-        row.add(new Spacer());
-        return row;
     }
 
     private void syncBars()
@@ -124,10 +131,21 @@ public sealed class BattleScene : Scene
 
         foreach (MemberView view in memberViews)
         {
-            (int hp, int mp) = shown[view.combatant];
-            view.hp.value = hp;
-            view.mp.value = mp;
-            view.name.setText(hp > 0 ? $"[gold]{view.combatant.name}[/]" : $"[dim]{view.combatant.name}[/]");
+            Combatant c = view.combatant;
+            (int hp, int mp) = shown[c];
+            string marker = ReferenceEquals(c, engine.currentActor) && c.side == Side.Party ? "[gold]▶[/]" : " ";
+            if (view.hp is not null && view.mp is not null)
+            {
+                view.hp.value = hp;
+                view.mp.value = mp;
+                view.name.setText(hp > 0 ? $"[gold]{c.name}[/]" : $"[dim]{c.name}[/]");
+                continue;
+            }
+
+            int maxHp = c.stats.maxHp;
+            string hpColor = hp <= 0 ? "dim" : hp * 4 <= maxHp ? "red" : hp * 2 <= maxHp ? "gold" : "white";
+            string name = hp > 0 ? $"[gold]{c.name}[/]" : $"[dim]{c.name}[/]";
+            view.name.setText($"{marker}{name} [{hpColor}]{hp,3}/{maxHp,-3}[/] [dim]MP[/]{mp,3}");
         }
     }
 
@@ -186,8 +204,8 @@ public sealed class BattleScene : Scene
                     // Level-ups raise max HP/MP; show the live values and maxima from here on.
                     foreach (MemberView view in memberViews)
                     {
-                        view.hp.maximum = view.combatant.stats.maxHp;
-                        view.mp.maximum = view.combatant.stats.maxMp;
+                        view.hp?.maximum = view.combatant.stats.maxHp;
+                        view.mp?.maximum = view.combatant.stats.maxMp;
                         shown[view.combatant] = (view.combatant.hp, view.combatant.mp);
                     }
 
@@ -215,6 +233,7 @@ public sealed class BattleScene : Scene
             return;
         }
 
+        syncBars(); // move the ▶ marker
         beginPlayerTurn();
     }
 
@@ -234,7 +253,7 @@ public sealed class BattleScene : Scene
         setFocus(commands);
         if (engine.party.Count > 1)
         {
-            messages.show($"{actor.name}要怎麼做？");
+            messages.show($"[gold]{actor.name}[/]要怎麼做？");
         }
     }
 
@@ -271,7 +290,7 @@ public sealed class BattleScene : Scene
     private void chooseSkill(Combatant actor)
     {
         IReadOnlyList<SkillDef> skills = engine.skillsOf(actor);
-        showPicker(
+        pick(
             "技能",
             skills.Select(s => MenuItem.of($"{s.name} [dim]MP{s.mpCost}[/]", engine.canAfford(actor, s))),
             i => chooseTarget(actor, skills[i].target, target => act(new SkillAction(actor, skills[i], target))));
@@ -280,7 +299,7 @@ public sealed class BattleScene : Scene
     private void chooseItem(Combatant actor)
     {
         List<(ItemDef item, int count)> items = usableItems().ToList();
-        showPicker(
+        pick(
             "道具",
             items.Select(e => MenuItem.of($"{e.item.name} x{e.count}")),
             i => chooseTarget(actor, items[i].item.target, target => act(new ItemAction(actor, items[i].item, target))));
@@ -306,24 +325,14 @@ public sealed class BattleScene : Scene
         }
         else
         {
-            showPicker(
+            pick(
                 "對象",
                 candidates.Select(c => MenuItem.of($"{BattleNarrator.nameOf(c)} [dim]HP {c.hp}/{c.stats.maxHp}[/]")),
                 i => then(candidates[i]));
         }
     }
 
-    /// <summary>A popup list next to the command window; confirming closes it and runs <paramref name="onPick"/>, cancel just closes it.</summary>
-    private void showPicker(string title, IEnumerable<MenuItem> items, Action<int> onPick)
-    {
-        MenuList list = new(items);
-        Border frame = new(list, title) { layoutWidth = Length.cells(30), layoutHeight = Length.cells(Math.Min(10, list.entries.Count + 2)) };
-        list.confirmed += i =>
-        {
-            closeModal(frame);
-            onPick(i);
-        };
-        list.cancelled += () => closeModal(frame);
-        showModal(frame, HorizontalAlignment.Left, VerticalAlignment.Bottom);
-    }
+    /// <summary>Popups sit over the command window, bottom left, leaving the enemies and messages visible.</summary>
+    private void pick(string title, IEnumerable<MenuItem> items, Action<int> onPick) =>
+        Ui.showPicker(this, title, items, onPick, horizontal: HorizontalAlignment.Left, vertical: VerticalAlignment.Bottom);
 }

@@ -236,3 +236,47 @@ public class SaveTests
         }
     }
 }
+
+public class FieldTests
+{
+    [Fact]
+    public void potionsAndEthersWorkOutsideBattle()
+    {
+        GameSession session = TestContent.session();
+        PartyMember hero = session.party[0];
+        hero.hp = 5;
+        hero.mp = 0;
+        session.inventory.add("ether");
+
+        Assert.Equal(new[] { (hero, 30) }, FieldRules.useItem(session, session.content.item("potion"), hero));
+        Assert.Equal(new[] { (hero, 10) }, FieldRules.useItem(session, session.content.item("ether"), hero));
+        Assert.Equal(1, session.inventory.count("potion"));
+        Assert.Throws<InvalidOperationException>(() => FieldRules.useItem(session, session.content.item("ether"), hero));
+        Assert.False(FieldRules.usableInField(session.content.item("blade")));
+    }
+
+    [Fact]
+    public void healingSkillsCostMpAndSkipTheFallen()
+    {
+        GameSession session = TestContent.session();
+        PartyMember hero = session.party[0];
+        PartyMember friend = session.addMember("slowpoke");
+        hero.gainExp(Progression.expToNext(1)); // learns cure at level 2
+        SkillDef cure = session.content.skill("cure");
+        friend.hp = 1;
+
+        (PartyMember member, int amount) healed = Assert.Single(FieldRules.castSkill(session, hero, cure, friend));
+
+        Assert.Same(friend, healed.member);
+        Assert.InRange(healed.amount, 10 + 9 * 9 / 10, 10 + 9 * 11 / 10 + 1); // 10 + magic 9 × 100%, ±10%
+        Assert.Equal(hero.stats.maxMp - cure.mpCost, hero.mp);
+        Assert.False(FieldRules.usableInField(session.content.skill("bolt")));
+
+        friend.hp = 0;
+        Assert.False(FieldRules.wouldHelp(cure.effect, friend));
+        Assert.Empty(FieldRules.castSkill(session, hero, cure, friend));
+
+        hero.mp = 0;
+        Assert.Throws<InvalidOperationException>(() => FieldRules.castSkill(session, hero, cure, hero));
+    }
+}

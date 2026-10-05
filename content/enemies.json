@@ -3,10 +3,20 @@
     "id": "slime",
     "name": "史萊姆",
     "level": 2,
-    "stats": { "maxHp": 40, "attack": 12, "defense": 4, "speed": 5 },
+    "stats": {
+      "maxHp": 40,
+      "attack": 12,
+      "defense": 4,
+      "speed": 5
+    },
     "exp": 30,
     "gold": 12,
-    "drops": [ { "itemId": "potion", "chance": 0.25 } ],
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.25
+      }
+    ],
     "attackMessage": "撲了過來！",
     "art": [
       "[green]      _.---._      [/]",
@@ -14,6 +24,147 @@
       "[green]   /  [/][white]●[/][green]     [/][white]●[/][green]  \\   [/]",
       "[green]  |     [/][red]\\_/[/][green]     |  [/]",
       "[green]   \\_____________/  [/]"
+    ]
+  },
+  {
+    "id": "forestBat",
+    "name": "森林蝙蝠",
+    "level": 2,
+    "stats": {
+      "maxHp": 28,
+      "attack": 11,
+      "defense": 3,
+      "speed": 12
+    },
+    "exp": 22,
+    "gold": 8,
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.15
+      }
+    ],
+    "attackMessage": "俯衝咬了過來！",
+    "art": [
+      "[purple] /\\               /\\ [/]",
+      "[purple]/  \\    [/][red]●   ●[/][purple]    /  \\[/]",
+      "[purple]\\   '--._ [/][white]vvv[/][purple] _.--'   /[/]",
+      "[purple] '._    '-----'    _.' [/]",
+      "[purple]    '-.._     _..-'    [/]"
+    ]
+  },
+  {
+    "id": "venomShroom",
+    "name": "毒孢菇",
+    "level": 3,
+    "stats": {
+      "maxHp": 48,
+      "maxMp": 12,
+      "attack": 10,
+      "defense": 6,
+      "magic": 12,
+      "speed": 4
+    },
+    "exp": 38,
+    "gold": 15,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "sporeCloud",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "ether",
+        "chance": 0.1
+      }
+    ],
+    "attackMessage": "用傘蓋撞了過來！",
+    "art": [
+      "[red]    .-'''''-.    [/]",
+      "[red]  .' [/][white]o[/][red]   [/][white]o[/][red]   '.  [/]",
+      "[red] /____[/][white]o[/][red]_____[/][white]o[/][red]_\\ [/]",
+      "[orange]     | [/][white]● ●[/][orange] |     [/]",
+      "[orange]     |  [/][red]~[/][orange]  |     [/]",
+      "[orange]     '-----'     [/]"
+    ]
+  },
+  {
+    "id": "wolf",
+    "name": "野狼",
+    "level": 4,
+    "stats": {
+      "maxHp": 52,
+      "attack": 15,
+      "defense": 6,
+      "speed": 11
+    },
+    "exp": 44,
+    "gold": 16,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "bite",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.2
+      }
+    ],
+    "attackMessage": "猛撲而來！",
+    "art": [
+      "[gray]   /\\_______/\\   [/]",
+      "[gray]  /  [/][red]●[/][gray]     [/][red]●[/][gray]  \\  [/]",
+      "[gray] (      [/][white]▼[/][gray]      ) [/]",
+      "[gray]  \\   [/][white]\\vvv/[/][gray]   /  [/]",
+      "[gray]   '-._____.-'   [/]"
+    ]
+  },
+  {
+    "id": "forestLord",
+    "name": "森林之主",
+    "level": 7,
+    "stats": {
+      "maxHp": 420,
+      "maxMp": 60,
+      "attack": 22,
+      "defense": 10,
+      "magic": 20,
+      "speed": 6
+    },
+    "exp": 400,
+    "gold": 200,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "sporeStorm",
+        "weight": 2
+      },
+      {
+        "skillId": "regrow",
+        "weight": 1
+      }
+    ],
+    "attackMessage": "揮動粗壯的菌柄砸了下來！",
+    "art": [
+      "[red]       .-'''''''''''''-.       [/]",
+      "[red]    .'  [/][orange]*[/][red]    [/][white]◉[/][red]     [/][orange]*[/][red]    '.    [/]",
+      "[red]   /  [/][orange]*[/][red]    [/][white]◉[/][red]   [/][white]◉[/][red]    [/][orange]*[/][red]   \\   [/]",
+      "[red]  /______________________ __\\  [/]",
+      "[orange]          |  [/][purple]≋≋≋≋≋[/][orange]  |          [/]",
+      "[orange]         /|   [/][red]>  <[/][orange]  |\\         [/]",
+      "[orange]     ~~~/ |  [/][purple]═══[/][orange]   | \\~~~     [/]",
+      "[green]   ,,,,,,,,,,,,,,,,,,,,,,,,,,  [/]"
     ]
   }
 ]

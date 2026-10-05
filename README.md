@@ -1,6 +1,6 @@
 # TerminalGame
 
-用 C# 寫文字 JRPG 的終端機 UI 框架（`TerminalGame.Tui`），附一個可玩的迷你 Demo。
+用 C# 寫文字 JRPG 的終端機 UI 框架（`TerminalGame.Tui`），以及用它製作中的 JRPG《光之試煉》——目前第 1 章「低語森林」可以完整遊玩（村莊、森林探索、夥伴、商店、旅館存檔、Boss）。
 
 - .NET 10、零第三方執行期依賴，直接輸出 ANSI/VT 序列
 - 雙緩衝＋差異輸出（只送變動的格子）、真彩色（自動降級 256 / 16 色）
@@ -24,7 +24,8 @@ dotnet run --project src/TerminalGame.Demo
 | ↑ ↓ ← → | 移動游標 |
 | Enter / Space / Z | 確認；對話中：先顯示整段，再按翻頁 |
 | Esc / Backspace / X | 取消 |
-| Tab / M | 開啟狀態面板（城鎮中） |
+| Tab / M | 開啟隊伍選單（道具、技能、裝備、狀態） |
+| ← → | 裝備／狀態畫面中切換角色 |
 | Ctrl+C | 離開 |
 
 沒有 TTY（CI、遠端 shell）時，可印出一段腳本化的遊戲流程畫面：
@@ -77,20 +78,25 @@ src/TerminalGame.Tui/        框架
   Runtime/     Application（主迴圈）· Scene（場景、焦點、modal）
 src/TerminalGame.Rpg/        遊戲規則（不依賴 UI，可單元測試、可模擬）
   Data/        *Def 定義 · ContentDb（載入 JSON 並驗證交叉引用）
-  State/       PartyMember · Inventory · Flags · GameSession · Progression
+  State/       PartyMember · Inventory · Flags · GameSession · Progression · SaveData
   Battle/      BattleEngine（事件式）· BattleEvent · DamageFormula
-src/TerminalGame.Demo/       迷你 JRPG（Scenes：把 Rpg 的狀態畫出來）
+  Script/      Condition（條件式）· ScriptRunner（事件腳本直譯器）
+  World/       WorldRules（移動、遇敵）· ShopRules · FieldRules
+src/TerminalGame.Demo/       遊戲本體（Scenes：Title · Location · Battle · Shop · PartyMenu · Equip · Status）
 content/                     遊戲資料 JSON：技能、道具、角色、敵人、開局設定
 tests/TerminalGame.Tui.Tests/  框架測試
 tests/TerminalGame.Rpg.Tests/  規則與內容驗證測試
 tests/TerminalGame.Demo.Tests/ 以無頭終端實際按鍵遊玩的流程測試
 docs/DESIGN.md               框架設計文件
 docs/ROADMAP.md              遊戲開發路線圖與進度
+docs/CONTENT.md              內容 JSON 撰寫指南
 ```
 
 ### 遊戲資料
 
-`content/*.json` 會複製到執行檔旁的 `content/` 目錄，啟動時載入。所有 id 引用（技能、道具、掉落物、初始裝備…）在載入時檢查，打錯字會直接列出錯誤而不是遊戲中途當掉。改數值不需要改程式碼。
+`content/*.json` 會複製到執行檔旁的 `content/` 目錄，啟動時載入。技能、道具、角色、敵人、地點、商店、事件腳本全部是資料；所有 id 引用與條件式在載入時檢查，打錯字會直接列出錯誤而不是遊戲中途當掉。格式說明見 [docs/CONTENT.md](docs/CONTENT.md)。
+
+存檔位置：`~/.local/share/TerminalGame/saves/`（Windows 為 `%LOCALAPPDATA%\TerminalGame\saves\`）。在旅館休息時可以存檔。
 
 戰鬥規則集中在 `BattleEngine` 與 `DamageFormula`：引擎每次行動回傳一串 `BattleEvent`，`BattleScene` 只負責把事件轉成訊息並播放，因此規則可以脫離畫面測試與模擬。
 

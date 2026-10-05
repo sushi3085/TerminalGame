@@ -49,18 +49,19 @@ public sealed class PartyMember
 
     public bool isAlive => currentHp > 0;
 
-    public StatBlock stats
-    {
-        get
-        {
-            StatBlock total = def.baseStats + def.growth * (level - 1);
-            foreach (string itemId in equipped.Values)
-            {
-                total += content.item(itemId).bonus;
-            }
+    public StatBlock stats => computeStats(equipped);
 
-            return total.clamped();
+    /// <summary>What <see cref="stats"/> would be with <paramref name="item"/> in <paramref name="slot"/> (null = empty).</summary>
+    public StatBlock previewStats(EquipSlot slot, ItemDef? item)
+    {
+        Dictionary<EquipSlot, string> trial = new(equipped);
+        trial.Remove(slot);
+        if (item is not null)
+        {
+            trial[slot] = item.id;
         }
+
+        return computeStats(trial);
     }
 
     public IReadOnlyDictionary<EquipSlot, string> equipment => equipped;
@@ -149,6 +150,17 @@ public sealed class PartyMember
         currentMp = 0;
         hp = savedHp;
         mp = savedMp;
+    }
+
+    private StatBlock computeStats(IReadOnlyDictionary<EquipSlot, string> gear)
+    {
+        StatBlock total = def.baseStats + def.growth * (level - 1);
+        foreach (string itemId in gear.Values)
+        {
+            total += content.item(itemId).bonus;
+        }
+
+        return total.clamped();
     }
 
     private void clampResources()

@@ -4,7 +4,10 @@
     "name": "火球術",
     "mpCost": 5,
     "target": "SingleEnemy",
-    "effect": { "kind": "Magical", "power": 220 },
+    "effect": {
+      "kind": "Magical",
+      "power": 220
+    },
     "description": "對一名敵人造成火焰傷害。",
     "useMessage": "詠唱[magenta]火球術[/]！"
   },
@@ -13,8 +16,80 @@
     "name": "治癒術",
     "mpCost": 4,
     "target": "SingleAlly",
-    "effect": { "kind": "Heal", "power": 20, "magicScaling": 60 },
+    "effect": {
+      "kind": "Heal",
+      "power": 20,
+      "magicScaling": 60
+    },
     "description": "恢復一名同伴的 HP。",
     "useMessage": "詠唱[green]治癒術[/]！"
+  },
+  {
+    "id": "pierceArrow",
+    "name": "穿雲箭",
+    "mpCost": 4,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 170
+    },
+    "description": "集中精神射出的強力一箭。",
+    "useMessage": "屏住呼吸，射出[cyan]穿雲箭[/]！"
+  },
+  {
+    "id": "arrowRain",
+    "name": "箭雨",
+    "mpCost": 7,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Physical",
+      "power": 85
+    },
+    "description": "向天空連射，攻擊所有敵人。",
+    "useMessage": "朝天空連發數箭——[cyan]箭雨[/]落下！"
+  },
+  {
+    "id": "bite",
+    "name": "撕咬",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 150
+    },
+    "useMessage": "張開利齒[red]撕咬[/]！"
+  },
+  {
+    "id": "sporeCloud",
+    "name": "孢子雲",
+    "mpCost": 4,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 90
+    },
+    "useMessage": "噴出一團紅色的[red]孢子雲[/]！"
+  },
+  {
+    "id": "sporeStorm",
+    "name": "孢子風暴",
+    "mpCost": 6,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 110
+    },
+    "useMessage": "傘蓋劇烈震動，捲起[red]孢子風暴[/]！"
+  },
+  {
+    "id": "regrow",
+    "name": "再生",
+    "mpCost": 8,
+    "target": "Self",
+    "effect": {
+      "kind": "Heal",
+      "power": 40,
+      "magicScaling": 100
+    },
+    "useMessage": "的菌絲蠕動著，傷口開始[green]再生[/]……"
   }
 ]

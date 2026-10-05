@@ -46,6 +46,19 @@ public class StateTests
     }
 
     [Fact]
+    public void previewDoesNotChangeEquipment()
+    {
+        ContentDb db = TestContent.load();
+        PartyMember hero = new(db, db.character("hero"));
+
+        Assert.Equal(20, hero.previewStats(EquipSlot.Weapon, db.item("blade")).attack);
+        Assert.Equal(10, hero.previewStats(EquipSlot.Weapon, null).attack);
+        Assert.Equal(70, hero.previewStats(EquipSlot.Body, db.item("plate")).maxHp);
+        Assert.Equal(12, hero.stats.attack);
+        Assert.Equal("stick", hero.equippedIn(EquipSlot.Weapon)?.id);
+    }
+
+    [Fact]
     public void removingMaxHpGearClampsCurrentHp()
     {
         ContentDb db = TestContent.load();
