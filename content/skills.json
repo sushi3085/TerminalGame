@@ -6,9 +6,10 @@
     "target": "SingleEnemy",
     "effect": {
       "kind": "Magical",
-      "power": 220
+      "power": 220,
+      "element": "Fire"
     },
-    "description": "對一名敵人造成火焰傷害。",
+    "description": "對一名敵人造成火焰傷害。蕈類特別怕火。",
     "useMessage": "詠唱[magenta]火球術[/]！"
   },
   {
@@ -65,7 +66,12 @@
     "target": "AllEnemies",
     "effect": {
       "kind": "Magical",
-      "power": 90
+      "power": 90,
+      "status": {
+        "kind": "Poison",
+        "chance": 0.3,
+        "turns": 3
+      }
     },
     "useMessage": "噴出一團紅色的[red]孢子雲[/]！"
   },
@@ -91,5 +97,65 @@
       "magicScaling": 100
     },
     "useMessage": "的菌絲蠕動著，傷口開始[green]再生[/]……"
+  },
+  {
+    "id": "rally",
+    "name": "鼓舞",
+    "mpCost": 4,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "AttackUp",
+        "turns": 3
+      }
+    },
+    "description": "激勵一名同伴，3 回合內攻擊力提升。",
+    "useMessage": "高舉長劍大喊——[gold]鼓舞[/]！"
+  },
+  {
+    "id": "numbingArrow",
+    "name": "麻痺箭",
+    "mpCost": 3,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 90,
+      "status": {
+        "kind": "Paralysis",
+        "chance": 0.5,
+        "turns": 2
+      }
+    },
+    "description": "塗了麻痺草汁的箭，有機會讓敵人動彈不得。",
+    "useMessage": "射出塗了草汁的[cyan]麻痺箭[/]！"
+  },
+  {
+    "id": "howl",
+    "name": "嚎叫",
+    "target": "Self",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "AttackUp",
+        "turns": 2
+      }
+    },
+    "useMessage": "仰天發出一聲長長的[red]嚎叫[/]！"
+  },
+  {
+    "id": "sleepSpores",
+    "name": "催眠孢子",
+    "mpCost": 5,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "Sleep",
+        "chance": 0.3,
+        "turns": 2
+      }
+    },
+    "useMessage": "灑下一陣甜膩的[purple]催眠孢子[/]……"
   }
 ]

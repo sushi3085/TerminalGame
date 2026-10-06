@@ -40,6 +40,49 @@ public enum EffectKind
 
     /// <summary>Restores power MP.</summary>
     RestoreMp,
+
+    /// <summary>No HP/MP change: only applies <see cref="EffectDef.status"/> and/or removes <see cref="EffectDef.cures"/>.</summary>
+    Status,
+}
+
+/// <summary>Damage element. Enemies list what they are weak to (×1.5) or resist (×0.5).</summary>
+public enum Element
+{
+    None,
+    Fire,
+    Ice,
+    Thunder,
+    Holy,
+}
+
+/// <summary>Battle-only conditions; all of them wear off when the battle ends.</summary>
+public enum StatusKind
+{
+    /// <summary>Loses 1/10 of max HP at the end of each of its turns.</summary>
+    Poison,
+
+    /// <summary>Cannot act; taking damage wakes it up.</summary>
+    Sleep,
+
+    /// <summary>Half of its turns are lost.</summary>
+    Paralysis,
+
+    AttackUp,
+    DefenseUp,
+    AttackDown,
+    DefenseDown,
+}
+
+/// <summary>A status an effect may inflict on each target it hits.</summary>
+public sealed record StatusEffectDef
+{
+    public required StatusKind kind { get; init; }
+
+    /// <summary>0–1. Rolled per target.</summary>
+    public double chance { get; init; } = 1;
+
+    /// <summary>How many of the target's own turns it lasts (counted at the end of each of its turns).</summary>
+    public int turns { get; init; } = 3;
 }
 
 /// <summary>What a skill or a consumable does to each of its targets.</summary>
@@ -48,10 +91,19 @@ public sealed record EffectDef
     public required EffectKind kind { get; init; }
 
     /// <summary>Damage: percentage of the user's attack/magic. Heal/RestoreMp: flat amount.</summary>
-    public required int power { get; init; }
+    public int power { get; init; }
 
     /// <summary>Heal only: extra percentage of the user's magic added to <see cref="power"/>.</summary>
     public int magicScaling { get; init; }
+
+    /// <summary>Damage only.</summary>
+    public Element element { get; init; } = Element.None;
+
+    /// <summary>Inflicted on each target that is still standing afterwards (and, for damage, was actually hit).</summary>
+    public StatusEffectDef? status { get; init; }
+
+    /// <summary>Statuses removed from each target.</summary>
+    public IReadOnlyList<StatusKind> cures { get; init; } = [];
 }
 
 public sealed record SkillDef
@@ -145,6 +197,15 @@ public sealed record EnemyDef
     public IReadOnlyList<EnemyActionDef> actions { get; init; } = [];
 
     public IReadOnlyList<DropDef> drops { get; init; } = [];
+
+    /// <summary>Elements that deal ×1.5 damage to it.</summary>
+    public IReadOnlyList<Element> weakTo { get; init; } = [];
+
+    /// <summary>Elements that deal ×0.5 damage to it.</summary>
+    public IReadOnlyList<Element> resists { get; init; } = [];
+
+    /// <summary>Statuses that never take hold (bosses are usually immune to Sleep and Paralysis).</summary>
+    public IReadOnlyList<StatusKind> immuneTo { get; init; } = [];
 
     /// <summary>Battle narration after the name for a plain attack, e.g. "撲了過來！". Empty = a generic line.</summary>
     public string attackMessage { get; init; } = "";

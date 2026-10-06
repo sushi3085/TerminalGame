@@ -18,13 +18,13 @@ AutoPolicy allOut = new() { spendMp = true };
 
 const string sword = "woodenSword";
 Checkpoint edge = new("入口 Lv3", [new("hero", 3, sword, "clothTunic")], [("potion", 3)]);
-Checkpoint path = new("小徑 Lv4", [new("hero", 4, sword, "clothTunic")], [("potion", 3)]);
+Checkpoint path = new("小徑 Lv4", [new("hero", 4, sword, "clothTunic")], [("potion", 3), ("antidote", 2)]);
 Checkpoint rescue = new("救援 Lv4+琳4", [new("hero", 4, sword, "clothTunic"), new("rin", 4, "huntersBow", "clothTunic")], [("potion", 3)]);
-Checkpoint clearing = new("空地 Lv5+琳5", [new("hero", 5, "bronzeSword", "clothTunic"), new("rin", 5, "huntersBow", "clothTunic", "leatherCap")], [("potion", 4)]);
-Checkpoint deep = new("深處 Lv6+琳6", [new("hero", 6, "bronzeSword", "leatherArmor"), new("rin", 6, "huntersBow", "clothTunic", "leatherCap")], [("potion", 5)]);
-Checkpoint boss = new("Boss Lv7+琳7", [new("hero", 7, "bronzeSword", "leatherArmor"), new("rin", 7, "longBow", "clothTunic", "leatherCap")], [("potion", 5), ("ether", 1)]);
-Checkpoint bossHigh = new("Boss Lv8+琳8", [new("hero", 8, "bronzeSword", "leatherArmor"), new("rin", 8, "longBow", "clothTunic", "leatherCap")], [("potion", 5), ("ether", 1)]);
-Checkpoint bossLow = new("Boss Lv6+琳6", [new("hero", 6, "bronzeSword", "leatherArmor"), new("rin", 6, "longBow", "clothTunic", "leatherCap")], [("potion", 5), ("ether", 1)]);
+Checkpoint clearing = new("空地 Lv5+琳5", [new("hero", 5, "bronzeSword", "clothTunic"), new("rin", 5, "huntersBow", "clothTunic", "leatherCap")], [("potion", 4), ("antidote", 2)]);
+Checkpoint deep = new("深處 Lv6+琳6", [new("hero", 6, "bronzeSword", "leatherArmor"), new("rin", 6, "huntersBow", "clothTunic", "leatherCap")], [("potion", 5), ("antidote", 2)]);
+Checkpoint boss = new("Boss Lv7+琳7", [new("hero", 7, "bronzeSword", "leatherArmor"), new("rin", 7, "longBow", "clothTunic", "leatherCap")], [("potion", 5), ("ether", 1), ("antidote", 2), ("mintLeaf", 2)]);
+Checkpoint bossHigh = new("Boss Lv8+琳8", [new("hero", 8, "bronzeSword", "leatherArmor"), new("rin", 8, "longBow", "clothTunic", "leatherCap")], [("potion", 5), ("ether", 1), ("antidote", 2), ("mintLeaf", 2)]);
+Checkpoint bossLow = new("Boss Lv6+琳6", [new("hero", 6, "bronzeSword", "leatherArmor"), new("rin", 6, "longBow", "clothTunic", "leatherCap")], [("potion", 5), ("ether", 1), ("antidote", 2), ("mintLeaf", 2)]);
 
 Console.WriteLine($"Chapter 1 balance — {runs} runs per row\n");
 

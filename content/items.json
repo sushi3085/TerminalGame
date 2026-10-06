@@ -36,6 +36,35 @@
     "description": "泛著藍光的泉水。恢復 15 點 MP。"
   },
   {
+    "id": "antidote",
+    "name": "解毒草",
+    "kind": "Consumable",
+    "price": 10,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Status",
+      "cures": [
+        "Poison"
+      ]
+    },
+    "description": "苦得要命的藥草。解除中毒。"
+  },
+  {
+    "id": "mintLeaf",
+    "name": "薄荷葉",
+    "kind": "Consumable",
+    "price": 15,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Status",
+      "cures": [
+        "Sleep",
+        "Paralysis"
+      ]
+    },
+    "description": "清涼的薄荷葉。讓同伴清醒、解除麻痺。"
+  },
+  {
     "id": "woodenSword",
     "name": "木劍",
     "kind": "Equipment",

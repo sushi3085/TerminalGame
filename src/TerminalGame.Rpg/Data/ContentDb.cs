@@ -172,9 +172,38 @@ public sealed class ContentDb
             return false;
         }
 
+        void checkEffect(EffectDef? effect, string owner)
+        {
+            if (effect is null)
+            {
+                return;
+            }
+
+            if (effect.kind == EffectKind.Status && effect.status is null && effect.cures.Count == 0)
+            {
+                errors.Add($"{owner}: a Status effect needs 'status' or 'cures'");
+            }
+
+            if (effect.element != Element.None && effect.kind is not (EffectKind.Physical or EffectKind.Magical))
+            {
+                errors.Add($"{owner}: only damage effects have an element");
+            }
+
+            if (effect.status is { } status && (status.chance is <= 0 or > 1 || status.turns < 1))
+            {
+                errors.Add($"{owner}: status chance must be within (0, 1] and turns at least 1");
+            }
+        }
+
+        foreach (SkillDef skill in skillMap.Values)
+        {
+            checkEffect(skill.effect, $"skill '{skill.id}'");
+        }
+
         foreach (ItemDef item in itemMap.Values)
         {
             string owner = $"item '{item.id}'";
+            checkEffect(item.effect, owner);
             if (item.kind == ItemKind.Equipment && item.slot is null)
             {
                 errors.Add($"{owner}: equipment needs a slot");

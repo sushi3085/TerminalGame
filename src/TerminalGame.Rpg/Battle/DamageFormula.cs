@@ -7,7 +7,7 @@ namespace TerminalGame.Rpg.Battle;
 /// <code>
 /// physical = attack × power% − defense / 2
 /// magical  = magic  × power% − defense / 4
-/// damage   = max(1, round(base × U(1 − variance, 1 + variance)))   critical: base × 1.5 (physical only)
+/// damage   = max(1, round(base × U(1 − variance, 1 + variance) × element))   critical: base × 1.5 (physical only)
 /// heal     = power + magic × magicScaling%                          (± healVariance when it scales)
 /// </code>
 /// </summary>
@@ -27,7 +27,9 @@ public static class DamageFormula
         _ => throw new ArgumentException($"{effect.kind} is not a damage effect", nameof(effect)),
     };
 
-    public static (int amount, bool isCritical) rollDamage(StatBlock user, StatBlock target, EffectDef effect, bool targetGuarding, Random random)
+    /// <param name="elementRate">From <see cref="Combatant.elementRate"/>: 1.5 weak, 0.5 resisted.</param>
+    public static (int amount, bool isCritical) rollDamage(
+        StatBlock user, StatBlock target, EffectDef effect, bool targetGuarding, Random random, double elementRate = 1)
     {
         double value = baseDamage(user, target, effect);
         bool isCritical = effect.kind == EffectKind.Physical && random.NextDouble() < criticalChance;
@@ -36,7 +38,7 @@ public static class DamageFormula
             value *= criticalMultiplier;
         }
 
-        value *= spread(random, variance);
+        value *= spread(random, variance) * elementRate;
         if (targetGuarding)
         {
             value *= guardMultiplier;

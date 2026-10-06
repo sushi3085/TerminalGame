@@ -25,6 +25,7 @@ public sealed class BattleScene : Scene
     private readonly List<EnemyView> enemyViews = new();
     private readonly List<MemberView> memberViews = new();
     private readonly Dictionary<Combatant, (int hp, int mp)> shown = new();
+    private readonly Dictionary<Combatant, List<StatusKind>> shownStatuses = new();
     private readonly MenuList commands = new();
     private readonly DialogueBox messages = new();
     private Action? afterMessage;
@@ -41,6 +42,7 @@ public sealed class BattleScene : Scene
         foreach (Combatant c in engine.party.Concat(engine.enemies))
         {
             shown[c] = (c.hp, c.mp);
+            shownStatuses[c] = new List<StatusKind>();
         }
 
         StackPanel enemyRow = new(Orientation.Horizontal);
@@ -93,7 +95,7 @@ public sealed class BattleScene : Scene
         StackPanel bottom = new(Orientation.Horizontal) { layoutHeight = Length.cells(8) };
         bottom.add(new Border(commands, "指令") { layoutWidth = Length.cells(16), padding = new Thickness(1, 0, 0, 0) });
         bottom.add(messages);
-        bottom.add(new Border(partyPanel, "隊伍") { layoutWidth = Length.cells(solo ? 24 : 30) });
+        bottom.add(new Border(partyPanel, "隊伍") { layoutWidth = Length.cells(solo ? 24 : 32) });
 
         StackPanel layout = new(Orientation.Vertical);
         layout.add(new Border(enemyRow, canEscape ? "[red]遭遇戰[/]" : "[red b]強敵[/]") { layoutHeight = Length.fill() });
@@ -120,12 +122,17 @@ public sealed class BattleScene : Scene
     {
         foreach (EnemyView view in enemyViews)
         {
-            int hp = shown[view.combatant].hp;
+            EnemyCombatant enemy = (EnemyCombatant)view.combatant;
+            int hp = shown[enemy].hp;
             view.hp.value = hp;
             if (hp <= 0)
             {
                 view.art.setArt("");
-                view.name.setText($"[dim]{view.combatant.name}[/]");
+                view.name.setText($"[dim]{enemy.name}[/]");
+            }
+            else
+            {
+                view.name.setText($"[red b]{enemy.name}[/]  Lv.{enemy.def.level}{StatusText.tags(shownStatuses[enemy])}");
             }
         }
 
@@ -134,18 +141,19 @@ public sealed class BattleScene : Scene
             Combatant c = view.combatant;
             (int hp, int mp) = shown[c];
             string marker = ReferenceEquals(c, engine.currentActor) && c.side == Side.Party ? "[gold]▶[/]" : " ";
+            string statuses = StatusText.tags(shownStatuses[c]);
             if (view.hp is not null && view.mp is not null)
             {
                 view.hp.value = hp;
                 view.mp.value = mp;
-                view.name.setText(hp > 0 ? $"[gold]{c.name}[/]" : $"[dim]{c.name}[/]");
+                view.name.setText(hp > 0 ? $"[gold]{c.name}[/]{statuses}" : $"[dim]{c.name}[/]");
                 continue;
             }
 
             int maxHp = c.stats.maxHp;
             string hpColor = hp <= 0 ? "dim" : hp * 4 <= maxHp ? "red" : hp * 2 <= maxHp ? "gold" : "white";
             string name = hp > 0 ? $"[gold]{c.name}[/]" : $"[dim]{c.name}[/]";
-            view.name.setText($"{marker}{name} [{hpColor}]{hp,3}/{maxHp,-3}[/] [dim]MP[/]{mp,3}");
+            view.name.setText($"{marker}{name} [{hpColor}]{hp,3}/{maxHp,-3}[/] [dim]MP[/]{mp,3}{statuses}");
         }
     }
 
@@ -190,6 +198,18 @@ public sealed class BattleScene : Scene
             {
                 case DamageEvent d:
                     shown[d.target] = (d.remainingHp, shown[d.target].mp);
+                    break;
+                case PoisonDamageEvent p:
+                    shown[p.target] = (p.remainingHp, shown[p.target].mp);
+                    break;
+                case StatusAppliedEvent s when !shownStatuses[s.target].Contains(s.kind):
+                    shownStatuses[s.target].Add(s.kind);
+                    break;
+                case StatusRemovedEvent s:
+                    shownStatuses[s.target].Remove(s.kind);
+                    break;
+                case DefeatedEvent d:
+                    shownStatuses[d.target].Clear();
                     break;
                 case HealEvent h:
                     shown[h.target] = (h.remainingHp, shown[h.target].mp);
@@ -327,7 +347,7 @@ public sealed class BattleScene : Scene
         {
             pick(
                 "對象",
-                candidates.Select(c => MenuItem.of($"{BattleNarrator.nameOf(c)} [dim]HP {c.hp}/{c.stats.maxHp}[/]")),
+                candidates.Select(c => MenuItem.of($"{BattleNarrator.nameOf(c)} [dim]HP {c.hp}/{c.stats.maxHp}[/]{StatusText.tags(c.statuses.Select(st => st.kind))}")),
                 i => then(candidates[i]));
         }
     }

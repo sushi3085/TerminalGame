@@ -3,6 +3,30 @@ using TerminalGame.Rpg.State;
 
 namespace TerminalGame.Rpg.Battle;
 
+public enum Effectiveness
+{
+    Normal,
+
+    /// <summary>The target is weak to the element.</summary>
+    Weak,
+
+    Resisted,
+}
+
+public enum StatusEndReason
+{
+    /// <summary>Its turns ran out (for Sleep: woke up naturally).</summary>
+    Expired,
+
+    Cured,
+
+    /// <summary>Sleep broken by taking damage.</summary>
+    WokeUp,
+
+    /// <summary>A buff and its debuff met and cancelled out.</summary>
+    Cancelled,
+}
+
 public enum BattleOutcome
 {
     Ongoing,
@@ -43,7 +67,20 @@ public sealed record ItemUsedEvent(Combatant actor, ItemDef item, int remainingC
 
 public sealed record GuardEvent(Combatant actor) : BattleEvent;
 
-public sealed record DamageEvent(Combatant target, int amount, bool isCritical, int remainingHp) : BattleEvent;
+public sealed record DamageEvent(Combatant target, int amount, bool isCritical, int remainingHp, Effectiveness effectiveness = Effectiveness.Normal)
+    : BattleEvent;
+
+public sealed record StatusAppliedEvent(Combatant target, StatusKind kind, int turns) : BattleEvent;
+
+/// <summary>Only reported for pure status effects (a failed side effect of an attack is silent).</summary>
+public sealed record StatusMissedEvent(Combatant target, StatusKind kind) : BattleEvent;
+
+public sealed record StatusRemovedEvent(Combatant target, StatusKind kind, StatusEndReason reason) : BattleEvent;
+
+/// <summary>The actor's turn passes without an action (asleep or paralysed).</summary>
+public sealed record TurnSkippedEvent(Combatant actor, StatusKind cause) : BattleEvent;
+
+public sealed record PoisonDamageEvent(Combatant target, int amount, int remainingHp) : BattleEvent;
 
 public sealed record HealEvent(Combatant target, int amount, int remainingHp) : BattleEvent;
 

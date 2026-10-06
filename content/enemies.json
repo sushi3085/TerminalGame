@@ -82,6 +82,9 @@
         "chance": 0.1
       }
     ],
+    "weakTo": [
+      "Fire"
+    ],
     "attackMessage": "用傘蓋撞了過來！",
     "art": [
       "[red]    .-'''''-.    [/]",
@@ -106,10 +109,14 @@
     "gold": 16,
     "actions": [
       {
-        "weight": 3
+        "weight": 5
       },
       {
         "skillId": "bite",
+        "weight": 1
+      },
+      {
+        "skillId": "howl",
         "weight": 1
       }
     ],
@@ -133,7 +140,7 @@
     "name": "森林之主",
     "level": 7,
     "stats": {
-      "maxHp": 380,
+      "maxHp": 440,
       "maxMp": 60,
       "attack": 22,
       "defense": 10,
@@ -151,9 +158,21 @@
         "weight": 2
       },
       {
+        "skillId": "sleepSpores",
+        "weight": 1
+      },
+      {
         "skillId": "regrow",
         "weight": 1
       }
+    ],
+    "weakTo": [
+      "Fire"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
     ],
     "attackMessage": "揮動粗壯的菌柄砸了下來！",
     "art": [

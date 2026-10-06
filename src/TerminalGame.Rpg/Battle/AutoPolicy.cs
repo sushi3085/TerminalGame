@@ -7,6 +7,8 @@ namespace TerminalGame.Rpg.Battle;
 /// A reasonable player, for the balance simulator (and a future in-game "auto" command). Priorities each turn:
 /// <list type="number">
 /// <item>Heal an ally below <see cref="healThreshold"/> with a skill, else a potion.</item>
+/// <item>Wake a sleeping ally or cure paralysis/poison, with a skill or an item.</item>
+/// <item>In a long fight (when <see cref="spendMp"/> is on), buff the strongest ally that lacks it.</item>
 /// <item>Hit two or more enemies with an area skill.</item>
 /// <item>When <see cref="spendMp"/> is on, use the strongest affordable single-target skill.</item>
 /// <item>Otherwise attack the enemy with the least HP left (finish things off).</item>
@@ -52,6 +54,16 @@ public sealed class AutoPolicy
             }
         }
 
+        if (cureAction(session, actor, allies, skills) is { } cure)
+        {
+            return cure;
+        }
+
+        if (spendMp && buffAction(actor, allies, enemies, skills) is { } buff)
+        {
+            return buff;
+        }
+
         int healReserve = engine.skillsOf(actor).Where(s => s.effect.kind == EffectKind.Heal).Select(s => s.mpCost).DefaultIfEmpty(0).Min();
         bool canSpend(SkillDef s) => actor.mp - s.mpCost >= healReserve || healReserve == 0;
         bool isDamage(SkillDef s) => s.effect.kind is EffectKind.Physical or EffectKind.Magical;
@@ -84,8 +96,69 @@ public sealed class AutoPolicy
 
     private static readonly EffectDef attack = new() { kind = EffectKind.Physical, power = 100 };
 
+    /// <summary>Worst first: a sleeping ally loses every turn, a paralysed one half, poison only chips away.</summary>
+    private static readonly StatusKind[] curable = [StatusKind.Sleep, StatusKind.Paralysis, StatusKind.Poison];
+
+    private BattleAction? cureAction(GameSession session, Combatant actor, IReadOnlyList<Combatant> allies, IReadOnlyList<SkillDef> skills)
+    {
+        foreach (StatusKind kind in curable)
+        {
+            Combatant? patient = allies.FirstOrDefault(a => a.has(kind));
+            if (patient is null)
+            {
+                continue;
+            }
+
+            SkillDef? skill = skills.FirstOrDefault(s => s.effect.cures.Contains(kind) && s.target is TargetKind.SingleAlly or TargetKind.AllAllies);
+            if (skill is not null)
+            {
+                return new SkillAction(actor, skill, patient);
+            }
+
+            ItemDef? item = useItems
+                ? session.inventory.entries.Select(e => session.content.item(e.itemId))
+                    .FirstOrDefault(i => i.usableInBattle && i.effect!.cures.Contains(kind))
+                : null;
+            if (item is not null)
+            {
+                return new ItemAction(actor, item, patient);
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>Worth a turn only while the enemies have plenty of HP left compared to what the actor deals per hit.</summary>
+    private static BattleAction? buffAction(
+        Combatant actor, IReadOnlyList<Combatant> allies, IReadOnlyList<Combatant> enemies, IReadOnlyList<SkillDef> skills)
+    {
+        double perHit = enemies.Average(e => expectedDamage(actor, e, attack));
+        if (enemies.Sum(e => e.hp) < perHit * 6)
+        {
+            return null;
+        }
+
+        foreach (SkillDef skill in skills.Where(s => s.effect is { kind: EffectKind.Status, status.kind: StatusKind.AttackUp or StatusKind.DefenseUp }))
+        {
+            StatusKind kind = skill.effect.status!.kind;
+            Combatant? target = skill.target switch
+            {
+                TargetKind.Self => actor.has(kind) ? null : actor,
+                TargetKind.SingleAlly => allies.Where(a => !a.has(kind)).OrderByDescending(a => kind == StatusKind.AttackUp ? a.stats.attack : a.stats.defense).FirstOrDefault(),
+                TargetKind.AllAllies => allies.Any(a => !a.has(kind)) ? actor : null,
+                _ => null,
+            };
+            if (target is not null)
+            {
+                return new SkillAction(actor, skill, target);
+            }
+        }
+
+        return null;
+    }
+
     private static double expectedDamage(Combatant user, Combatant target, EffectDef effect) =>
-        Math.Max(1, DamageFormula.baseDamage(user.stats, target.stats, effect));
+        Math.Max(1, DamageFormula.baseDamage(user.stats, target.stats, effect) * target.elementRate(effect.element));
 
     private static ItemDef? bestHealingItem(GameSession session) =>
         session.inventory.entries

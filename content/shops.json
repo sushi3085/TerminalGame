@@ -5,6 +5,8 @@
     "items": [
       "potion",
       "hiPotion",
+      "antidote",
+      "mintLeaf",
       "ether"
     ]
   },

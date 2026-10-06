@@ -12,6 +12,11 @@ namespace TerminalGame.Rpg.Battle;
 /// until <see cref="outcome"/> is no longer <see cref="BattleOutcome.Ongoing"/>. Every call returns the events
 /// it produced so a UI can narrate them; tests and the balance simulator just ignore them.
 /// </para>
+/// <para>
+/// Statuses tick at the end of their holder's turn (poison damage, then one turn off every duration). A sleeping or
+/// paralysed combatant's turn is played out inside the engine, so <see cref="currentActor"/> is always someone who
+/// can act.
+/// </para>
 /// </summary>
 public sealed class BattleEngine
 {
@@ -129,7 +134,11 @@ public sealed class BattleEngine
 
         if (outcome == BattleOutcome.Ongoing && !checkForEnd(events))
         {
-            advance(events);
+            endTurn(action.actor, events);
+            if (!checkForEnd(events))
+            {
+                advance(events);
+            }
         }
 
         return events;
@@ -147,7 +156,9 @@ public sealed class BattleEngine
         foreach (EnemyActionDef entry in enemy.def.actions)
         {
             SkillDef? skill = entry.skillId is null ? null : session.content.skill(entry.skillId);
-            if (skill is null || canAfford(enemy, skill))
+            // A buff the enemy already has would be a wasted turn.
+            bool pointless = skill is { target: TargetKind.Self, effect.status: { } buff } && enemy.has(buff.kind);
+            if (skill is null || (canAfford(enemy, skill) && !pointless))
             {
                 options.Add((skill, entry.weight));
             }
@@ -260,13 +271,19 @@ public sealed class BattleEngine
             {
                 case EffectKind.Physical:
                 case EffectKind.Magical:
-                    (int amount, bool isCritical) = DamageFormula.rollDamage(user.stats, target.stats, effect, target.isGuarding, random);
+                    double rate = target.elementRate(effect.element);
+                    (int amount, bool isCritical) = DamageFormula.rollDamage(user.stats, target.stats, effect, target.isGuarding, random, rate);
                     target.hp -= amount;
-                    events.Add(new DamageEvent(target, amount, isCritical, target.hp));
+                    events.Add(new DamageEvent(target, amount, isCritical, target.hp, StatusRules.effectivenessOf(rate)));
                     if (!target.isAlive)
                     {
-                        target.isGuarding = false;
-                        events.Add(new DefeatedEvent(target));
+                        defeat(target, events);
+                        continue;
+                    }
+
+                    if (target.find(StatusKind.Sleep) is { } sleep)
+                    {
+                        removeStatus(target, sleep, StatusEndReason.WokeUp, events);
                     }
 
                     break;
@@ -281,7 +298,117 @@ public sealed class BattleEngine
                     events.Add(new MpRestoreEvent(target, target.mp - mpBefore, target.mp));
                     break;
             }
+
+            foreach (StatusKind kind in effect.cures)
+            {
+                if (target.find(kind) is { } cured)
+                {
+                    removeStatus(target, cured, StatusEndReason.Cured, events);
+                }
+            }
+
+            if (effect.status is not null)
+            {
+                inflict(target, effect.status, reportMiss: effect.kind == EffectKind.Status, events);
+            }
         }
+    }
+
+    private void inflict(Combatant target, StatusEffectDef status, bool reportMiss, List<BattleEvent> events)
+    {
+        if (target.isImmuneTo(status.kind) || random.NextDouble() >= status.chance)
+        {
+            if (reportMiss)
+            {
+                events.Add(new StatusMissedEvent(target, status.kind));
+            }
+
+            return;
+        }
+
+        if (StatusRules.opposite(status.kind) is StatusKind opposite && target.find(opposite) is { } cancelled)
+        {
+            removeStatus(target, cancelled, StatusEndReason.Cancelled, events);
+            return;
+        }
+
+        int turns = Math.Max(1, status.turns);
+        ActiveStatus? existing = target.find(status.kind);
+        if (existing is null)
+        {
+            existing = new ActiveStatus(status.kind, turns);
+            target.add(existing);
+        }
+        else
+        {
+            existing.turnsLeft = Math.Max(existing.turnsLeft, turns);
+        }
+
+        existing.skipNextTick = ReferenceEquals(target, currentActor);
+        events.Add(new StatusAppliedEvent(target, status.kind, turns));
+    }
+
+    private static void removeStatus(Combatant target, ActiveStatus status, StatusEndReason reason, List<BattleEvent> events)
+    {
+        target.remove(status);
+        events.Add(new StatusRemovedEvent(target, status.kind, reason));
+    }
+
+    private static void defeat(Combatant target, List<BattleEvent> events)
+    {
+        target.isGuarding = false;
+        target.clearStatuses();
+        events.Add(new DefeatedEvent(target));
+    }
+
+    /// <summary>Poison damage, then every status of <paramref name="actor"/> loses a turn.</summary>
+    private void endTurn(Combatant actor, List<BattleEvent> events)
+    {
+        if (!actor.isAlive)
+        {
+            return;
+        }
+
+        if (actor.has(StatusKind.Poison))
+        {
+            int amount = StatusRules.poisonDamage(actor.stats);
+            actor.hp -= amount;
+            events.Add(new PoisonDamageEvent(actor, amount, actor.hp));
+            if (!actor.isAlive)
+            {
+                defeat(actor, events);
+                return;
+            }
+        }
+
+        foreach (ActiveStatus status in actor.statuses.ToList())
+        {
+            if (status.skipNextTick)
+            {
+                status.skipNextTick = false;
+                continue;
+            }
+
+            if (--status.turnsLeft <= 0)
+            {
+                removeStatus(actor, status, StatusEndReason.Expired, events);
+            }
+        }
+    }
+
+    /// <summary>Whether <paramref name="actor"/> loses this turn to sleep or paralysis (reported as an event).</summary>
+    private bool losesTurn(Combatant actor, List<BattleEvent> events)
+    {
+        StatusKind? cause = actor.has(StatusKind.Sleep) ? StatusKind.Sleep
+            : actor.has(StatusKind.Paralysis) && random.NextDouble() < StatusRules.paralysisChance ? StatusKind.Paralysis
+            : null;
+        if (cause is StatusKind kind)
+        {
+            events.Add(new TurnSkippedEvent(actor, kind));
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>Settles victory or defeat; returns true if the battle ended.</summary>
@@ -342,7 +469,30 @@ public sealed class BattleEngine
         }
     }
 
+    /// <summary>Moves on to the next combatant who can act, playing out turns lost to sleep or paralysis on the way.</summary>
     private void advance(List<BattleEvent> events)
+    {
+        while (true)
+        {
+            Combatant next = nextInOrder(events);
+            currentActor = next;
+            next.isGuarding = false;
+            events.Add(new TurnStartedEvent(next));
+            if (!losesTurn(next, events))
+            {
+                return;
+            }
+
+            endTurn(next, events);
+            if (checkForEnd(events))
+            {
+                return;
+            }
+        }
+    }
+
+    /// <summary>The next living combatant in the turn queue, starting a new round when it runs out.</summary>
+    private Combatant nextInOrder(List<BattleEvent> events)
     {
         while (true)
         {
@@ -351,10 +501,7 @@ public sealed class BattleEngine
                 Combatant next = turnQueue.Dequeue();
                 if (next.isAlive)
                 {
-                    currentActor = next;
-                    next.isGuarding = false;
-                    events.Add(new TurnStartedEvent(next));
-                    return;
+                    return next;
                 }
             }
 

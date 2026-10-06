@@ -44,6 +44,8 @@ public static class BattleNarrator
                 SkillUsedEvent s => nameOf(s.actor) + orDefault(s.skill.useMessage, $"使出了[magenta]{s.skill.name}[/]！"),
                 ItemUsedEvent i => $"{nameOf(i.actor)}使用了[green]{i.item.name}[/]。",
                 GuardEvent g => $"{nameOf(g.actor)}擺出了防禦姿勢。",
+                TurnSkippedEvent t => nameOf(t.actor) + StatusText.skipped(t.cause),
+                PoisonDamageEvent p => $"{nameOf(p.target)}受到毒的侵蝕，損失了 [purple]{p.amount}[/] 點 HP。",
                 EscapeEvent { succeeded: true } => "順利逃走了！",
                 EscapeEvent => "沒能逃掉！",
                 VictoryEvent v => victory(v),
@@ -55,9 +57,12 @@ public static class BattleNarrator
             string? result = e switch
             {
                 DamageEvent d when d.target.side == Side.Enemies =>
-                    (d.isCritical ? "[gold b]會心一擊！[/]" : "") + $"對{nameOf(d.target)}造成 [gold b]{d.amount}[/] 點傷害！",
+                    (d.isCritical ? "[gold b]會心一擊！[/]" : "") + effectiveness(d) + $"對{nameOf(d.target)}造成 [gold b]{d.amount}[/] 點傷害！",
                 DamageEvent d =>
-                    (d.isCritical ? "[red b]痛恨一擊！[/]" : "") + $"{nameOf(d.target)}受到 [red b]{d.amount}[/] 點傷害。",
+                    (d.isCritical ? "[red b]痛恨一擊！[/]" : "") + effectiveness(d) + $"{nameOf(d.target)}受到 [red b]{d.amount}[/] 點傷害。",
+                StatusAppliedEvent s => nameOf(s.target) + StatusText.applied(s.kind),
+                StatusMissedEvent s => $"對{nameOf(s.target)}沒有效果。",
+                StatusRemovedEvent s => nameOf(s.target) + StatusText.removed(s.kind, s.reason),
                 HealEvent h => $"{nameOf(h.target)}恢復了 [gold]{h.amount}[/] 點 HP。",
                 MpRestoreEvent m => $"{nameOf(m.target)}恢復了 [gold]{m.amount}[/] 點 MP。",
                 DefeatedEvent { target.side: Side.Enemies } d => $"{nameOf(d.target)}倒下了！",
@@ -89,6 +94,13 @@ public static class BattleNarrator
         PartyCombatant p => p.member.def.attackMessage,
         EnemyCombatant e => e.def.attackMessage,
         _ => null,
+    };
+
+    private static string effectiveness(DamageEvent d) => d.effectiveness switch
+    {
+        Effectiveness.Weak => "[gold b]效果拔群！[/]",
+        Effectiveness.Resisted => "[dim]效果不太好……[/]",
+        _ => "",
     };
 
     private static string orDefault(string? value, string fallback) => string.IsNullOrEmpty(value) ? fallback : value;
