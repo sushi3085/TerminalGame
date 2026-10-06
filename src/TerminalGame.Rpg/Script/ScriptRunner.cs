@@ -176,6 +176,28 @@ public sealed class ScriptRunner
             return visibleChoices.Count == 0 ? null : new ChoiceRequest(visibleChoices.Select(o => o.label).ToList());
         }
 
+        if (c.cases is not null)
+        {
+            CaseDef? match = c.cases.FirstOrDefault(o => Condition.check(o.@if, session));
+            if (match is not null)
+            {
+                push(match.then);
+            }
+
+            return null;
+        }
+
+        if (c.oneOf is not null)
+        {
+            List<CaseDef> matches = c.oneOf.Where(o => Condition.check(o.@if, session)).ToList();
+            if (matches.Count > 0)
+            {
+                push(matches[session.random.Next(matches.Count)].then);
+            }
+
+            return null;
+        }
+
         if (c.setFlag is not null)
         {
             session.flags[c.setFlag] = c.value;

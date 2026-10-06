@@ -7,7 +7,7 @@ using TerminalGame.Tui.Widgets;
 
 namespace TerminalGame.Demo;
 
-/// <summary>The field menu (Tab / M): use items and healing skills, change equipment, view status.</summary>
+/// <summary>The field menu (Tab / M): use items and healing skills, change equipment, view status and the journal.</summary>
 public sealed class PartyMenuScene : Scene
 {
     private readonly Game game;
@@ -15,6 +15,7 @@ public sealed class PartyMenuScene : Scene
     private readonly MenuList commands;
     private readonly StackPanel memberLines = new(Orientation.Vertical);
     private readonly Label footer = new();
+    private readonly Label goal = new();
     private readonly Label message = new();
 
     public PartyMenuScene(Game game)
@@ -28,6 +29,7 @@ public sealed class PartyMenuScene : Scene
             MenuItem.of("技能"),
             MenuItem.of("裝備"),
             MenuItem.of("狀態"),
+            MenuItem.of("日誌"),
             MenuItem.of("關閉"),
         });
         commands.confirmed += onCommand;
@@ -37,12 +39,13 @@ public sealed class PartyMenuScene : Scene
         info.add(memberLines);
         info.add(new Spacer());
         info.add(message);
+        info.add(goal);
         info.add(footer);
 
         StackPanel body = new(Orientation.Horizontal);
         body.add(new Border(commands) { layoutWidth = Length.cells(12), padding = new Thickness(1, 0, 0, 0) });
         body.add(new Border(info, "隊伍") { padding = new Thickness(1, 0, 1, 0) });
-        body.layoutHeight = Length.cells(Math.Max(9, session.party.Count + 6));
+        body.layoutHeight = Length.cells(Math.Max(10, session.party.Count + 7));
 
         root = Ui.centeredPanel(body, 64);
         root.theme = Palettes.forName(session.currentLocation().palette);
@@ -63,6 +66,8 @@ public sealed class PartyMenuScene : Scene
             memberLines.add(new Label(Ui.memberLine(member)));
         }
 
+        string? objective = session.currentObjective();
+        goal.setText(objective is null ? "" : $"[dim]目標[/] {objective}");
         TimeSpan time = TimeSpan.FromSeconds(session.playSeconds);
         footer.setText($"[gold]{session.gold}[/] G    [dim]遊玩時間 {(int)time.TotalHours:00}:{time.Minutes:00}[/]");
         setFocus(commands);
@@ -84,6 +89,9 @@ public sealed class PartyMenuScene : Scene
                 break;
             case 3:
                 application!.pushScene(new StatusScene(session));
+                break;
+            case 4:
+                application!.pushScene(new JournalScene(session));
                 break;
             default:
                 application!.popScene();

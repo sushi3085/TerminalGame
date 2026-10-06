@@ -1,0 +1,65 @@
+{
+  "objectives": [
+    {
+      "text": "去長老家，聽聽長老有什麼事。"
+    },
+    {
+      "if": "flag:introDone",
+      "text": "進入[green]低語森林[/]，尋找失蹤的琳。"
+    },
+    {
+      "if": "flag:sawTracks",
+      "text": "順著腳印，前往[cyan]林間空地[/]。"
+    },
+    {
+      "if": "flag:metRin",
+      "text": "和琳一起前往[cyan]森林深處[/]，查明異變的原因。"
+    },
+    {
+      "if": "flag:metRin && flag:sawHutMap",
+      "text": "前往森林深處的[red]蘑菇圈[/]——森林之主就在那裡。"
+    },
+    {
+      "if": "flag:bossDefeated",
+      "text": "回[gold]晨曦鎮[/]向長老報告。"
+    },
+    {
+      "if": "flag:chapter1Done",
+      "text": "第一章完。第二章「河港村」製作中。"
+    }
+  ],
+  "chronicle": [
+    {
+      "if": "flag:introDone",
+      "text": "長老拜託艾倫進入低語森林，尋找失蹤三天的獵人之女琳。"
+    },
+    {
+      "if": "flag:chestStump",
+      "text": "在森林入口的空心樹樁裡找到了傷藥。"
+    },
+    {
+      "if": "flag:sawTracks",
+      "text": "在森林小徑發現獵人家的斷箭，腳印往林間空地延伸。"
+    },
+    {
+      "if": "flag:sawHutMap",
+      "text": "獵人小屋的地圖上，森林深處的蘑菇圈被炭筆圈了起來。"
+    },
+    {
+      "if": "flag:metRin",
+      "text": "在林間空地從狼群手中救出了琳。琳加入了隊伍。"
+    },
+    {
+      "if": "flag:chestMoss",
+      "text": "在森林深處的苔蘚下找到了一把長弓。"
+    },
+    {
+      "if": "flag:bossDefeated",
+      "text": "擊敗了發狂的森林之主。一團黑霧從牠體內竄出，消失在樹冠間。"
+    },
+    {
+      "if": "flag:chapter1Done",
+      "text": "向長老報告後得知：南方的河港村，河水在夜裡會發光。"
+    }
+  ]
+}

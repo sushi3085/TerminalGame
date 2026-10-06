@@ -18,7 +18,7 @@ public sealed class ContentException : Exception
 /// <summary>
 /// All game definitions, indexed by id. Loaded once at startup from a directory of JSON files
 /// (<c>skills.json</c>, <c>items.json</c>, <c>characters.json</c>, <c>enemies.json</c>, <c>locations.json</c>,
-/// <c>shops.json</c>, <c>scripts.json</c>, <c>newGame.json</c>); every file is optional. Loading validates cross references, so a typo in an id fails at startup
+/// <c>shops.json</c>, <c>scripts.json</c>, <c>journal.json</c>, <c>banter.json</c>, <c>newGame.json</c>); every file is optional. Loading validates cross references, so a typo in an id fails at startup
 /// instead of mid-game.
 /// </summary>
 public sealed class ContentDb
@@ -30,10 +30,12 @@ public sealed class ContentDb
     public const string locationsFile = "locations.json";
     public const string shopsFile = "shops.json";
     public const string scriptsFile = "scripts.json";
+    public const string journalFile = "journal.json";
+    public const string banterFile = "banter.json";
     public const string newGameFile = "newGame.json";
 
     private static readonly string[] allFiles =
-        { skillsFile, itemsFile, charactersFile, enemiesFile, locationsFile, shopsFile, scriptsFile, newGameFile };
+        { skillsFile, itemsFile, charactersFile, enemiesFile, locationsFile, shopsFile, scriptsFile, journalFile, banterFile, newGameFile };
 
     private static readonly JsonSerializerOptions jsonOptions = new()
     {
@@ -49,6 +51,7 @@ public sealed class ContentDb
     private readonly Dictionary<string, LocationDef> locationMap;
     private readonly Dictionary<string, ShopDef> shopMap;
     private readonly Dictionary<string, IReadOnlyList<ScriptCommandDef>> scriptMap;
+    private readonly List<BanterDef> banterList;
 
     private ContentDb(IReadOnlyDictionary<string, string> files, List<string> errors)
     {
@@ -59,6 +62,8 @@ public sealed class ContentDb
         locationMap = index(readList<LocationDef>(files, locationsFile, errors), "location", l => l.id, errors);
         shopMap = index(readList<ShopDef>(files, shopsFile, errors), "shop", s => s.id, errors);
         scriptMap = read<Dictionary<string, IReadOnlyList<ScriptCommandDef>>>(files, scriptsFile, errors) ?? new();
+        journal = read<JournalDef>(files, journalFile, errors) ?? new JournalDef();
+        banterList = readList<BanterDef>(files, banterFile, errors).ToList();
         newGame = read<NewGameDef>(files, newGameFile, errors);
     }
 
@@ -70,6 +75,10 @@ public sealed class ContentDb
     public IReadOnlyCollection<ShopDef> shops => shopMap.Values;
     public IReadOnlyDictionary<string, IReadOnlyList<ScriptCommandDef>> scripts => scriptMap;
     public NewGameDef? newGame { get; }
+    public JournalDef journal { get; }
+
+    /// <summary>In file order, which is also the order one-off banters are offered in.</summary>
+    public IReadOnlyList<BanterDef> banters => banterList;
 
     public SkillDef skill(string id) => lookup(skillMap, id, "skill");
     public ItemDef item(string id) => lookup(itemMap, id, "item");
@@ -409,6 +418,28 @@ public sealed class ContentDb
             }
         }
 
+        foreach (JournalEntryDef entry in journal.objectives.Concat(journal.chronicle))
+        {
+            requireCondition(entry.@if, journalFile);
+        }
+
+        HashSet<string> banterIds = new();
+        foreach (BanterDef banter in banterList)
+        {
+            string owner = $"banter '{banter.id}'";
+            if (!banterIds.Add(banter.id))
+            {
+                errors.Add($"duplicate banter id '{banter.id}'");
+            }
+
+            requireScript(banter.script, owner);
+            requireCondition(banter.@if, owner);
+            foreach (string locationId in banter.at)
+            {
+                requireLocation(locationId, owner);
+            }
+        }
+
         void validateCommands(IReadOnlyList<ScriptCommandDef> commands, string owner)
         {
             foreach (ScriptCommandDef c in commands)
@@ -437,6 +468,12 @@ public sealed class ContentDb
                 }
 
                 foreach (ChoiceDef option in c.choice ?? [])
+                {
+                    requireCondition(option.@if, owner);
+                    validateCommands(option.then, owner);
+                }
+
+                foreach (CaseDef option in (c.cases ?? []).Concat(c.oneOf ?? []))
                 {
                     requireCondition(option.@if, owner);
                     validateCommands(option.then, owner);

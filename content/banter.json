@@ -1,0 +1,71 @@
+[
+  {
+    "id": "rescue",
+    "at": [
+      "woodsClearing"
+    ],
+    "if": "flag:metRin",
+    "script": "banterRescue"
+  },
+  {
+    "id": "hut",
+    "at": [
+      "hunterHut"
+    ],
+    "if": "party:rin && flag:chestHut == 0",
+    "script": "banterHut"
+  },
+  {
+    "id": "hutCap",
+    "at": [
+      "hunterHut"
+    ],
+    "if": "party:rin && flag:chestHut",
+    "script": "banterHutCap"
+  },
+  {
+    "id": "deep",
+    "at": [
+      "woodsDeep"
+    ],
+    "if": "flag:bossDefeated == 0",
+    "script": "banterDeep"
+  },
+  {
+    "id": "town",
+    "at": [
+      "dawnTown"
+    ],
+    "if": "flag:bossDefeated == 0",
+    "script": "banterTown"
+  },
+  {
+    "id": "afterBoss",
+    "if": "flag:bossDefeated && flag:chapter1Done == 0",
+    "script": "banterAfterBoss"
+  },
+  {
+    "id": "chapterEnd",
+    "at": [
+      "dawnTown"
+    ],
+    "if": "flag:chapter1Done",
+    "script": "banterChapterEnd"
+  },
+  {
+    "id": "smallTalk",
+    "once": false,
+    "script": "banterSmallTalk"
+  },
+  {
+    "id": "forestTalk",
+    "once": false,
+    "at": [
+      "woodsEdge",
+      "woodsPath",
+      "woodsClearing",
+      "woodsDeep"
+    ],
+    "script": "banterForestTalk"
+  }
+]

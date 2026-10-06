@@ -70,6 +70,41 @@ public sealed record LocationDef
     public bool hasEncounters => kind != LocationKind.Town && encounters.Count > 0;
 }
 
+/// <summary>One line of the adventure journal, shown while <see cref="if"/> holds.</summary>
+public sealed record JournalEntryDef
+{
+    public string? @if { get; init; }
+    public required string text { get; init; }
+}
+
+/// <summary>
+/// content/journal.json. Everything is derived from flags, so the journal needs nothing in the save file.
+/// <see cref="objectives"/> are listed in story order and the <i>last</i> one whose condition holds is the current
+/// goal; every <see cref="chronicle"/> entry whose condition holds is shown, in order.
+/// </summary>
+public sealed record JournalDef
+{
+    public IReadOnlyList<JournalEntryDef> objectives { get; init; } = [];
+    public IReadOnlyList<JournalEntryDef> chronicle { get; init; } = [];
+}
+
+/// <summary>
+/// A party conversation (content/banter.json), offered as "隊伍閒聊" wherever <see cref="at"/> allows while
+/// <see cref="if"/> holds. One-off banters are remembered with the flag <c>banter_&lt;id&gt;</c>; repeatable ones
+/// (<see cref="once"/> false) fill in when nothing new is left to say.
+/// </summary>
+public sealed record BanterDef
+{
+    public required string id { get; init; }
+    public string? @if { get; init; }
+
+    /// <summary>Location ids; empty = anywhere.</summary>
+    public IReadOnlyList<string> at { get; init; } = [];
+
+    public required string script { get; init; }
+    public bool once { get; init; } = true;
+}
+
 public sealed record ShopDef
 {
     public required string id { get; init; }
@@ -87,6 +122,8 @@ public sealed record ShopDef
 /// { "join": "rin", "level": 4 }                      { "battle": ["boss"], "canEscape": false }
 /// { "shop": "shopId" }   { "inn": 10 }   { "travel": "locationId" }   { "run": "otherScript" }
 /// { "restore": true }    { "end": true }
+/// { "cases": [ { "if": "flag:x", "then": [...] }, { "then": [...] } ] }   first case whose condition holds
+/// { "oneOf": [ { "if": "flag:x", "then": [...] }, { "then": [...] } ] }   a random case among those that hold
 /// </code>
 /// </summary>
 public sealed record ScriptCommandDef
@@ -99,6 +136,9 @@ public sealed record ScriptCommandDef
     public IReadOnlyList<ScriptCommandDef>? @else { get; init; }
 
     public IReadOnlyList<ChoiceDef>? choice { get; init; }
+
+    public IReadOnlyList<CaseDef>? cases { get; init; }
+    public IReadOnlyList<CaseDef>? oneOf { get; init; }
 
     public string? setFlag { get; init; }
     public string? addFlag { get; init; }
@@ -132,6 +172,8 @@ public sealed record ScriptCommandDef
             if (say is not null) yield return "say";
             if (@if is not null) yield return "if";
             if (choice is not null) yield return "choice";
+            if (cases is not null) yield return "cases";
+            if (oneOf is not null) yield return "oneOf";
             if (setFlag is not null) yield return "setFlag";
             if (addFlag is not null) yield return "addFlag";
             if (giveItem is not null) yield return "giveItem";
@@ -157,5 +199,12 @@ public sealed record ChoiceDef
     /// <summary>The option is hidden unless this holds.</summary>
     public string? @if { get; init; }
 
+    public IReadOnlyList<ScriptCommandDef> then { get; init; } = [];
+}
+
+/// <summary>A branch of <c>cases</c> / <c>oneOf</c>; no condition = always eligible.</summary>
+public sealed record CaseDef
+{
+    public string? @if { get; init; }
     public IReadOnlyList<ScriptCommandDef> then { get; init; } = [];
 }

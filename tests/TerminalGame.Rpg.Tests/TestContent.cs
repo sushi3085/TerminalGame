@@ -100,7 +100,18 @@ internal static class TestContent
           ],
           "toll": [ { "takeGold": 30 }, { "takeItem": "potion", "count": 5 }, { "run": "inn" }, { "end": true }, { "say": "never" } ],
           "inn": [ { "inn": 10 } ],
-          "loop": [ { "run": "loop" } ]
+          "loop": [ { "run": "loop" } ],
+          "gossip": [ { "cases": [
+              { "if": "flag:caveOpen", "then": [ { "say": "The cave is open." } ] },
+              { "if": "flag:metElder", "then": [ { "say": "You met the elder." } ] },
+              { "then": [ { "say": "Nothing new." } ] }
+            ] } ],
+          "rumor": [ { "oneOf": [
+              { "then": [ { "say": "A" } ] },
+              { "then": [ { "say": "B" } ] },
+              { "if": "flag:secret", "then": [ { "say": "Secret" } ] }
+            ] } ],
+          "chat": [ { "say": "Chat." } ]
         }
         """;
 

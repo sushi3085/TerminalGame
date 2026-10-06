@@ -153,6 +153,12 @@ public sealed class LocationScene : Scene
             entries.Add((MenuItem.of("四處探索 [dim](戰鬥)[/]"), explore));
         }
 
+        if (session.availableBanters(location).Count > 0)
+        {
+            string mark = session.hasNewBanter(location) ? " [gold]![/]" : "";
+            entries.Add((MenuItem.of("隊伍閒聊" + mark), banter));
+        }
+
         entries.Add((MenuItem.of("隊伍選單"), openPartyMenu));
 
         int keep = actions.selectedIndex;
@@ -183,6 +189,18 @@ public sealed class LocationScene : Scene
     {
         messages.show("");
         showActions();
+    }
+
+    private void banter()
+    {
+        BanterDef? chosen = session.takeBanter(location);
+        if (chosen is null)
+        {
+            showActions();
+            return;
+        }
+
+        runScript(chosen.script, showActions);
     }
 
     private void openPartyMenu()

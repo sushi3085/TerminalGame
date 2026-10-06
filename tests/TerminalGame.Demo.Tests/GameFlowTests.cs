@@ -1,3 +1,4 @@
+using TerminalGame.Rpg.Battle;
 using TerminalGame.Rpg.Data;
 using TerminalGame.Rpg.State;
 using TerminalGame.Tui.Backends;
@@ -231,7 +232,7 @@ public sealed class GameFlowTests : IDisposable
         GameSession session = startAt("woodsClearing", "sawTracks");
         session.party[0].gainExp(3000);
 
-        List<string> screens = pressEnterUntilActions("和琳說話");
+        List<string> screens = pressEnterUntil(() => atActions() && screen.Contains("隊伍閒聊"));
 
         Assert.Contains(screens, s => s.Contains("琳加入了隊伍"));
         Assert.Contains(screens, s => s.Contains("野狼 A") && s.Contains("野狼 B"));
@@ -304,5 +305,94 @@ public sealed class GameFlowTests : IDisposable
         Assert.Contains($"攻擊 {session.party[0].stats.attack,3}", screen);
         Assert.Contains("傷藥 x3", screen);
         Assert.Contains("火球術", screen);
+    }
+
+    [Fact]
+    public void journalShowsTheCurrentGoalAndTheStorySoFar()
+    {
+        GameSession session = game.startNew();
+        session.flags["introDone"] = 1;
+        session.flags["metRin"] = 1;
+        app.pushScene(new EmptyScene());
+        app.pushScene(new JournalScene(session));
+        app.step(0);
+
+        Assert.Contains("冒險日誌", screen);
+        Assert.Contains("前往森林深處", screen);
+        Assert.Contains("長老拜託艾倫", screen);
+        Assert.Contains("救出了琳", screen);
+        Assert.DoesNotContain("森林之主。", screen);
+    }
+
+    [Fact]
+    public void partyMenuOpensTheJournal()
+    {
+        startAt("dawnTown");
+        pressEnterUntilActions("長老家");
+
+        press(Key.Tab);
+        Assert.Contains("目標", screen);
+        press(Key.Down, Key.Down, Key.Down, Key.Down, Key.Enter); // 道具 技能 裝備 狀態 [日誌]
+
+        Assert.IsType<JournalScene>(app.currentScene);
+        Assert.Contains("低語森林", screen);
+    }
+
+    [Fact]
+    public void partyBanterPlaysOnceThenFallsBackToSmallTalk()
+    {
+        GameSession session = startAt("woodsClearing", "sawTracks", "metRin");
+        session.addMember("rin", 4);
+        pressEnterUntil(atActions);
+        Assert.Contains("隊伍閒聊 !", screen);
+
+        act("隊伍閒聊");
+        List<string> first = pressEnterUntil(atActions);
+
+        Assert.Contains(first, s => s.Contains("剛才謝謝你"));
+        Assert.Equal(1, session.flags["banter_rescue"]);
+        Assert.DoesNotContain("隊伍閒聊 !", screen);
+
+        act("隊伍閒聊");
+        List<string> second = pressEnterUntil(atActions);
+        Assert.DoesNotContain(second, s => s.Contains("剛才謝謝你"));
+    }
+
+    [Fact]
+    public void travelerRumorsDependOnTheStory()
+    {
+        GameSession session = startAt("dawnTown");
+        pressEnterUntilActions("長老家");
+
+        act("廣場的旅人");
+        List<string> screens = pressEnterUntil(atActions);
+
+        Assert.Contains(screens, s => s.Contains("行商"));
+        Assert.Equal(1, session.flags["talkedToTraveler"]);
+        Assert.DoesNotContain(screens, s => s.Contains("黑霧")); // only after the boss
+    }
+
+    [Fact]
+    public void statusesAreNarrated()
+    {
+        GameSession session = game.startNew();
+        BattleEngine engine = new(session, [game.content.enemy("venomShroom")]);
+        Combatant hero = engine.party[0];
+        Combatant shroom = engine.enemies[0];
+
+        string text = string.Join("\n", BattleNarrator.narrate(
+        [
+            new DamageEvent(shroom, 30, false, 18, Effectiveness.Weak),
+            new StatusAppliedEvent(hero, StatusKind.Poison, 3),
+            new TurnSkippedEvent(hero, StatusKind.Sleep),
+            new PoisonDamageEvent(hero, 5, 40),
+            new StatusRemovedEvent(hero, StatusKind.Sleep, StatusEndReason.WokeUp),
+        ]).Select(p => p.markup));
+
+        Assert.Contains("效果拔群", text);
+        Assert.Contains("中毒了", text);
+        Assert.Contains("呼呼大睡", text);
+        Assert.Contains("受到毒的侵蝕", text);
+        Assert.Contains("被打醒了", text);
     }
 }

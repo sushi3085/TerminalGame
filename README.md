@@ -24,7 +24,7 @@ dotnet run --project src/TerminalGame.Demo
 | ↑ ↓ ← → | 移動游標 |
 | Enter / Space / Z | 確認；對話中：先顯示整段，再按翻頁 |
 | Esc / Backspace / X | 取消 |
-| Tab / M | 開啟隊伍選單（道具、技能、裝備、狀態） |
+| Tab / M | 開啟隊伍選單（道具、技能、裝備、狀態、冒險日誌） |
 | ← → | 裝備／狀態畫面中切換角色 |
 | Ctrl+C | 離開 |
 
@@ -95,11 +95,11 @@ tools/TerminalGame.Sim/      平衡模擬器（dotnet run --project tools/Termin
 
 ### 遊戲資料
 
-`content/*.json` 會複製到執行檔旁的 `content/` 目錄，啟動時載入。技能、道具、角色、敵人、地點、商店、事件腳本全部是資料；所有 id 引用與條件式在載入時檢查，打錯字會直接列出錯誤而不是遊戲中途當掉。格式說明見 [docs/CONTENT.md](docs/CONTENT.md)。
+`content/*.json` 會複製到執行檔旁的 `content/` 目錄，啟動時載入。技能、道具、角色、敵人、地點、商店、事件腳本、冒險日誌、夥伴閒聊全部是資料；所有 id 引用與條件式在載入時檢查，打錯字會直接列出錯誤而不是遊戲中途當掉。格式說明見 [docs/CONTENT.md](docs/CONTENT.md)。
 
 存檔位置：`~/.local/share/TerminalGame/saves/`（Windows 為 `%LOCALAPPDATA%\TerminalGame\saves\`）。在旅館休息時可以存檔。
 
-戰鬥規則集中在 `BattleEngine` 與 `DamageFormula`：引擎每次行動回傳一串 `BattleEvent`，`BattleScene` 只負責把事件轉成訊息並播放，因此規則可以脫離畫面測試與模擬。
+戰鬥規則集中在 `BattleEngine`、`DamageFormula` 與 `StatusRules`（狀態異常、屬性）：引擎每次行動回傳一串 `BattleEvent`，`BattleScene` 只負責把事件轉成訊息並播放，因此規則可以脫離畫面測試與模擬。
 
 ## 開發
 

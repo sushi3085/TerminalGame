@@ -47,6 +47,10 @@
       {
         "label": "井邊的小孩",
         "script": "townKid"
+      },
+      {
+        "label": "廣場的旅人",
+        "script": "traveler"
       }
     ],
     "exits": [
@@ -266,13 +270,6 @@
       {
         "script": "rinEvent",
         "if": "flag:metRin == 0"
-      }
-    ],
-    "spots": [
-      {
-        "label": "和琳說話",
-        "script": "rinTalk",
-        "if": "party:rin"
       }
     ],
     "exits": [
