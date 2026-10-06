@@ -1,0 +1,2362 @@
+{
+  "elderIntro": [
+    {
+      "say": "清晨的鐘聲響過三下。長老拄著拐杖，已經在你家門口等著了。"
+    },
+    {
+      "say": "艾倫，你來得正好。這幾天，[green]低語森林[/]安靜得反常——連風吹過樹梢的聲音都聽不見了。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "更糟的是，獵人的女兒[cyan]琳[/]三天前進了森林，到現在還沒回來。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "鎮上能拿劍的年輕人，只剩你了。拜託你，去把她找回來。\n這些傷藥你帶著。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "giveItem": "potion",
+      "count": 3
+    },
+    {
+      "say": "受了傷就回鎮上，[gold]旅館[/]可以讓你好好休息，也能記錄冒險。\n去吧，願晨光指引你。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "[dim](按 Tab 或 M 可以打開隊伍選單。)[/]"
+    },
+    {
+      "setFlag": "introDone"
+    }
+  ],
+  "elderTalk": [
+    {
+      "cases": [
+        {
+          "if": "flag:gameCleared",
+          "then": [
+            {
+              "say": "艾倫……你長大了。晨曦鎮以你為傲。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:chapter2Done",
+          "then": [
+            {
+              "say": "聽說你們連河裡的怪物都解決了！……東邊的砂岩城，就拜託你們了。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:chapter1Done",
+          "then": [
+            {
+              "say": "河港村就在南方大道的盡頭。路上小心。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:bossDefeated",
+          "then": [
+            {
+              "say": "森林又在低語了……快進來，跟我說說深處發生了什麼。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:metRin",
+          "then": [
+            {
+              "say": "琳平安就好……\n森林深處的事，就拜託你們兩個了。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "琳就拜託你了。\n從森林入口沿著小徑往裡走，就能到林間空地。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dawnItemShop": [
+    {
+      "shop": "dawnItems"
+    }
+  ],
+  "dawnSmithShop": [
+    {
+      "say": "喲，艾倫。要出遠門的話，可別再拿著那把木劍了。",
+      "speaker": "[cyan]鐵匠[/]"
+    },
+    {
+      "shop": "dawnSmith"
+    }
+  ],
+  "dawnInn": [
+    {
+      "inn": 8
+    }
+  ],
+  "townWoman": [
+    {
+      "cases": [
+        {
+          "if": "flag:bossDefeated",
+          "then": [
+            {
+              "say": "森林裡又有鳥叫聲了呢。謝謝你們。",
+              "speaker": "[cyan]婦人[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:metRin",
+          "then": [
+            {
+              "say": "琳回來了？太好了……那孩子的弓術是她爹親手教的，鎮上沒人比得上。",
+              "speaker": "[cyan]婦人[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "聽說森林裡的史萊姆最近會成群出沒……\n要是遇到三隻以上，可別硬拚啊。",
+              "speaker": "[cyan]婦人[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "townKid": [
+    {
+      "cases": [
+        {
+          "if": "flag:metRin",
+          "then": [
+            {
+              "say": "琳姐姐好帥！她說她一箭就能射中松果！",
+              "speaker": "[cyan]小孩[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "森林入口有一個空心的樹樁喔！\n我上次在裡面看到一個布包……可是我不敢拿。",
+              "speaker": "[cyan]小孩[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chestStump": [
+    {
+      "if": "flag:chestStump",
+      "then": [
+        {
+          "say": "樹樁裡已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "樹樁的空洞裡塞著一個布包……"
+        },
+        {
+          "giveItem": "potion",
+          "count": 2
+        },
+        {
+          "setFlag": "chestStump"
+        }
+      ]
+    }
+  ],
+  "tracksEvent": [
+    {
+      "say": "泥地上有一串新鮮的腳印，旁邊插著一支斷掉的箭。"
+    },
+    {
+      "say": "……箭羽上綁著紅色的線。是獵人家的箭。\n腳印往[cyan]林間空地[/]的方向去了。"
+    },
+    {
+      "setFlag": "sawTracks"
+    }
+  ],
+  "chestLog": [
+    {
+      "if": "flag:chestLog",
+      "then": [
+        {
+          "say": "樹幹下只剩下泥土。"
+        }
+      ],
+      "else": [
+        {
+          "say": "倒下的樹幹下壓著一個舊皮袋。"
+        },
+        {
+          "giveItem": "ether"
+        },
+        {
+          "giveGold": 40
+        },
+        {
+          "setFlag": "chestLog"
+        }
+      ]
+    }
+  ],
+  "hutRest": [
+    {
+      "say": "你在小屋的床上躺了一會兒。松脂的香氣讓人安心……"
+    },
+    {
+      "restore": true
+    },
+    {
+      "say": "全員的 HP 與 MP 都恢復了。\n[dim](這裡無法記錄冒險。)[/]"
+    }
+  ],
+  "hutMap": [
+    {
+      "say": "牆上釘著一張手繪的森林地圖。"
+    },
+    {
+      "say": "森林深處的一塊空地被炭筆重重圈了起來，旁邊寫著：\n「[red]蘑菇圈——森林之主的寢床。千萬別吵醒它。[/]」"
+    },
+    {
+      "setFlag": "sawHutMap"
+    }
+  ],
+  "chestHut": [
+    {
+      "if": "flag:chestHut",
+      "then": [
+        {
+          "say": "櫃子裡只剩幾支沒做完的箭。"
+        }
+      ],
+      "else": [
+        {
+          "say": "櫃子裡放著一頂小小的皮帽，上面繡著「琳」。"
+        },
+        {
+          "giveItem": "leatherCap"
+        },
+        {
+          "setFlag": "chestHut"
+        }
+      ]
+    }
+  ],
+  "rinEvent": [
+    {
+      "say": "空地中央，一名少女背靠著大樹，弓弦拉得滿滿的。"
+    },
+    {
+      "say": "幾頭眼睛發著紅光的[red]野狼[/]，正一步一步逼近她！"
+    },
+    {
+      "say": "別、別過來……！",
+      "speaker": "[cyan]少女[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "衝上前幫忙！",
+          "then": [
+            {
+              "run": "rinRescue"
+            }
+          ]
+        },
+        {
+          "label": "先觀察一下……",
+          "then": [
+            {
+              "say": "狼群低吼著。少女的箭袋裡，只剩下兩支箭了。\n不能再等了！"
+            },
+            {
+              "run": "rinRescue"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rinRescue": [
+    {
+      "join": "rin",
+      "level": 4
+    },
+    {
+      "say": "……你是鎮上的艾倫？來得正好，幫我一把！",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "battle": [
+        "wolf",
+        "wolf"
+      ],
+      "canEscape": false
+    },
+    {
+      "setFlag": "metRin"
+    },
+    {
+      "say": "呼……謝謝你。我是[cyan]琳[/]，獵人的女兒。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "這些狼不對勁。牠們的眼睛……跟森林深處那些發光的孢子一樣紅。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "一定是[red]森林之主[/]出事了。我要去深處看看——\n你也一起來吧？兩個人總比一個人強。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "[dim](通往[cyan]森林深處[/]的路打開了。)[/]"
+    }
+  ],
+  "chestMoss": [
+    {
+      "if": "flag:chestMoss",
+      "then": [
+        {
+          "say": "木箱已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "厚厚的苔蘚下面，藏著一個長條形的木箱。"
+        },
+        {
+          "giveItem": "longBow"
+        },
+        {
+          "setFlag": "chestMoss"
+        }
+      ]
+    }
+  ],
+  "bossFight": [
+    {
+      "say": "蘑菇圈中央，一株巨大的蕈類緩緩抬起了傘蓋。\n紅色的孢子像呼吸一樣，一明，一暗。"
+    },
+    {
+      "say": "就是牠……[red]森林之主[/]。可是牠本來是守護這片森林的啊！",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "上吧！",
+          "then": [
+            {
+              "say": "巨蕈發出一陣低沉的轟鳴，周圍的毒孢菇也甦醒了！"
+            },
+            {
+              "battle": [
+                "venomShroom",
+                "forestLord",
+                "venomShroom"
+              ],
+              "canEscape": false
+            },
+            {
+              "setFlag": "bossDefeated"
+            },
+            {
+              "say": "巨蕈發出一聲長長的嘆息。紅光從牠的傘蓋上，一點一點地褪去了……"
+            },
+            {
+              "say": "一團黑色的霧氣從牠體內竄出，消失在樹冠之間。"
+            },
+            {
+              "say": "一顆溫暖的、翠綠色的種子，從牠身上滾落下來。"
+            },
+            {
+              "giveItem": "forestHeart"
+            },
+            {
+              "say": "牠……恢復原狀了。可是剛才那團黑氣到底是什麼？",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "遠處，久違的鳥鳴聲響了起來。\n[dim](回[gold]晨曦鎮[/]向長老報告吧。)[/]"
+            }
+          ]
+        },
+        {
+          "label": "還沒準備好",
+          "then": [
+            {
+              "say": "你們悄悄地退後了幾步。孢子的紅光依舊一明一暗。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "afterBoss": [
+    {
+      "say": "巨蕈靜靜地睡著。細小的綠色孢子在空中飄舞，像是螢火蟲。"
+    }
+  ],
+  "chapter1End": [
+    {
+      "say": "你們回來了！……森林又開始低語了，我在鎮上都聽得見。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "長老，森林之主身上……有一股不屬於這片森林的黑色氣息。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "……果然。南方的[cyan]河港村[/]也傳來了怪事，說是河水在夜裡會發光。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "這是謝禮。好好休息，準備好了就沿著[cyan]南方大道[/]去河港村看看吧。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "giveGold": 100
+    },
+    {
+      "setFlag": "chapter1Done"
+    },
+    {
+      "say": "[gold b]── 第一章「低語森林」 完 ──[/]"
+    },
+    {
+      "say": "[gold b]第二章「河港村」[/]\n\n[dim](晨曦鎮的出口多了一條往南的路。)[/]"
+    }
+  ],
+  "traveler": [
+    {
+      "if": "flag:talkedToTraveler == 0",
+      "then": [
+        {
+          "say": "我是四處跑的行商。東西沒得賣了，倒是聽來不少消息——想聽嗎？",
+          "speaker": "[cyan]旅人[/]"
+        },
+        {
+          "setFlag": "talkedToTraveler"
+        }
+      ]
+    },
+    {
+      "oneOf": [
+        {
+          "if": "flag:bossDefeated == 0",
+          "then": [
+            {
+              "say": "森林裡的蘑菇怪最怕[red]火[/]。碰上毒孢菇，一把火燒過去就對了。",
+              "speaker": "[cyan]旅人[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:bossDefeated == 0",
+          "then": [
+            {
+              "say": "深處的大蘑菇會灑一種甜甜的孢子，聞了就[cyan]睡著[/]。\n帶幾片[green]薄荷葉[/]吧，嚼一片馬上清醒。",
+              "speaker": "[cyan]旅人[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "中了毒可別硬撐。道具店的[green]解毒草[/]便宜又有效——就是苦了點。",
+              "speaker": "[cyan]旅人[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "聽說南方的[cyan]河港村[/]，最近夜裡河水會發光……\n漁夫們都不敢出船了。",
+              "speaker": "[cyan]旅人[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:metRin",
+          "then": [
+            {
+              "say": "獵人的女兒平安回來啦？\n那孩子射出的[gold]麻痺箭[/]，連野狼都會動彈不得呢。",
+              "speaker": "[cyan]旅人[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:bossDefeated",
+          "then": [
+            {
+              "say": "森林安靜下來了？可我總覺得……\n那天夜裡有團黑霧，往南邊飄過去了。",
+              "speaker": "[cyan]旅人[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "banterRescue": [
+    {
+      "say": "……剛才謝謝你。要不是你來，我大概已經被狼群吃掉了。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "你一個人跑到這麼深的地方，長老都快急死了。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "爹出門打獵一直沒回來，我只是想找他……\n結果在森林裡迷了路，還被狼盯上。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "森林之主平常很溫和的。爹說過，牠是這片森林的「心」。\n到底是什麼讓牠變成這樣……",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterHut": [
+    {
+      "say": "這是我家的小屋。爹每次進森林，都會在這裡住上幾天。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "櫃子裡好像還放著什麼……你要不要打開看看？",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterHutCap": [
+    {
+      "say": "那頂皮帽……是爹在我十歲時做的。原來他一直收在櫃子裡。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "很適合你。戴上吧，森林裡樹枝多。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "……嗯。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterDeep": [
+    {
+      "say": "這些紅色的孢子……吸進去頭會發暈。我們得速戰速決。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "蘑菇應該怕火吧？我的[magenta]火球術[/]也許派得上用場。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "好主意。我負責用[gold]麻痺箭[/]拖住其他傢伙。\n要是我被孢子弄睡了，記得用[green]薄荷葉[/]叫醒我。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterTown": [
+    {
+      "say": "鎮上還是老樣子呢……好像只有森林出了事。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "趁現在去道具店補點貨吧。[green]解毒草[/]多帶幾株，毒孢菇的孢子可不是開玩笑的。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterAfterBoss": [
+    {
+      "say": "那團黑霧……我在爹的狩獵筆記裡讀過類似的東西。\n「會讓森林生病的影子」。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "你是說，有東西在背後搞鬼？",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "我不知道。可是森林之主不會無緣無故發狂。\n……先回鎮上跟長老報告吧。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterChapterEnd": [
+    {
+      "say": "河港村啊……我從來沒去過海邊。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "那就一起去吧。你的弓，我的劍——還有那團黑霧，總得有人去查清楚。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "……嗯！到時候可別拖我後腿喔。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterSmallTalk": [
+    {
+      "oneOf": [
+        {
+          "then": [
+            {
+              "say": "艾倫，你的劍法是誰教的？\n……自學？難怪老是揮空。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "肚子餓了……回鎮上的時候，去旅館吃頓熱湯吧。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "背後交給我。只要你別擋在我的箭前面就好。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "琳，妳的箭袋好像快空了？",
+              "speaker": "[gold]艾倫[/]"
+            },
+            {
+              "say": "放心，我自己會削。森林裡最不缺的就是樹枝。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "banterForestTalk": [
+    {
+      "oneOf": [
+        {
+          "then": [
+            {
+              "say": "噓——聽到了嗎？……只是松鼠。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "小心腳下，落葉底下常有樹根。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:bossDefeated",
+          "then": [
+            {
+              "say": "鳥叫聲回來了。這才是我熟悉的森林。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "willowRoadArrive": [
+    {
+      "say": "河邊的水草間，有一點一點的藍光在漂。"
+    },
+    {
+      "say": "……跟森林裡那些紅色孢子很像。顏色不一樣，可是感覺一樣討厭。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "setFlag": "sawRiverGlow"
+    }
+  ],
+  "portArrive": [
+    {
+      "say": "一個戴著船長帽的中年人，正對著空蕩蕩的碼頭嘆氣。"
+    },
+    {
+      "say": "……旅人？晨曦鎮來的？那正好，聽我發個牢騷吧。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "半個月前，河口的[cyan]沉船洞窟[/]開始發出藍光。從那之後，河裡的魚全躲起來，水母和螃蟹卻發了瘋似的攻擊漁船。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "村裡的護衛[cyan]巴爾[/]說要一個人去洞窟看看……那傢伙力氣大，腦袋卻是一根筋。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "你們要是有空，去[cyan]河口沙洲[/]幫他一把吧。我會付報酬的。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "setFlag": "portIntro"
+    },
+    {
+      "say": "[dim](河港村的出口多了「往河口沙洲」。)[/]"
+    }
+  ],
+  "harborMaster": [
+    {
+      "cases": [
+        {
+          "if": "flag:chapter2Done",
+          "then": [
+            {
+              "say": "漁船又能出海了！東邊的砂岩城，就拜託你們了。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:serpentDefeated",
+          "then": [
+            {
+              "say": "河水不發光了！快，跟我說說底下發生了什麼。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:metBal",
+          "then": [
+            {
+              "say": "巴爾那傢伙跟你們一起？太好了。\n沉船的樓梯泡在水裡——船上應該有能排水的[gold]絞盤[/]，找找看吧。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "巴爾往[cyan]河口沙洲[/]去了。拜託你們，別讓他一個人逞強。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "portItemShop": [
+    {
+      "shop": "portItems"
+    }
+  ],
+  "portSmithShop": [
+    {
+      "say": "鐵是從東邊的砂岩城運來的。用料可不馬虎。",
+      "speaker": "[cyan]鐵匠[/]"
+    },
+    {
+      "shop": "portSmith"
+    }
+  ],
+  "portInn": [
+    {
+      "inn": 15
+    }
+  ],
+  "portFisher": [
+    {
+      "oneOf": [
+        {
+          "if": "flag:serpentDefeated == 0",
+          "then": [
+            {
+              "say": "沉船裡那些螃蟹、章魚都怕[gold]雷[/]。被雷劈過的螃蟹，殼一下就裂了。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:serpentDefeated == 0",
+          "then": [
+            {
+              "say": "我爺爺說過，那艘沉船的底下，連著一座深不見底的水潭。\n潭裡住著一條水蛇……我一直以為只是故事。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "倒下的同伴，用[gold]不死鳥之羽[/]就能叫醒。道具店有賣，貴是貴了點。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:metBal",
+          "then": [
+            {
+              "say": "巴爾啊？他的盾可是全村最硬的。要是他喊「衝著我來」，你們就躲在他後面吧。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:serpentDefeated",
+          "then": [
+            {
+              "say": "聽說東邊的[cyan]砂岩城[/]也不太平……沙漠裡的遺跡，晚上會冒出紅光。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "喝一杯？不？那就聽我說——今年的鯡魚季，全被這怪事毀了。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "balTalk": [
+    {
+      "say": "（碼頭邊站著一個扛著大盾的壯漢……可是走近一看，只是他留下的備用盾牌。）"
+    },
+    {
+      "say": "巴爾一大早就往河口去囉。",
+      "speaker": "[cyan]漁夫[/]"
+    }
+  ],
+  "balEvent": [
+    {
+      "say": "沙洲上，一個扛著大盾的壯漢正被一群螃蟹和怪鳥圍住！"
+    },
+    {
+      "say": "哈！就這點程度？再來啊！……喂，那邊的，看什麼看，來幫忙！",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "join": "bal",
+      "level": 9
+    },
+    {
+      "battle": [
+        "riverCrab",
+        "stormGull",
+        "riverCrab"
+      ],
+      "canEscape": false
+    },
+    {
+      "setFlag": "metBal"
+    },
+    {
+      "say": "呼……多謝。我是[cyan]巴爾[/]，河港村的護衛。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "你們是來查沉船的吧？正好，我一個人頂不住那些東西——盾牌擋得了前面，擋不了背後。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "一起走吧。站在我後面，我幫你們擋。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "[dim](巴爾加入了隊伍。他會用「挑釁」把敵人的攻擊引到自己身上。)[/]"
+    }
+  ],
+  "chestDriftwood": [
+    {
+      "if": "flag:chestDriftwood",
+      "then": [
+        {
+          "say": "漂流木下只剩沙子。"
+        }
+      ],
+      "else": [
+        {
+          "say": "漂流木下卡著一個防水的油布包……"
+        },
+        {
+          "giveItem": "phoenixDown"
+        },
+        {
+          "giveGold": 80
+        },
+        {
+          "setFlag": "chestDriftwood"
+        }
+      ]
+    }
+  ],
+  "chestBarrel": [
+    {
+      "if": "flag:chestBarrel",
+      "then": [
+        {
+          "say": "木桶裡只剩鹹水。"
+        }
+      ],
+      "else": [
+        {
+          "say": "木桶裡漂著幾個封好的小瓶子。"
+        },
+        {
+          "giveItem": "hiPotion",
+          "count": 2
+        },
+        {
+          "setFlag": "chestBarrel"
+        }
+      ]
+    }
+  ],
+  "floodedStairs": [
+    {
+      "say": "樓梯整個泡在水裡。水底有東西在發光，冷得刺骨。"
+    },
+    {
+      "say": "游下去？別開玩笑了。這種船都有排水用的絞盤，找找看。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "winch": [
+    {
+      "cases": [
+        {
+          "if": "flag:waterLowered",
+          "then": [
+            {
+              "say": "絞盤已經轉到底了。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "絞盤生鏽得厲害，一個人根本轉不動。"
+            },
+            {
+              "say": "讓開——這種粗活交給我！",
+              "speaker": "[cyan]巴爾[/]"
+            },
+            {
+              "say": "嘎……嘎嘎嘎……！鐵鍊繃緊，遠處傳來一陣嘩啦啦的排水聲。"
+            },
+            {
+              "setFlag": "waterLowered"
+            },
+            {
+              "say": "[dim](中層甲板的積水退了，可以走下樓梯了。)[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "galleyRest": [
+    {
+      "cases": [
+        {
+          "if": "flag:restedGalley",
+          "then": [
+            {
+              "say": "吊床已經爛得不能再躺了。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "船長的吊床居然還很結實。你們輪流躺下休息了一會兒……"
+            },
+            {
+              "restore": true
+            },
+            {
+              "setFlag": "restedGalley"
+            },
+            {
+              "say": "全員的 HP 與 MP 都恢復了。\n[dim](吊床發出一聲哀鳴——大概撐不住第二次了。)[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chestCaptain": [
+    {
+      "if": "flag:chestCaptain",
+      "then": [
+        {
+          "say": "箱子裡只剩泡爛的航海日誌。"
+        }
+      ],
+      "else": [
+        {
+          "say": "船長的箱子裡，躺著一把閃閃發亮的彎刀。"
+        },
+        {
+          "giveItem": "corsairSaber"
+        },
+        {
+          "say": "（航海日誌的最後一頁寫著：「黑霧……從潭底……」）"
+        },
+        {
+          "setFlag": "chestCaptain"
+        }
+      ]
+    }
+  ],
+  "chestShell": [
+    {
+      "if": "flag:chestShell",
+      "then": [
+        {
+          "say": "寶箱已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "鑲著貝殼的寶箱裡，放著一面巨大的螺殼盾。"
+        },
+        {
+          "giveItem": "shellShield"
+        },
+        {
+          "giveItem": "phoenixDown"
+        },
+        {
+          "setFlag": "chestShell"
+        }
+      ]
+    }
+  ],
+  "serpentFight": [
+    {
+      "say": "深潭的水面忽然隆起——一條比沉船還長的水蛇，緩緩抬起了頭。"
+    },
+    {
+      "say": "牠的眼睛……跟森林之主一樣，被什麼東西弄紅了。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "管牠什麼顏色！我在前面擋著，你們瞄準牠的頭！",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "開戰！",
+          "then": [
+            {
+              "battle": [
+                "bloodLeech",
+                "deepSerpent",
+                "bloodLeech"
+              ],
+              "canEscape": false
+            },
+            {
+              "setFlag": "serpentDefeated"
+            },
+            {
+              "say": "水蛇發出一聲長嘯，沉入潭底。潭水的藍光一點一點熄滅了。"
+            },
+            {
+              "say": "一團黑霧從水面竄起，往東方飄去……水面上，浮著一塊冰冷的黑色結晶。"
+            },
+            {
+              "giveItem": "darkCrystal"
+            },
+            {
+              "say": "又是黑霧……這已經不是巧合了。",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "先回村子吧。港務長那邊，總得有人去報告。",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "label": "先撤退",
+          "then": [
+            {
+              "say": "你們屏住呼吸，悄悄退回了樓梯口。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "afterSerpent": [
+    {
+      "say": "深潭靜悄悄的。偶爾有小魚游過，水面映著從裂縫透進來的天光。"
+    }
+  ],
+  "chapter2End": [
+    {
+      "say": "你們回來了！河水……河水不發光了！",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "潭底有一條被黑霧附身的水蛇。牠身上掉出了這個。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "黑色結晶？……東邊[cyan]砂岩城[/]的學者，專門研究這類古怪的東西。也許他們知道些什麼。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "這是說好的報酬。巴爾，你也跟著去吧——村子的事交給我。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "giveGold": 300
+    },
+    {
+      "say": "……哼，正有此意。這黑霧害我們村子半個月不能出海，我非揍它一頓不可。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "setFlag": "chapter2Done"
+    },
+    {
+      "say": "[gold b]── 第二章「河港村」 完 ──[/]"
+    },
+    {
+      "say": "[gold b]第三章「砂岩城」[/]\n\n[dim](河港村的出口多了一條往東的沙漠之路。)[/]"
+    }
+  ],
+  "banterBalJoin": [
+    {
+      "say": "巴爾，你一直都一個人守著村子？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "護衛就我一個。村長說請不起第二個。……哈哈，開玩笑的，是沒人想幹。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "盾牌這東西，有人在後面才有意義。今天總算有人站在我後面了。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterWreck": [
+    {
+      "say": "好冷……這艘船沉了多少年了？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "我爺爺小時候就在了。船長據說是個海盜，把寶物全藏在船艙裡。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "海盜的寶物啊……要是有一把好劍就好了。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterSerpent": [
+    {
+      "say": "深潭裡的東西……我聽得見牠在呼吸。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "怕了？",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "……才沒有。倒是你，記得先喊「衝著我來」，別讓牠盯上艾倫。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "水裡的東西應該怕[gold]雷[/]。我的雷擊總算派上用場了。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterPort": [
+    {
+      "say": "這村子的魚乾真香……等事情解決了，我要買一大袋回去。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "哈！那妳得先讓漁船能出海才行。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterAfterSerpent": [
+    {
+      "say": "森林之主、水蛇……都是被黑霧附身的。下一個會是哪裡？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "黑霧往東邊去了。東邊……是沙漠。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterChapter2End": [
+    {
+      "say": "砂岩城啊，我年輕時跟著商隊去過一次。熱得要命，連影子都會被曬乾。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "記得多帶水。……還有，聽說遺跡裡的怪物都怕[cyan]冰[/]。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterBalTalk": [
+    {
+      "oneOf": [
+        {
+          "then": [
+            {
+              "say": "我的盾？是我爹留下來的。上面的船錨，是河港村的紋章。",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "艾倫，你劍法還行，但是腳步太浮了。下次戰鬥站穩一點。",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "琳，妳的箭是怎麼射得那麼準的？",
+              "speaker": "[cyan]巴爾[/]"
+            },
+            {
+              "say": "你的斧頭是怎麼劈得那麼歪的？",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "……哈哈哈！好一張利嘴！",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cityArrive": [
+    {
+      "say": "站住！……喔，是旅人啊。最近城裡不太平，抱歉嚇到你們。",
+      "speaker": "[cyan]城門衛兵[/]"
+    },
+    {
+      "say": "東邊的[cyan]熾熱遺跡[/]每到晚上就冒出紅光，沙漠裡的怪物也變多了。\n城主已經下令，誰都不准靠近遺跡。",
+      "speaker": "[cyan]城門衛兵[/]"
+    },
+    {
+      "say": "黑色結晶的事……可以問問[cyan]學者館[/]的薩德老先生。他什麼古怪的東西都懂。",
+      "speaker": "[cyan]城門衛兵[/]"
+    },
+    {
+      "setFlag": "cityIntro"
+    }
+  ],
+  "archive": [
+    {
+      "cases": [
+        {
+          "if": "flag:gameCleared",
+          "then": [
+            {
+              "say": "我把你們的故事寫進了史書。三百年後的人，也會讀到的。",
+              "speaker": "[cyan]老學者薩德[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:chapter3Done",
+          "then": [
+            {
+              "say": "北方的城……去吧。願封印的眾神保佑你們。",
+              "speaker": "[cyan]老學者薩德[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:guardianDefeated",
+          "then": [
+            {
+              "say": "你們回來了！遺跡的紅光熄了……可是我有種不好的預感。快，到這邊來。",
+              "speaker": "[cyan]老學者薩德[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:scholarTalk",
+          "then": [
+            {
+              "say": "神殿的小雪是這城裡最好的治療師。帶上她，去遺跡吧。",
+              "speaker": "[cyan]老學者薩德[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "黑色結晶？讓我看看……",
+              "speaker": "[cyan]老學者薩德[/]"
+            },
+            {
+              "say": "……錯不了。這是[red]封印石[/]被侵蝕之後留下的東西。",
+              "speaker": "[cyan]老學者薩德[/]"
+            },
+            {
+              "say": "三百年前，勇者們把[red]魔王[/]封印在北方。封印由三位守護者維持：森林之主、深潭水蛇，還有東邊遺跡的守衛。",
+              "speaker": "[cyan]老學者薩德[/]"
+            },
+            {
+              "say": "森林之主、水蛇……我們打倒的，都是守護者？",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "被黑霧附身的守護者，就是封印的破洞。你們打倒牠們、驅散黑霧，其實是在修補封印。",
+              "speaker": "[cyan]老學者薩德[/]"
+            },
+            {
+              "say": "最後一位就在遺跡裡。要是它也被黑霧吞掉……封印就撐不住了。",
+              "speaker": "[cyan]老學者薩德[/]"
+            },
+            {
+              "say": "去神殿找[cyan]小雪[/]吧。對付遺跡裡的東西，你們需要她的力量。",
+              "speaker": "[cyan]老學者薩德[/]"
+            },
+            {
+              "setFlag": "scholarTalk"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "temple": [
+    {
+      "cases": [
+        {
+          "if": "party:xue",
+          "then": [
+            {
+              "say": "（神殿裡涼爽又安靜。祭壇前的燭火輕輕搖晃。）"
+            }
+          ]
+        },
+        {
+          "if": "flag:scholarTalk",
+          "then": [
+            {
+              "say": "一位白髮的少女站在祭壇前，回過頭來。她的呼吸在沙漠的熱氣裡，竟凝成了白霧。"
+            },
+            {
+              "say": "……你們身上有黑霧的味道。又冷又苦，跟遺跡飄來的一樣。",
+              "speaker": "[cyan]小雪[/]"
+            },
+            {
+              "say": "我是[cyan]小雪[/]，北方雪原來的神官。我一直在等能一起去遺跡的人。",
+              "speaker": "[cyan]小雪[/]"
+            },
+            {
+              "say": "我會治療，也會一點冰的魔法。遺跡裡的東西都怕冷——讓我跟你們一起去。",
+              "speaker": "[cyan]小雪[/]"
+            },
+            {
+              "join": "xue",
+              "level": 13
+            },
+            {
+              "say": "[dim](小雪會用「治癒之風」恢復全體、「淨化」解除異常，還能「復甦」倒下的同伴。)[/]"
+            },
+            {
+              "say": "[dim](砂岩城的出口多了「往月影綠洲」。)[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "神殿正在舉行祈禱，請保持安靜。",
+              "speaker": "[cyan]神官[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cityItemShop": [
+    {
+      "shop": "cityItems"
+    }
+  ],
+  "citySmithShop": [
+    {
+      "say": "鋼是遺跡裡挖出來的古代鐵礦煉的。這把劍，三百年前的勇者也用過同樣的鐵喔。",
+      "speaker": "[cyan]武器商[/]"
+    },
+    {
+      "shop": "citySmith"
+    }
+  ],
+  "cityInn": [
+    {
+      "inn": 20
+    }
+  ],
+  "cityMerchant": [
+    {
+      "oneOf": [
+        {
+          "if": "flag:guardianDefeated == 0",
+          "then": [
+            {
+              "say": "遺跡裡的火焰精靈和熔岩史萊姆，都怕[cyan]冰[/]。北方來的神官小姐應該很拿手。",
+              "speaker": "[cyan]商人[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:guardianDefeated == 0",
+          "then": [
+            {
+              "say": "遺跡大迴廊的石門？傳說要同時點亮[gold]日[/]與[cyan]月[/]才會打開。",
+              "speaker": "[cyan]商人[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "木乃伊的繃帶會讓人昏睡。帶點薄荷葉，或者讓神官幫你[white]淨化[/]。",
+              "speaker": "[cyan]商人[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "要買不買？這可是從河港村運來的魚乾，全城只有我這裡有。",
+              "speaker": "[cyan]商人[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:guardianDefeated",
+          "then": [
+            {
+              "say": "北方的天空……從昨晚開始就一直是暗紅色的。商隊都不敢往北走了。",
+              "speaker": "[cyan]商人[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "oasisRest": [
+    {
+      "say": "你們把腳泡進泉水裡，靠著椰棗樹休息了一會兒……"
+    },
+    {
+      "restore": true
+    },
+    {
+      "say": "全員的 HP 與 MP 都恢復了。\n[dim](這裡無法記錄冒險。)[/]"
+    }
+  ],
+  "chestOasis": [
+    {
+      "if": "flag:chestOasis",
+      "then": [
+        {
+          "say": "沙裡什麼都沒有了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "沙子底下露出一個皮袋的角……"
+        },
+        {
+          "giveItem": "hiEther"
+        },
+        {
+          "giveGold": 200
+        },
+        {
+          "setFlag": "chestOasis"
+        }
+      ]
+    }
+  ],
+  "chestStatue": [
+    {
+      "if": "flag:chestStatue",
+      "then": [
+        {
+          "say": "石像底下已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "倒下的石像手臂下，壓著一面輕巧的石盾和一個小陶罐。"
+        },
+        {
+          "giveItem": "guardianShield"
+        },
+        {
+          "giveItem": "phoenixDown",
+          "count": 2
+        },
+        {
+          "setFlag": "chestStatue"
+        }
+      ]
+    }
+  ],
+  "sealedDoor": [
+    {
+      "say": "石門上有兩個圓形的凹槽：一個刻著[gold]太陽[/]，一個刻著[cyan]月亮[/]。"
+    },
+    {
+      "cases": [
+        {
+          "if": "flag:ruinsWest",
+          "then": [
+            {
+              "say": "月亮的凹槽正發著冷光。太陽的凹槽還是暗的。"
+            }
+          ]
+        },
+        {
+          "if": "flag:ruinsEast",
+          "then": [
+            {
+              "say": "太陽的凹槽正發著熱光。月亮的凹槽還是暗的。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "兩個凹槽都是暗的。……左右兩邊的通道，應該有什麼機關。",
+              "speaker": "[cyan]小雪[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "moonPlate": [
+    {
+      "cases": [
+        {
+          "if": "flag:ruinsWest",
+          "then": [
+            {
+              "say": "月之石台已經沉下去了。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "石台慢慢沉進地板。遠處傳來石頭摩擦的聲音——"
+            },
+            {
+              "setFlag": "ruinsWest"
+            },
+            {
+              "if": "flag:ruinsEast",
+              "then": [
+                {
+                  "say": "[dim](日與月都點亮了。大迴廊的石門打開了！)[/]"
+                }
+              ],
+              "else": [
+                {
+                  "say": "[dim](石門上的月亮亮了起來。)[/]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sunPlate": [
+    {
+      "cases": [
+        {
+          "if": "flag:ruinsEast",
+          "then": [
+            {
+              "say": "日之石台已經沉下去了。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "巴爾用盾牌壓住滾燙的石台，石台慢慢沉進地板——"
+            },
+            {
+              "setFlag": "ruinsEast"
+            },
+            {
+              "if": "flag:ruinsWest",
+              "then": [
+                {
+                  "say": "[dim](日與月都點亮了。大迴廊的石門打開了！)[/]"
+                }
+              ],
+              "else": [
+                {
+                  "say": "[dim](石門上的太陽亮了起來。)[/]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chestMoon": [
+    {
+      "if": "flag:chestMoon",
+      "then": [
+        {
+          "say": "寶箱已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "寶箱裡放著一枚冰涼的戒指。"
+        },
+        {
+          "giveItem": "frostRing"
+        },
+        {
+          "setFlag": "chestMoon"
+        }
+      ]
+    }
+  ],
+  "chestSun": [
+    {
+      "if": "flag:chestSun",
+      "then": [
+        {
+          "say": "寶箱已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "寶箱裡供奉著一把發著光的劍。"
+        },
+        {
+          "giveItem": "sunBlade"
+        },
+        {
+          "setFlag": "chestSun"
+        }
+      ]
+    }
+  ],
+  "guardianFight": [
+    {
+      "say": "石像的眼睛亮了。巨大的身軀一寸一寸站了起來，熔岩從關節間滴落。"
+    },
+    {
+      "say": "……好痛苦的聲音。它被黑霧綁住了，想停也停不下來。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "那就讓它停下來。大家，上！",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "戰鬥！",
+          "then": [
+            {
+              "battle": [
+                "fireSpirit",
+                "ruinGuardian",
+                "fireSpirit"
+              ],
+              "canEscape": false
+            },
+            {
+              "setFlag": "guardianDefeated"
+            },
+            {
+              "say": "守衛的核心裂開了。紅光像潮水一樣退去，石像跪了下來。"
+            },
+            {
+              "say": "最後一縷黑霧從核心竄出——這一次，它沒有消失，而是筆直地往[red]北方[/]飛去。"
+            },
+            {
+              "say": "大地猛地一震。祭壇的石塊剝落，露出一片刻著文字的石片。"
+            },
+            {
+              "giveItem": "sealStone"
+            },
+            {
+              "say": "……北方。三團黑霧，全都往同一個地方去了。",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "回城裡找薩德老先生。我有不好的預感。",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "label": "先撤退",
+          "then": [
+            {
+              "say": "你們退回了迴廊。背後傳來沉重的腳步聲，又慢慢停了。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "afterGuardian": [
+    {
+      "say": "石像靜靜地跪在祭壇上，胸口的核心已經冷卻成灰色的石頭。"
+    }
+  ],
+  "chapter3End": [
+    {
+      "say": "你們回來了！……北方的天空，你們看到了嗎？",
+      "speaker": "[cyan]老學者薩德[/]"
+    },
+    {
+      "say": "三位守護者被黑霧侵蝕的時候，封印就已經鬆動了。黑霧回到了它的主人身邊……",
+      "speaker": "[cyan]老學者薩德[/]"
+    },
+    {
+      "say": "[red]魔王城[/]，從北方的荒原上浮起來了。",
+      "speaker": "[cyan]老學者薩德[/]"
+    },
+    {
+      "say": "那我們做的一切……都白費了嗎？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "不。守護者們恢復了，封印的力量也回來了。現在的魔王，還沒有完全醒來。",
+      "speaker": "[cyan]老學者薩德[/]"
+    },
+    {
+      "say": "這塊封印石碎片……只要帶著它，就能穿過魔王城的結界。",
+      "speaker": "[cyan]老學者薩德[/]"
+    },
+    {
+      "say": "趁現在。只有現在，還打得倒它。",
+      "speaker": "[cyan]老學者薩德[/]"
+    },
+    {
+      "say": "……我會跟到最後。我的魔法，就是為了這個而學的。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "giveGold": 500
+    },
+    {
+      "setFlag": "chapter3Done"
+    },
+    {
+      "say": "[gold b]── 第三章「砂岩城」 完 ──[/]"
+    },
+    {
+      "say": "[gold b]終章「魔王城」[/]\n\n[dim](砂岩城的出口多了一條往北方荒原的路。)[/]"
+    }
+  ],
+  "banterXueJoin": [
+    {
+      "say": "小雪，妳是北方人？在沙漠裡不會熱死嗎？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "會。……所以我一直用冰的魔法幫自己降溫。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "哈！這魔法借我用用！",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterRuins": [
+    {
+      "say": "這些牆上的文字……是封印的咒文。三百年前的勇者也走過這條路。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "三百年前的勇者……也像我們這樣，邊走邊鬥嘴嗎？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "搞不好喔。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterSealedDoor": [
+    {
+      "say": "日與月……這扇門要兩邊的機關都啟動才會開吧。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "分頭行動？不，太危險了。一間一間來。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterAltar": [
+    {
+      "say": "我感覺得到它……那個守衛，在哭。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "那就讓它解脫。小雪，妳的冰，我的斧頭，艾倫的劍、琳的箭——全部用上。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterCity": [
+    {
+      "say": "砂岩城的市集好熱鬧！琳，要不要去看看那邊的香料攤？",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "等事情辦完再說。……不過那個烤羊肉的香味，真的很難忍耐。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterAfterGuardian": [
+    {
+      "say": "三位守護者……我們全都打倒了。可是黑霧，全往北方去了。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "不是我們的錯。是有人把守護者變成了那樣。",
+      "speaker": "[cyan]小雪[/]"
+    }
+  ],
+  "banterChapter3End": [
+    {
+      "say": "魔王啊……長老說的那些故事，原來都是真的。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "怕嗎？",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "怕。可是有你們在，我想我能走到最後。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "走吧。回去的時候，鎮上的人都在等我們。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterXueTalk": [
+    {
+      "oneOf": [
+        {
+          "then": [
+            {
+              "say": "北方的雪原，夜裡會有綠色的光在天上流動。等一切結束，我帶你們去看。",
+              "speaker": "[cyan]小雪[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "巴爾先生，你又受傷了。……不要每次都衝第一個。",
+              "speaker": "[cyan]小雪[/]"
+            },
+            {
+              "say": "這是護衛的工作！",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "艾倫的火球、我的冰晶——如果同時打中，會變成什麼呢？",
+              "speaker": "[cyan]小雪[/]"
+            },
+            {
+              "say": "……大概是一團蒸氣。",
+              "speaker": "[gold]艾倫[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "castleBarrier": [
+    {
+      "say": "城門前的結界冷冰冰地擋住了去路。伸手一碰，指尖就像被針扎一樣。"
+    },
+    {
+      "if": "item:sealStone",
+      "then": [
+        {
+          "say": "……封印石碎片在發光。",
+          "speaker": "[cyan]小雪[/]"
+        },
+        {
+          "say": "背包裡的封印石碎片亮了起來。結界像被燙到一樣往後縮，裂開了一個剛好能通過的缺口。"
+        },
+        {
+          "setFlag": "castleOpen"
+        },
+        {
+          "say": "這尊女神像……還有一點點力量。在這裡休息的話，應該能恢復體力。",
+          "speaker": "[cyan]小雪[/]"
+        },
+        {
+          "say": "[dim](女神像可以免費休息並記錄冒險。)[/]"
+        }
+      ],
+      "else": [
+        {
+          "say": "（沒有辦法通過。也許需要什麼能對抗封印的東西……）"
+        }
+      ]
+    }
+  ],
+  "goddessStatue": [
+    {
+      "say": "斷臂的女神像散發著微弱的光。"
+    },
+    {
+      "inn": 0
+    }
+  ],
+  "castleShop": [
+    {
+      "say": "嘿嘿……在這種地方也要做生意，是我的信條。東西是貴了點，但保證能讓你們活著走到王座前。",
+      "speaker": "[cyan]神秘商人[/]"
+    },
+    {
+      "shop": "castleMerchant"
+    }
+  ],
+  "throneDoor": [
+    {
+      "say": "巨大的門上，兩團黑色的火焰圖騰正在燃燒。門紋絲不動。"
+    },
+    {
+      "cases": [
+        {
+          "if": "flag:towerTorch",
+          "then": [
+            {
+              "say": "左邊的圖騰已經熄滅了。右邊的圖騰，連著地下墓室的方向。"
+            }
+          ]
+        },
+        {
+          "if": "flag:cryptTorch",
+          "then": [
+            {
+              "say": "右邊的圖騰已經熄滅了。左邊的圖騰，連著東塔的方向。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "圖騰的火焰從東塔和地下墓室那邊延伸過來。……把源頭熄掉，門應該就會開。",
+              "speaker": "[cyan]小雪[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "towerTorch": [
+    {
+      "cases": [
+        {
+          "if": "flag:towerTorch",
+          "then": [
+            {
+              "say": "火炬已經熄滅了，只剩一縷黑煙。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "小雪舉起封印石碎片，輕聲念起咒文——黑色的火焰抖了一下，熄滅了。"
+            },
+            {
+              "setFlag": "towerTorch"
+            },
+            {
+              "if": "flag:cryptTorch",
+              "then": [
+                {
+                  "say": "[dim](遠處傳來沉重的開門聲。王座之間的門打開了！)[/]"
+                }
+              ],
+              "else": [
+                {
+                  "say": "[dim](大廳王座之門上的一團火焰熄滅了。)[/]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cryptTorch": [
+    {
+      "cases": [
+        {
+          "if": "flag:cryptTorch",
+          "then": [
+            {
+              "say": "火炬已經熄滅了，只剩一縷黑煙。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "巴爾用大盾一揮，壓住了黑色的火焰。小雪趁機念完咒文——火焰熄滅了。"
+            },
+            {
+              "setFlag": "cryptTorch"
+            },
+            {
+              "if": "flag:towerTorch",
+              "then": [
+                {
+                  "say": "[dim](遠處傳來沉重的開門聲。王座之間的門打開了！)[/]"
+                }
+              ],
+              "else": [
+                {
+                  "say": "[dim](大廳王座之門上的一團火焰熄滅了。)[/]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chestTower": [
+    {
+      "if": "flag:chestTower",
+      "then": [
+        {
+          "say": "長箱已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "長箱裡躺著一把古老的劍。劍柄上刻著：「願光指引後來的人」。"
+        },
+        {
+          "giveItem": "holySword"
+        },
+        {
+          "say": "這是……三百年前封印魔王的[gold]聖劍[/]？",
+          "speaker": "[cyan]小雪[/]"
+        },
+        {
+          "setFlag": "chestTower"
+        }
+      ]
+    }
+  ],
+  "chestCrypt": [
+    {
+      "if": "flag:chestCrypt",
+      "then": [
+        {
+          "say": "石棺裡已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "石棺裡沒有屍骨，只有一面泛著青光的鱗盾和一瓶靈藥。"
+        },
+        {
+          "giveItem": "dragonShield"
+        },
+        {
+          "giveItem": "elixir"
+        },
+        {
+          "setFlag": "chestCrypt"
+        }
+      ]
+    }
+  ],
+  "demonKingFight": [
+    {
+      "say": "……來了啊。打倒了我的三條看門狗的，就是你們這幾個小鬼？",
+      "speaker": "[red b]魔王[/]"
+    },
+    {
+      "say": "看門狗？牠們是守護者！是你把牠們變成那樣的！",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "守護者？守著我的牢籠的東西，不是看門狗是什麼？三百年了……我只是把籠子的鎖，一個一個弄壞而已。",
+      "speaker": "[red b]魔王[/]"
+    },
+    {
+      "say": "只可惜，你們修好了它們。我還沒完全醒來……不過，對付你們，這樣就夠了。",
+      "speaker": "[red b]魔王[/]"
+    },
+    {
+      "say": "大家……這是最後一戰了。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "站在我後面。這一次，我一步也不退。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "我會讓大家都站著。不管倒下幾次，都會拉起來。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "……走吧，艾倫。我們一起回家。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "決戰！",
+          "then": [
+            {
+              "battle": [
+                "shadowKnight",
+                "demonKing",
+                "shadowKnight"
+              ],
+              "canEscape": false
+            },
+            {
+              "setFlag": "demonKingDefeated"
+            },
+            {
+              "say": "……不可能……被區區幾個人類……",
+              "speaker": "[red b]魔王[/]"
+            },
+            {
+              "say": "魔王的身影像煙一樣散開。黑霧被吸進王座下方的裂縫——裂縫閉合了。"
+            },
+            {
+              "say": "封印石碎片發出耀眼的光，然後碎成了細細的沙，從指縫間流走。"
+            },
+            {
+              "takeItem": "sealStone"
+            },
+            {
+              "say": "城堡在搖！快走！",
+              "speaker": "[cyan]巴爾[/]"
+            },
+            {
+              "say": "你們拼命往外跑。身後，魔王城一層一層崩塌，沉回了荒原的地底……"
+            },
+            {
+              "travel": "dawnTown"
+            }
+          ]
+        },
+        {
+          "label": "還沒準備好",
+          "then": [
+            {
+              "say": "你們退回大廳。王座上的人影，連頭都沒有回。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "epilogue": [
+    {
+      "say": "……幾天後。"
+    },
+    {
+      "say": "晨曦鎮的鐘聲響了很久很久。整個鎮子的人都跑到廣場上來了。"
+    },
+    {
+      "say": "艾倫！……你們真的做到了。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "森林裡的鳥都回來了。河港村的漁船又出海了，砂岩城的遺跡也不再發光。",
+      "speaker": "[cyan]長老[/]"
+    },
+    {
+      "say": "我要回河港村了。……不過，要是哪天又有什麼東西冒出來，喊一聲，我就到。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "我也要回北方一趟。答應過你們的——等雪原的極光出來，我寫信叫你們。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "我要留在鎮上。爹回來了，他說這次換他教我做弓。……艾倫，你呢？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "……先睡一覺吧。然後，再去看看這個世界。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "setFlag": "gameCleared"
+    },
+    {
+      "say": "[gold b]── 終章「魔王城」 完 ──[/]"
+    },
+    {
+      "say": "[gold b]光之試煉[/]\n\n[white]艾倫・琳・巴爾・小雪[/]\n\n感謝你一路玩到最後。"
+    },
+    {
+      "say": "[dim](冒險結束了，但世界還在。你可以繼續四處走走。)[/]"
+    }
+  ],
+  "banterWastes": [
+    {
+      "say": "好冷……這裡明明不是北方雪原，卻冷到骨頭裡。",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "那座城……從這裡看都覺得大得嚇人。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "城再大，裡面也只有一個人在等我們。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterGate": [
+    {
+      "say": "最後的準備……該買的就買吧。錢留著也帶不進墳墓。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "巴爾，說點吉利的話好嗎。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterHall": [
+    {
+      "say": "這座城裡的每一面旗子，都是被魔王滅掉的國家……",
+      "speaker": "[cyan]小雪[/]"
+    },
+    {
+      "say": "所以這次，一定要結束它。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterHolySword": [
+    {
+      "say": "聖劍……拿起來，好像有人在背後推了我一把。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "三百年前的勇者，也是這樣走到最後的吧。",
+      "speaker": "[cyan]小雪[/]"
+    }
+  ],
+  "banterThrone": [
+    {
+      "say": "艾倫。……謝謝你那天衝進林間空地。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "巴爾、小雪，也謝謝你們。這一路——",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "等打完再說。那種話，要留到回家的路上說。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "……嗯！",
+      "speaker": "[cyan]小雪[/]"
+    }
+  ],
+  "banterCleared": [
+    {
+      "oneOf": [
+        {
+          "then": [
+            {
+              "say": "世界和平了，可是長老還是叫我去森林撿柴……",
+              "speaker": "[gold]艾倫[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "艾倫，要不要比一場射箭？輸的人請吃魚乾。",
+              "speaker": "[cyan]琳[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "（遠方的河港村寄來一大包魚乾。附了一張紙條：「—巴爾」）"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "（北方寄來一封信，上面畫著綠色的極光。）"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

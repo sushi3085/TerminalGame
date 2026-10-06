@@ -1,0 +1,1490 @@
+[
+  {
+    "id": "dawnTown",
+    "name": "晨曦鎮",
+    "kind": "Town",
+    "palette": "town",
+    "art": [
+      "      [dim]*[/]      [dim].[/]          [dim]*[/]        [dim].[/]            [dim]*[/]           ",
+      "        [orange]/\\[/]                [cyan]~ ~ ~ ~[/]             [orange]/\\[/]          ",
+      "       [orange]/  \\[/]       [gold]___[/]    [cyan]~ ~ ~ ~ ~[/]           [orange]/  \\[/]         ",
+      "      [orange]/____\\[/]     [gold]|[/][red]田[/][gold]|_[/]                      [orange]/____\\[/]        ",
+      "      [orange]| [] |[/]     [gold]|___|[/]         [gray]___[/]          [orange]|_[]_|[/]        ",
+      " [green],,,,,[/][orange]|____|[/][green],,,,,,,,,,,,,,,,,,[/][gray]|井|[/][green],,,,,,,,,,[/][orange]|____|[/][green],,,,,,,[/] "
+    ],
+    "description": "炊煙從石砌屋頂升起。[gold]晨曦鎮[/]的早晨總是很安靜。",
+    "onEnter": [
+      {
+        "script": "epilogue",
+        "if": "flag:demonKingDefeated && flag:gameCleared == 0"
+      },
+      {
+        "script": "elderIntro",
+        "if": "flag:introDone == 0"
+      },
+      {
+        "script": "chapter1End",
+        "if": "flag:bossDefeated && flag:chapter1Done == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "長老家",
+        "script": "elderTalk"
+      },
+      {
+        "label": "道具店",
+        "script": "dawnItemShop"
+      },
+      {
+        "label": "鐵匠鋪",
+        "script": "dawnSmithShop"
+      },
+      {
+        "label": "旅館",
+        "script": "dawnInn"
+      },
+      {
+        "label": "廣場的婦人",
+        "script": "townWoman"
+      },
+      {
+        "label": "井邊的小孩",
+        "script": "townKid"
+      },
+      {
+        "label": "廣場的旅人",
+        "script": "traveler"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsEdge"
+      },
+      {
+        "to": "willowRoad",
+        "label": "往南方大道",
+        "if": "flag:chapter1Done"
+      }
+    ]
+  },
+  {
+    "id": "woodsEdge",
+    "name": "低語森林・入口",
+    "palette": "forest",
+    "art": [
+      "[green]     ^        ^^       ^         ^^^       ^       ^^     [/]",
+      "[green]    /|\\      /||\\     /|\\       /|||\\     /|\\     /||\\    [/]",
+      "[green]   //|\\\\    //||\\\\   //|\\\\     //|||\\\\   //|\\\\   //||\\\\   [/]",
+      "[orange]     |        ||       |         |||       |       ||     [/]",
+      "[green] ,,,,|,,,,,,,,||,,,,,,,|,,,,,,,,,|||,,,,,,,|,,,,,,,||,,,, [/]"
+    ],
+    "description": "高大的櫸木遮住了陽光。林間本該有的鳥鳴，此刻一聲也聽不見。",
+    "encounterRate": 0.35,
+    "encounters": [
+      {
+        "enemies": [
+          "slime"
+        ],
+        "weight": 4
+      },
+      {
+        "enemies": [
+          "slime",
+          "slime"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "slime",
+          "forestBat"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查樹樁",
+        "script": "chestStump"
+      }
+    ],
+    "exits": [
+      {
+        "to": "dawnTown",
+        "label": "回晨曦鎮"
+      },
+      {
+        "to": "woodsPath",
+        "label": "沿小徑深入"
+      }
+    ]
+  },
+  {
+    "id": "woodsPath",
+    "name": "低語森林・小徑",
+    "palette": "forest",
+    "art": [
+      "[green]  ^^      ^      ^^^          ^^^      ^      ^^       [/]",
+      "[green] /||\\    /|\\    /|||\\        /|||\\    /|\\    /||\\      [/]",
+      "[green]//||\\\\  //|\\\\  //|||\\\\      //|||\\\\  //|\\\\  //||\\\\     [/]",
+      "[orange]  ||      |      |||   [/][gray]. . .[/][orange]  |||      |      ||       [/]",
+      "[gray]  ..:...:....:...:..: [/][orange]~~~~~~~~[/][gray] :..:...:....:...:..  [/]"
+    ],
+    "description": "小徑被落葉蓋住了一半。偶爾有東西從頭頂的枝葉間掠過。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "forestBat",
+          "forestBat"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "slime",
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "venomShroom"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "venomShroom",
+          "forestBat"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "tracksEvent",
+        "if": "flag:sawTracks == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查倒下的樹幹",
+        "script": "chestLog"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsEdge",
+        "label": "回森林入口"
+      },
+      {
+        "to": "hunterHut",
+        "label": "獵人小屋"
+      },
+      {
+        "to": "woodsClearing",
+        "label": "前往林間空地"
+      }
+    ]
+  },
+  {
+    "id": "hunterHut",
+    "name": "獵人小屋",
+    "kind": "Town",
+    "palette": "forest",
+    "art": [
+      "[green]   ^^                                  ^^     [/]",
+      "[green]  /||\\        [/][orange]  ________________ [/][green]   /||\\    [/]",
+      "[green] //||\\\\       [/][orange] /________________\\[/][green]  //||\\\\   [/]",
+      "[orange]   ||         [/][orange] |  [/][gold][][/][orange]    __    [/][gold][][/][orange] |[/][orange]    ||     [/]",
+      "[green] ,,||,,,,,,,,,[/][orange]|______|  |______|[/][green],,,,||,,,, [/]"
+    ],
+    "description": "一間爬滿藤蔓的木屋。屋裡還留著淡淡的松脂香。",
+    "spots": [
+      {
+        "label": "躺在床上休息",
+        "script": "hutRest"
+      },
+      {
+        "label": "看牆上的地圖",
+        "script": "hutMap"
+      },
+      {
+        "label": "打開櫃子",
+        "script": "chestHut"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsPath",
+        "label": "回到小徑"
+      }
+    ]
+  },
+  {
+    "id": "woodsClearing",
+    "name": "低語森林・林間空地",
+    "palette": "forest",
+    "art": [
+      "[green]    ^^^                                        ^^^     [/]",
+      "[green]   /|||\\              [/][gold]  .  *  .  [/][green]              /|||\\    [/]",
+      "[green]  //|||\\\\                                   //|||\\\\   [/]",
+      "[orange]    |||        [/][green],,,,,,,,,,,,,,,,,,,,,,[/][orange]          |||     [/]",
+      "[green] ,,,|||,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|||,,,  [/]"
+    ],
+    "description": "樹林在這裡忽然開闊起來，陽光灑在一片柔軟的草地上。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "wolf",
+          "wolf"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "venomShroom",
+          "venomShroom",
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "wolf",
+          "forestBat",
+          "forestBat"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "wolf",
+          "slime",
+          "slime"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "rinEvent",
+        "if": "flag:metRin == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsPath",
+        "label": "回到小徑"
+      },
+      {
+        "to": "woodsDeep",
+        "label": "前往森林深處",
+        "if": "flag:metRin"
+      }
+    ]
+  },
+  {
+    "id": "woodsDeep",
+    "name": "低語森林・深處",
+    "palette": "deepForest",
+    "art": [
+      "[dim] ^^^^  ^^^^^  ^^^^   ^^^^^^   ^^^^  ^^^^^  ^^^^  [/]",
+      "[dim]/||||\\/|||||\\/||||\\ /||||||\\ /||||\\/|||||\\/||||\\ [/]",
+      "[dim] |||| [/][red]. [/][dim]||||| [/][red]  ·  [/][dim]||||||  [/][red]·[/][dim] |||| [/][red] .[/][dim] |||||  |||| [/]",
+      "[dim] ||||  ||||| [/][red]·[/][dim] ||||  |||||| [/][red]  ·[/][dim] ||||  |||||  [/][red]·[/][dim]||| [/]",
+      "[green] ,,,,,,,,,,,,,,,[/][red](o)  (O)  (o)[/][green],,,,,,,,,,,,,,,,,,,,, [/]"
+    ],
+    "description": "樹冠密得透不進一絲光。空氣裡飄著細細的、發著紅光的孢子。",
+    "encounterRate": 0.55,
+    "encounters": [
+      {
+        "enemies": [
+          "wolf",
+          "wolf",
+          "venomShroom"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "wolf",
+          "wolf",
+          "wolf"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "venomShroom",
+          "venomShroom",
+          "venomShroom"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查苔蘚下的箱子",
+        "script": "chestMoss"
+      },
+      {
+        "label": "走向發光的蘑菇圈",
+        "script": "bossFight",
+        "if": "flag:bossDefeated == 0"
+      },
+      {
+        "label": "安靜下來的蘑菇圈",
+        "script": "afterBoss",
+        "if": "flag:bossDefeated"
+      }
+    ],
+    "exits": [
+      {
+        "to": "woodsClearing",
+        "label": "回林間空地"
+      }
+    ]
+  },
+  {
+    "id": "willowRoad",
+    "name": "柳岸大道",
+    "palette": "river",
+    "art": [
+      "[green]   ,/   ,/        ,/       ,/        ,/      ,/    [/]",
+      "[green]  //|  //|       //|      //|       //|     //|    [/]",
+      "[orange]    |    |  [/][gray]=========================[/][orange]  |      |    [/]",
+      "[cyan] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [/]",
+      "[blue]  ~~ ~~~~ ~~~ ~~~~~ ~~~ ~~~~ ~~~ ~~~~~ ~~ ~~~~ ~~   [/]"
+    ],
+    "description": "垂柳沿著大河排成一列。河面平靜得出奇——可是靠近岸邊時，水底好像有東西在發光。",
+    "encounterRate": 0.35,
+    "encounters": [
+      {
+        "enemies": [
+          "blueJelly",
+          "blueJelly"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "bogFrog",
+          "blueJelly"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "riverCrab"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "riverCrab",
+          "blueJelly"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "willowRoadArrive",
+        "if": "flag:sawRiverGlow == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "dawnTown",
+        "label": "回晨曦鎮"
+      },
+      {
+        "to": "riverPort",
+        "label": "前往河港村"
+      }
+    ]
+  },
+  {
+    "id": "riverPort",
+    "name": "河港村",
+    "kind": "Town",
+    "palette": "river",
+    "art": [
+      "        [orange]_[/]     [gray]|[/]          [orange]___[/]              [gray]|[/]\\       ",
+      "  [orange]____|_|___[/]  [gray]|\\[/]    [orange]_____|[/][red]田[/][orange]|_____[/]       [gray]|[/] \\      ",
+      " [orange]|  [/][gold]酒館[/][orange]    |[/] [gray]| \\[/]  [orange]|   村 公 所   |[/]    [gray]_|__\\_[/]    ",
+      " [orange]|___[]_____|[/][gray]_|__\\[/] [orange]|_[]______[]_|[/]  [orange]\\______/[/]   ",
+      "[gray]=========[/][orange]##########################[/][gray]===========[/]   ",
+      "[cyan] ~~~~ ~~~~~ ~~~ ~~~~ ~~~~~ ~~~~ ~~~ ~~~~~ ~~~ ~~~~  [/]"
+    ],
+    "description": "漁船都綁在碼頭邊，沒有一艘出海。村子裡飄著魚乾和焦油的味道。",
+    "onEnter": [
+      {
+        "script": "portArrive",
+        "if": "flag:portIntro == 0"
+      },
+      {
+        "script": "chapter2End",
+        "if": "flag:serpentDefeated && flag:chapter2Done == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "港務長的辦公室",
+        "script": "harborMaster"
+      },
+      {
+        "label": "道具店",
+        "script": "portItemShop"
+      },
+      {
+        "label": "武器防具店",
+        "script": "portSmithShop"
+      },
+      {
+        "label": "旅館",
+        "script": "portInn"
+      },
+      {
+        "label": "酒館的漁夫",
+        "script": "portFisher"
+      },
+      {
+        "label": "碼頭的大塊頭",
+        "script": "balTalk",
+        "if": "flag:metBal == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "willowRoad",
+        "label": "回柳岸大道"
+      },
+      {
+        "to": "riverMouth",
+        "label": "往河口沙洲",
+        "if": "flag:portIntro"
+      },
+      {
+        "to": "desertRoad",
+        "label": "往東方沙漠",
+        "if": "flag:chapter2Done"
+      }
+    ]
+  },
+  {
+    "id": "riverMouth",
+    "name": "河口沙洲",
+    "palette": "river",
+    "art": [
+      "[gold]                           .   [/][white]~v~[/][gold]      .           [/]",
+      "[gray]   ___                                          __   [/]",
+      "[gray]  /   \\___       [/][orange]  |\\  [/][gray]               ___/  \\  [/]",
+      "[gold] ..........[/][orange]  ___|_\\___  [/][gold]...............      [/]",
+      "[cyan] ~~~~~~~~~~~[/][orange] \\________/ [/][cyan]~~~~~~~~~~~~~~~~~~~~~~ [/]",
+      "[blue]  ~~~ ~~ ~~~~~ ~~~ ~~~~ ~~~ ~~~~~ ~~~ ~~~ ~~~~ ~~  [/]"
+    ],
+    "description": "河水在這裡匯入大海。沙洲盡頭，一艘巨大沉船的船頭斜斜插在礁石之間。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "stormGull",
+          "stormGull",
+          "bogFrog"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "riverCrab",
+          "bogFrog",
+          "blueJelly"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "stormGull",
+          "riverCrab",
+          "blueJelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "bogFrog",
+          "bogFrog",
+          "stormGull"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "balEvent",
+        "if": "flag:metBal == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查漂流木",
+        "script": "chestDriftwood"
+      }
+    ],
+    "exits": [
+      {
+        "to": "riverPort",
+        "label": "回河港村"
+      },
+      {
+        "to": "wreckEntrance",
+        "label": "進入沉船洞窟",
+        "if": "flag:metBal"
+      }
+    ]
+  },
+  {
+    "id": "wreckEntrance",
+    "name": "沉船洞窟・破裂的船身",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[gray]   _________________________________________________   [/]",
+      "[gray]  |[/] [orange]| | | | | | | |[/]      [dim]滴答[/]           [orange]| | | | | |[/] [gray]|  [/]",
+      "[gray]  |[/] [orange]|_|_|_|_|_|_|_|[/]     [cyan]°  °[/]            [orange]|_|_|_|_|_|[/] [gray]|  [/]",
+      "[gray]  |                                                 |  [/]",
+      "[cyan] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [/]"
+    ],
+    "description": "潮水從船身的裂縫灌進來，腳下的木板又濕又滑。遠處傳來像是呼吸一樣的水聲。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "drownedSailor",
+          "blueJelly",
+          "bloodLeech"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "caveOctopus",
+          "bloodLeech"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "bloodLeech",
+          "bloodLeech",
+          "blueJelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "drownedSailor",
+          "drownedSailor"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "打開浸水的木桶",
+        "script": "chestBarrel"
+      }
+    ],
+    "exits": [
+      {
+        "to": "riverMouth",
+        "label": "離開洞窟"
+      },
+      {
+        "to": "wreckDeck",
+        "label": "往船艙深處"
+      }
+    ]
+  },
+  {
+    "id": "wreckDeck",
+    "name": "沉船洞窟・中層甲板",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[orange]  ||      ||      ||      ||      ||      ||      ||  [/]",
+      "[orange] =||======||======||======||======||======||======||= [/]",
+      "[gray]  ||  [/][gold]⚓[/][gray]  ||      ||  [/][dim]__[/][gray]  ||      ||  [/][gold]⚓[/][gray]  ||      ||  [/]",
+      "[cyan] ~~~~~~~~~~~~~~~~~~~[/][blue]▼ 樓梯 ▼[/][cyan]~~~~~~~~~~~~~~~~~~~~~~~ [/]"
+    ],
+    "description": "一排排吊床還掛在梁上。通往下層的樓梯完全泡在水裡，水面下閃著藍光。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "drownedSailor",
+          "caveOctopus"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "bloodLeech",
+          "bloodLeech",
+          "drownedSailor"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "caveOctopus",
+          "caveOctopus"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查淹水的樓梯",
+        "script": "floodedStairs",
+        "if": "flag:waterLowered == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "wreckEntrance",
+        "label": "回破裂的船身"
+      },
+      {
+        "to": "wreckGalley",
+        "label": "往側艙"
+      },
+      {
+        "to": "wreckHold",
+        "label": "走下樓梯",
+        "if": "flag:waterLowered"
+      }
+    ]
+  },
+  {
+    "id": "wreckGalley",
+    "name": "沉船洞窟・側艙",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[gray]   _______________________________________________   [/]",
+      "[gray]  |[/]  [orange](@)[/][gray]  絞盤[/]                       [orange][≡≡≡][/][gray]  吊床  [/][gray]|  [/]",
+      "[gray]  |[/]  [orange]/|\\[/]                             [orange]\\___/[/]        [gray]|  [/]",
+      "[gray]  |_______________________________________________|  [/]"
+    ],
+    "description": "這裡沒有進水，空氣裡有股霉味。角落有一座生鏽的大絞盤，鐵鍊一路通往樓梯下方。",
+    "spots": [
+      {
+        "label": "轉動生鏽的絞盤",
+        "script": "winch"
+      },
+      {
+        "label": "船長的吊床",
+        "script": "galleyRest"
+      },
+      {
+        "label": "翻找船長的箱子",
+        "script": "chestCaptain"
+      }
+    ],
+    "exits": [
+      {
+        "to": "wreckDeck",
+        "label": "回中層甲板"
+      }
+    ]
+  },
+  {
+    "id": "wreckHold",
+    "name": "沉船洞窟・底艙",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[dim]  .   [/][cyan]°[/][dim]     .        [/][cyan]°[/][dim]        .      [/][cyan]°[/][dim]     .     [/]",
+      "[gray]  ___                                         ___    [/]",
+      "[gray] /   \\_______[/][blue]  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  [/][gray]______/   \\   [/]",
+      "[blue]          ~~~~~ [/][cyan]( ◉ )[/][blue] ~~~~~~~~~ [/][cyan]( ◉ )[/][blue] ~~~~~       [/]",
+      "[blue]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   [/]"
+    ],
+    "description": "底艙破了一個大洞，直接連著一座漆黑的深潭。潭底，兩點巨大的光一明一暗。",
+    "encounterRate": 0.5,
+    "encounters": [
+      {
+        "enemies": [
+          "drownedSailor",
+          "caveOctopus",
+          "bloodLeech"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "caveOctopus",
+          "caveOctopus",
+          "blueJelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "drownedSailor",
+          "drownedSailor",
+          "drownedSailor"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "打開鑲貝殼的寶箱",
+        "script": "chestShell"
+      },
+      {
+        "label": "走向漆黑的深潭",
+        "script": "serpentFight",
+        "if": "flag:serpentDefeated == 0"
+      },
+      {
+        "label": "平靜的深潭",
+        "script": "afterSerpent",
+        "if": "flag:serpentDefeated"
+      }
+    ],
+    "exits": [
+      {
+        "to": "wreckDeck",
+        "label": "回中層甲板"
+      }
+    ]
+  },
+  {
+    "id": "desertRoad",
+    "name": "灼熱沙原",
+    "palette": "desert",
+    "art": [
+      "[gold]                 \\  |  /                             [/]",
+      "[gold]               --  ( )  --                           [/]",
+      "[gold]      .           /  |  \\        .        [/][green] |[/][gold]        [/]",
+      "[orange]  _.-~~-._        _.-~~~~-._            [/][green]-+-[/][orange]  _.-~ [/]",
+      "[gold] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [/]"
+    ],
+    "description": "熱風捲著沙粒打在臉上。地平線上的空氣扭曲著，遠方隱約有一座城的影子。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "sandScorpion",
+          "desertVulture"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "duneWorm",
+          "sandScorpion"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "desertVulture",
+          "desertVulture",
+          "cactusSoldier"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "cactusSoldier",
+          "sandScorpion",
+          "sandScorpion"
+        ],
+        "weight": 1
+      }
+    ],
+    "exits": [
+      {
+        "to": "riverPort",
+        "label": "回河港村"
+      },
+      {
+        "to": "sandstoneCity",
+        "label": "前往砂岩城"
+      }
+    ]
+  },
+  {
+    "id": "sandstoneCity",
+    "name": "砂岩城",
+    "kind": "Town",
+    "palette": "desert",
+    "art": [
+      "[gold]          _                 [/][white]⌒[/][gold]                _[/]         ",
+      "[orange]    _____| |_____     ______/ \\______     _____| |_____[/]",
+      "[orange]   |  [/][gold]學者館[/][orange]     |   |  神  殿     |   |  市  集     |[/] ",
+      "[orange]   |___[]________|   |___[]___[]___|   |___[]________|[/] ",
+      "[gold] ::::::::::::::::::::::::::::::::::::::::::::::::::::: [/]"
+    ],
+    "description": "沙色的石牆圍著一座熱鬧的城。可是街上的人都皺著眉頭——城東的遺跡，每到夜晚就冒出紅光。",
+    "onEnter": [
+      {
+        "script": "cityArrive",
+        "if": "flag:cityIntro == 0"
+      },
+      {
+        "script": "chapter3End",
+        "if": "flag:guardianDefeated && flag:chapter3Done == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "學者館",
+        "script": "archive"
+      },
+      {
+        "label": "神殿",
+        "script": "temple"
+      },
+      {
+        "label": "道具店",
+        "script": "cityItemShop"
+      },
+      {
+        "label": "武器防具店",
+        "script": "citySmithShop"
+      },
+      {
+        "label": "旅館",
+        "script": "cityInn"
+      },
+      {
+        "label": "市集的商人",
+        "script": "cityMerchant"
+      }
+    ],
+    "exits": [
+      {
+        "to": "desertRoad",
+        "label": "回灼熱沙原"
+      },
+      {
+        "to": "oasis",
+        "label": "往月影綠洲",
+        "if": "party:xue"
+      },
+      {
+        "to": "northWastes",
+        "label": "往北方荒原",
+        "if": "flag:chapter3Done"
+      }
+    ]
+  },
+  {
+    "id": "oasis",
+    "name": "月影綠洲",
+    "palette": "desert",
+    "art": [
+      "[green]      \\\\|//                          \\\\|//          [/]",
+      "[green]     --(  )--        [/][gold]~ ~[/][green]          --(  )--         [/]",
+      "[orange]        ||                               ||           [/]",
+      "[gold]  ......||......[/][cyan]~~~~~~~~~~~~~~~~~[/][gold].......||.......   [/]",
+      "[gold] ...............[/][cyan] ~~~~~~~~~~~~~~~ [/][gold]...................  [/]"
+    ],
+    "description": "椰棗樹圍著一汪清澈的泉水。這裡涼快得讓人想睡午覺。再往東走，就是遺跡了。",
+    "encounterRate": 0.3,
+    "encounters": [
+      {
+        "enemies": [
+          "sandScorpion",
+          "sandScorpion",
+          "desertVulture"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "duneWorm",
+          "cactusSoldier",
+          "desertVulture"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "mummy",
+          "sandScorpion",
+          "cactusSoldier"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "在泉水邊休息",
+        "script": "oasisRest"
+      },
+      {
+        "label": "挖掘沙裡的東西",
+        "script": "chestOasis"
+      }
+    ],
+    "exits": [
+      {
+        "to": "sandstoneCity",
+        "label": "回砂岩城"
+      },
+      {
+        "to": "ruinsCourt",
+        "label": "前往熾熱遺跡"
+      }
+    ]
+  },
+  {
+    "id": "ruinsCourt",
+    "name": "熾熱遺跡・前庭",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange]     ___        ___        ___        ___        ___     [/]",
+      "[orange]    |   |      |   |      |   |      |   |      |   |    [/]",
+      "[orange]    |   |      |   |    [/][red] /█████\\ [/][orange]   |   |      |   |    [/]",
+      "[orange]    |___|      |___|    [/][red]|  ▲▲▲  |[/][orange]   |___|      |___|    [/]",
+      "[red] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::: [/]"
+    ],
+    "description": "倒塌的石柱之間，地面熱得發燙。遺跡入口的石門大開，裡面透出暗紅色的光。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "mummy",
+          "fireSpirit",
+          "fireSpirit"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "cactusSoldier",
+          "fireSpirit",
+          "mummy"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "mummy",
+          "mummy",
+          "sandScorpion"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查倒下的石像",
+        "script": "chestStatue"
+      }
+    ],
+    "exits": [
+      {
+        "to": "oasis",
+        "label": "回月影綠洲"
+      },
+      {
+        "to": "ruinsHall",
+        "label": "進入遺跡"
+      }
+    ]
+  },
+  {
+    "id": "ruinsHall",
+    "name": "熾熱遺跡・大迴廊",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange] ___________________________________________________ [/]",
+      "[orange]|[/]  [red]◆[/]                  [red]╔═══════╗[/]                  [red]◆[/]  [orange]|[/]",
+      "[orange]|[/]                     [red]║ 封 印 ║[/]                     [orange]|[/]",
+      "[orange]|[/] [orange]西側[/]                [red]║  ◉ ◉  ║[/]                [orange]東側[/] [orange]|[/]",
+      "[orange]|____________________[/][red]╚═══════╝[/][orange]______________________|[/]"
+    ],
+    "description": "長長的迴廊盡頭，是一扇刻滿文字的巨大石門。門上有兩個圓形的凹槽，左右兩邊各有一條通道。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "stoneSentinel",
+          "fireSpirit",
+          "fireSpirit"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "mummy",
+          "lavaSlime",
+          "fireSpirit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lavaSlime",
+          "lavaSlime",
+          "mummy"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查封印的石門",
+        "script": "sealedDoor",
+        "if": "!(flag:ruinsWest && flag:ruinsEast)"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsCourt",
+        "label": "回前庭"
+      },
+      {
+        "to": "ruinsWest",
+        "label": "往西側通道"
+      },
+      {
+        "to": "ruinsEast",
+        "label": "往東側通道"
+      },
+      {
+        "to": "ruinsAltar",
+        "label": "穿過石門",
+        "if": "flag:ruinsWest && flag:ruinsEast"
+      }
+    ]
+  },
+  {
+    "id": "ruinsWest",
+    "name": "熾熱遺跡・月之間",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange] _________________________________________ [/]",
+      "[orange]|[/]                  [white]☾[/]                      [orange]|[/]",
+      "[orange]|[/]   [gray][石台][/]                      [gold]▣[/]         [orange]|[/]",
+      "[orange]|_________________________________________|[/]"
+    ],
+    "description": "天花板上開了一個圓洞，月光一樣的冷光落在中央的石台上。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "stoneSentinel",
+          "mummy",
+          "fireSpirit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lavaSlime",
+          "lavaSlime",
+          "fireSpirit"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "按下月之石台",
+        "script": "moonPlate"
+      },
+      {
+        "label": "打開角落的寶箱",
+        "script": "chestMoon"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsHall",
+        "label": "回大迴廊"
+      }
+    ]
+  },
+  {
+    "id": "ruinsEast",
+    "name": "熾熱遺跡・日之間",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange] _________________________________________ [/]",
+      "[orange]|[/]                  [gold]☀[/]                      [orange]|[/]",
+      "[orange]|[/]   [gray][石台][/]                      [gold]▣[/]         [orange]|[/]",
+      "[orange]|_________________________________________|[/]"
+    ],
+    "description": "熱氣從地板的裂縫湧上來。中央的石台刻著太陽的圖案，燙得不能用手碰。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "fireSpirit",
+          "lavaSlime",
+          "fireSpirit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "stoneSentinel",
+          "stoneSentinel",
+          "fireSpirit"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "按下日之石台",
+        "script": "sunPlate"
+      },
+      {
+        "label": "打開角落的寶箱",
+        "script": "chestSun"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsHall",
+        "label": "回大迴廊"
+      }
+    ]
+  },
+  {
+    "id": "ruinsAltar",
+    "name": "熾熱遺跡・祭壇",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[red]          .           ▲           .[/]           ",
+      "[orange]    ______________/ [/][red]███[/][orange] \\______________[/]       ",
+      "[orange]   |              | [/][red]✹[/][orange] |              |[/]        ",
+      "[orange]   |    [/][gray]▓▓▓▓[/][orange]      |[/][red]███[/][orange]|      [/][gray]▓▓▓▓[/][orange]    |[/]        ",
+      "[red]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [/]"
+    ],
+    "description": "熔岩在祭壇四周緩緩流動。祭壇中央，一尊巨大的石像胸口，紅色的核心正在跳動。",
+    "spots": [
+      {
+        "label": "走近石像",
+        "script": "guardianFight",
+        "if": "flag:guardianDefeated == 0"
+      },
+      {
+        "label": "崩落的祭壇",
+        "script": "afterGuardian",
+        "if": "flag:guardianDefeated"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsHall",
+        "label": "回大迴廊"
+      }
+    ]
+  },
+  {
+    "id": "northWastes",
+    "name": "北方荒原",
+    "palette": "castle",
+    "art": [
+      "[dim]   .        .         [/][red]◢█◣[/][dim]         .        .     [/]",
+      "[dim]        .          [/][purple]_/█████\\_[/][dim]          .          [/]",
+      "[gray]   ^       ^      [/][purple]|█|  █  |█|[/][gray]      ^        ^      [/]",
+      "[gray]  /|\\  _  /|\\   __[/][purple]|█|__[/][red]▲[/][purple]__|█|[/][gray]__   /|\\  _  /|\\   [/]",
+      "[dim] ::::::::::::::::::::::::::::::::::::::::::::::::::::: [/]"
+    ],
+    "description": "枯樹和碎石一路延伸到天邊。暗紅色的天空下，魔王城像一根刺一樣插在大地上。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "hellhound",
+          "wraith"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "gazer",
+          "wraith",
+          "wraith"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "hellhound",
+          "hellhound",
+          "gazer"
+        ],
+        "weight": 2
+      }
+    ],
+    "exits": [
+      {
+        "to": "sandstoneCity",
+        "label": "回砂岩城"
+      },
+      {
+        "to": "castleGate",
+        "label": "前往魔王城"
+      }
+    ]
+  },
+  {
+    "id": "castleGate",
+    "name": "魔王城・城門",
+    "kind": "Town",
+    "palette": "castle",
+    "art": [
+      "[purple]   ▲         ▲                     ▲       ▲     [/]",
+      "[purple]  |█|_______|█|      [/][red]◢█◣[/][purple]          |█|_______|█|    [/]",
+      "[purple]  |█|  ___  |█|_____[/][red]|███|[/][purple]_________|█|  ___  |█|    [/]",
+      "[purple]  |█| |   | |█|     [/][red]|▓▓▓|[/][purple]         |█| |   | |█|    [/]",
+      "[purple]  |█|_|___|_|█|_____[/][red]|▓▓▓|[/][purple]_________|█|_|___|_|█|    [/]"
+    ],
+    "description": "巨大的城門前，結界像黑色的水面一樣流動。城門邊，一尊斷了手臂的女神像靜靜地站著。",
+    "onEnter": [
+      {
+        "script": "castleBarrier",
+        "if": "flag:castleOpen == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "女神像",
+        "script": "goddessStatue"
+      },
+      {
+        "label": "神秘商人",
+        "script": "castleShop"
+      }
+    ],
+    "exits": [
+      {
+        "to": "northWastes",
+        "label": "回北方荒原"
+      },
+      {
+        "to": "castleHall",
+        "label": "進入城內",
+        "if": "flag:castleOpen"
+      }
+    ]
+  },
+  {
+    "id": "castleHall",
+    "name": "魔王城・大廳",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[purple] ___________________________________________________ [/]",
+      "[purple]|[/]  [red]♨[/]  [dim]東塔[/]            [red]╔═════╗[/]          [dim]地下墓室[/]  [red]♨[/]  [purple]|[/]",
+      "[purple]|[/]                     [red]║ ◥ ◤ ║[/]                       [purple]|[/]",
+      "[purple]|_____________________[/][red]╚═════╝[/][purple]_______________________|[/]"
+    ],
+    "description": "挑高的大廳裡掛滿了破爛的旗幟。正面通往王座的大門上，燃著兩團黑色的火焰圖騰——和東塔、地下墓室的方向連在一起。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "shadowKnight",
+          "wraith"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "shadowKnight",
+          "gazer",
+          "hellhound"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "wraith",
+          "wraith",
+          "gazer"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查王座之門",
+        "script": "throneDoor",
+        "if": "!(flag:towerTorch && flag:cryptTorch)"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleGate",
+        "label": "回城門"
+      },
+      {
+        "to": "castleTower",
+        "label": "往東塔"
+      },
+      {
+        "to": "castleCrypt",
+        "label": "往地下墓室"
+      },
+      {
+        "to": "throneRoom",
+        "label": "走向王座之間",
+        "if": "flag:towerTorch && flag:cryptTorch"
+      }
+    ]
+  },
+  {
+    "id": "castleTower",
+    "name": "魔王城・東塔",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[purple]              /\\              [/]",
+      "[purple]             /  \\             [/]",
+      "[purple]            | [/][red]♨[/][purple]  |            [/]",
+      "[purple]            |    |            [/]",
+      "[purple]            |[/][gold]▣[/][purple]   |            [/]",
+      "[purple]   _________|____|_________   [/]"
+    ],
+    "description": "螺旋階梯一路通到塔頂。黑色的火炬在祭台上燃燒，旁邊放著一個蒙塵的長箱。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "gazer",
+          "gazer",
+          "wraith"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "shadowKnight",
+          "hellhound"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "熄滅黑色火炬",
+        "script": "towerTorch"
+      },
+      {
+        "label": "打開蒙塵的長箱",
+        "script": "chestTower"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleHall",
+        "label": "回大廳"
+      }
+    ]
+  },
+  {
+    "id": "castleCrypt",
+    "name": "魔王城・地下墓室",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[gray]  ____   ____   ____   ____   ____  [/]",
+      "[gray] |[/][dim]+[/][gray]   | |[/][dim]+[/][gray]   | |[/][red]♨[/][gray]   | |[/][dim]+[/][gray]   | |[/][dim]+[/][gray]   | [/]",
+      "[gray] |    | |    | |    | |    | |[/][gold]▣[/][gray]   | [/]",
+      "[gray] |____| |____| |____| |____| |____| [/]"
+    ],
+    "description": "一排排石棺沿著牆壁排開。最深處的石棺上，黑色的火焰無聲地燃燒著。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "wraith",
+          "wraith",
+          "shadowKnight"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "hellhound",
+          "hellhound",
+          "wraith"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "熄滅黑色火炬",
+        "script": "cryptTorch"
+      },
+      {
+        "label": "打開刻著龍紋的石棺",
+        "script": "chestCrypt"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleHall",
+        "label": "回大廳"
+      }
+    ]
+  },
+  {
+    "id": "throneRoom",
+    "name": "魔王城・王座之間",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[red]               ◢◣               [/]",
+      "[purple]            ___||___            [/]",
+      "[purple]            |  [/][red]◥◤[/][purple]  |            [/]",
+      "[purple]            |[/][gold]◆[/][purple]____[/][gold]◆[/][purple]|            [/]",
+      "[purple]  __________|______|__________  [/]",
+      "[red]  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  [/]"
+    ],
+    "description": "紅色的地毯一路鋪到王座前。王座上，有個人影正撐著下巴，像是等了你們很久。",
+    "spots": [
+      {
+        "label": "走向王座",
+        "script": "demonKingFight",
+        "if": "flag:demonKingDefeated == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleHall",
+        "label": "回大廳"
+      }
+    ]
+  }
+]

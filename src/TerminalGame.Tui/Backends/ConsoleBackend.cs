@@ -19,6 +19,8 @@ public sealed class ConsoleBackend : ITerminalBackend
 
     private readonly UTF8Encoding utf8 = new(false);
     private readonly Stream stdout = Console.OpenStandardOutput();
+    private readonly object writeLock = new();
+    private PosixSignalRegistration[] signalRegistrations = Array.Empty<PosixSignalRegistration>();
     private bool entered;
 
     public ConsoleBackend(ColorMode? colorMode = null)
@@ -66,7 +68,14 @@ public sealed class ConsoleBackend : ITerminalBackend
         {
         }
 
-        // A last line of defence if the process is killed by something other than a managed exception.
+        // Restore the terminal when the process is asked to stop (kill, closing the terminal window).
+        // ProcessExit alone is not reliable for SIGTERM across runtime versions, so the signals are handled
+        // explicitly; the handler does not cancel, so the default termination still follows.
+        signalRegistrations = new[]
+        {
+            PosixSignalRegistration.Create(PosixSignal.SIGTERM, onSignal),
+            PosixSignalRegistration.Create(PosixSignal.SIGHUP, onSignal),
+        };
         AppDomain.CurrentDomain.ProcessExit += onProcessExit;
         entered = true;
         write(enterSequence);
@@ -81,6 +90,12 @@ public sealed class ConsoleBackend : ITerminalBackend
 
         entered = false;
         AppDomain.CurrentDomain.ProcessExit -= onProcessExit;
+        foreach (PosixSignalRegistration registration in signalRegistrations)
+        {
+            registration.Dispose();
+        }
+
+        signalRegistrations = Array.Empty<PosixSignalRegistration>();
         write(leaveSequence);
         try
         {
@@ -94,8 +109,11 @@ public sealed class ConsoleBackend : ITerminalBackend
     public void write(string text)
     {
         byte[] bytes = utf8.GetBytes(text);
-        stdout.Write(bytes, 0, bytes.Length);
-        stdout.Flush();
+        lock (writeLock)
+        {
+            stdout.Write(bytes, 0, bytes.Length);
+            stdout.Flush();
+        }
     }
 
     public void pollKeys(List<KeyEvent> output)
@@ -118,6 +136,8 @@ public sealed class ConsoleBackend : ITerminalBackend
     public void Dispose() => leave();
 
     private void onProcessExit(object? sender, EventArgs args) => leave();
+
+    private void onSignal(PosixSignalContext context) => leave();
 
     private static int queryWindow(Func<int> query, int fallback)
     {

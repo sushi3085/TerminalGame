@@ -19,7 +19,7 @@ public sealed class TextBlock : Widget
 
     public Style style { get; set; }
 
-    /// <summary>First visible line; clamped while rendering.</summary>
+    /// <summary>First visible line; clamped (and stored back) while rendering, so callers can simply add or subtract 1.</summary>
     public int scrollOffset { get; set; }
 
     public StyledText text
@@ -54,6 +54,7 @@ public sealed class TextBlock : Widget
         IReadOnlyList<StyledLine> lines = linesFor(canvas.size.width);
         int maxOffset = Math.Max(0, lines.Count - canvas.size.height);
         int first = Math.Clamp(scrollOffset, 0, maxOffset);
+        scrollOffset = first;
         Style baseStyle = effectiveTheme.text.overlay(style);
 
         for (int row = 0; row < canvas.size.height && first + row < lines.Count; row++)

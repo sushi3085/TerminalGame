@@ -1,0 +1,1155 @@
+[
+  {
+    "id": "slime",
+    "name": "史萊姆",
+    "level": 2,
+    "stats": {
+      "maxHp": 32,
+      "attack": 11,
+      "defense": 4,
+      "speed": 5
+    },
+    "exp": 24,
+    "gold": 10,
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.25
+      }
+    ],
+    "attackMessage": "撲了過來！",
+    "art": [
+      "[green]      _.---._      [/]",
+      "[green]    .'       '.    [/]",
+      "[green]   /  [/][white]●[/][green]     [/][white]●[/][green]  \\   [/]",
+      "[green]  |     [/][red]\\_/[/][green]     |  [/]",
+      "[green]   \\_____________/  [/]"
+    ]
+  },
+  {
+    "id": "forestBat",
+    "name": "森林蝙蝠",
+    "level": 2,
+    "stats": {
+      "maxHp": 26,
+      "attack": 10,
+      "defense": 3,
+      "speed": 12
+    },
+    "exp": 18,
+    "gold": 8,
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.15
+      }
+    ],
+    "attackMessage": "俯衝咬了過來！",
+    "art": [
+      "[purple] /\\               /\\ [/]",
+      "[purple]/  \\    [/][red]●   ●[/][purple]    /  \\[/]",
+      "[purple]\\   '--._ [/][white]vvv[/][purple] _.--'   /[/]",
+      "[purple] '._    '-----'    _.' [/]",
+      "[purple]    '-.._     _..-'    [/]"
+    ]
+  },
+  {
+    "id": "venomShroom",
+    "name": "毒孢菇",
+    "level": 3,
+    "stats": {
+      "maxHp": 48,
+      "maxMp": 12,
+      "attack": 10,
+      "defense": 6,
+      "magic": 12,
+      "speed": 4
+    },
+    "exp": 30,
+    "gold": 15,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "sporeCloud",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "ether",
+        "chance": 0.1
+      }
+    ],
+    "weakTo": [
+      "Fire"
+    ],
+    "attackMessage": "用傘蓋撞了過來！",
+    "art": [
+      "[red]    .-'''''-.    [/]",
+      "[red]  .' [/][white]o[/][red]   [/][white]o[/][red]   '.  [/]",
+      "[red] /____[/][white]o[/][red]_____[/][white]o[/][red]_\\ [/]",
+      "[orange]     | [/][white]● ●[/][orange] |     [/]",
+      "[orange]     |  [/][red]~[/][orange]  |     [/]",
+      "[orange]     '-----'     [/]"
+    ]
+  },
+  {
+    "id": "wolf",
+    "name": "野狼",
+    "level": 4,
+    "stats": {
+      "maxHp": 52,
+      "attack": 15,
+      "defense": 6,
+      "speed": 11
+    },
+    "exp": 36,
+    "gold": 16,
+    "actions": [
+      {
+        "weight": 5
+      },
+      {
+        "skillId": "bite",
+        "weight": 1
+      },
+      {
+        "skillId": "howl",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.2
+      }
+    ],
+    "attackMessage": "猛撲而來！",
+    "art": [
+      "[gray]   /\\_______/\\   [/]",
+      "[gray]  /  [/][red]●[/][gray]     [/][red]●[/][gray]  \\  [/]",
+      "[gray] (      [/][white]▼[/][gray]      ) [/]",
+      "[gray]  \\   [/][white]\\vvv/[/][gray]   /  [/]",
+      "[gray]   '-._____.-'   [/]"
+    ]
+  },
+  {
+    "id": "forestLord",
+    "name": "森林之主",
+    "level": 7,
+    "stats": {
+      "maxHp": 440,
+      "maxMp": 60,
+      "attack": 22,
+      "defense": 10,
+      "magic": 20,
+      "speed": 6
+    },
+    "exp": 400,
+    "gold": 200,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "sporeStorm",
+        "weight": 2
+      },
+      {
+        "skillId": "sleepSpores",
+        "weight": 1
+      },
+      {
+        "skillId": "regrow",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Fire"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "揮動粗壯的菌柄砸了下來！",
+    "art": [
+      "[red]       .-'''''''''''''-.       [/]",
+      "[red]    .'  [/][orange]*[/][red]    [/][white]◉[/][red]     [/][orange]*[/][red]    '.    [/]",
+      "[red]   /  [/][orange]*[/][red]    [/][white]◉[/][red]   [/][white]◉[/][red]    [/][orange]*[/][red]   \\   [/]",
+      "[red]  /______________________ __\\  [/]",
+      "[orange]          |  [/][purple]≋≋≋≋≋[/][orange]  |          [/]",
+      "[orange]         /|   [/][red]>  <[/][orange]  |\\         [/]",
+      "[orange]     ~~~/ |  [/][purple]═══[/][orange]   | \\~~~     [/]",
+      "[green]   ,,,,,,,,,,,,,,,,,,,,,,,,,,  [/]"
+    ]
+  },
+  {
+    "id": "blueJelly",
+    "name": "藍水母",
+    "level": 8,
+    "stats": {
+      "maxHp": 78,
+      "maxMp": 0,
+      "attack": 25,
+      "defense": 8,
+      "magic": 10,
+      "speed": 9
+    },
+    "exp": 58,
+    "gold": 22,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "stingTouch",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.2
+      }
+    ],
+    "weakTo": [
+      "Fire"
+    ],
+    "attackMessage": "輕飄飄地撞了過來！",
+    "art": [
+      "[cyan]    .-\"\"\"-.    [/]",
+      "[cyan]   /  [/][white]o o[/][cyan]  \\   [/]",
+      "[cyan]  |_________|  [/]",
+      "[blue]   ) ( ) ( (   [/]",
+      "[blue]  ( ) ( ) ) )  [/]"
+    ]
+  },
+  {
+    "id": "riverCrab",
+    "name": "河蟹",
+    "level": 9,
+    "stats": {
+      "maxHp": 96,
+      "attack": 28,
+      "defense": 20,
+      "speed": 6
+    },
+    "exp": 64,
+    "gold": 26,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "hardenShell",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "hiPotion",
+        "chance": 0.08
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "attackMessage": "揮舞大螯夾了過來！",
+    "art": [
+      "[red]  (\\/)     (\\/)  [/]",
+      "[red]   \\ \\[/][white]o[/][red]   [/][white]o[/][red]/ /   [/]",
+      "[red]    \\_______/    [/]",
+      "[orange]   /|  |||  |\\   [/]",
+      "[orange]  / |       | \\  [/]"
+    ]
+  },
+  {
+    "id": "bogFrog",
+    "name": "沼澤蛙",
+    "level": 9,
+    "stats": {
+      "maxHp": 86,
+      "attack": 26,
+      "defense": 10,
+      "speed": 14
+    },
+    "exp": 60,
+    "gold": 22,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "venomTongue",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "antidote",
+        "chance": 0.3
+      }
+    ],
+    "attackMessage": "鼓起腮幫子撞了過來！",
+    "art": [
+      "[green]    ([/][white]◉[/][green])___([/][white]◉[/][green])    [/]",
+      "[green]   /          \\   [/]",
+      "[green]  |  [/][red]\\______/[/][green]  |  [/]",
+      "[green]   \\__/\\__/\\__/   [/]"
+    ]
+  },
+  {
+    "id": "stormGull",
+    "name": "風暴海鷗",
+    "level": 10,
+    "stats": {
+      "maxHp": 74,
+      "attack": 30,
+      "defense": 9,
+      "speed": 20
+    },
+    "exp": 62,
+    "gold": 24,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "diveAttack",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.25
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "attackMessage": "用尖喙啄了過來！",
+    "art": [
+      "[white]  __        __  [/]",
+      "[white]  \\ '.  [/][gold]>[/][white]  .' /  [/]",
+      "[white]   '. '-[/][red]o[/][white]-' .'   [/]",
+      "[gray]     '-.__.-'     [/]"
+    ]
+  },
+  {
+    "id": "drownedSailor",
+    "name": "溺死的水手",
+    "level": 11,
+    "stats": {
+      "maxHp": 145,
+      "maxMp": 12,
+      "attack": 37,
+      "defense": 14,
+      "magic": 14,
+      "speed": 8
+    },
+    "exp": 78,
+    "gold": 32,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "grudge",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "phoenixDown",
+        "chance": 0.06
+      }
+    ],
+    "weakTo": [
+      "Holy",
+      "Fire"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep"
+    ],
+    "attackMessage": "揮動生鏽的船錨砸了過來！",
+    "art": [
+      "[gray]     .---.     [/]",
+      "[gray]    ( [/][cyan]x[/][gray] [/][cyan]x[/][gray] )    [/]",
+      "[gray]     \\ ~ /     [/]",
+      "[blue]   /|=====|\\   [/]",
+      "[blue]  / |     | \\  [/]",
+      "[gray]    _|   |_    [/]"
+    ]
+  },
+  {
+    "id": "caveOctopus",
+    "name": "洞窟章魚",
+    "level": 11,
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 12,
+      "attack": 35,
+      "defense": 12,
+      "magic": 22,
+      "speed": 10
+    },
+    "exp": 80,
+    "gold": 34,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "inkSpray",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "ether",
+        "chance": 0.12
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "attackMessage": "揮出粗壯的觸手！",
+    "art": [
+      "[purple]     .----.     [/]",
+      "[purple]    / [/][white]◎  ◎[/][purple] \\    [/]",
+      "[purple]    \\______/    [/]",
+      "[purple]   //|/||\\|\\\\   [/]",
+      "[purple]  (( )( )( ))  [/]"
+    ]
+  },
+  {
+    "id": "bloodLeech",
+    "name": "吸血水蛭",
+    "level": 11,
+    "stats": {
+      "maxHp": 115,
+      "attack": 34,
+      "defense": 10,
+      "speed": 7
+    },
+    "exp": 70,
+    "gold": 20,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "leechBite",
+        "weight": 2
+      }
+    ],
+    "weakTo": [
+      "Fire"
+    ],
+    "attackMessage": "扭動著撞了過來！",
+    "art": [
+      "[red]   .--~~--.   [/]",
+      "[red]  ( [/][white]oOo[/][red]    )  [/]",
+      "[red]   '--~~--'   [/]"
+    ]
+  },
+  {
+    "id": "deepSerpent",
+    "name": "深潭水蛇",
+    "level": 13,
+    "stats": {
+      "maxHp": 1250,
+      "maxMp": 120,
+      "attack": 44,
+      "defense": 16,
+      "magic": 38,
+      "speed": 12
+    },
+    "exp": 900,
+    "gold": 500,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "tidalWave",
+        "weight": 2
+      },
+      {
+        "skillId": "constrict",
+        "weight": 2
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "resists": [
+      "Fire",
+      "Ice"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "甩動巨大的尾巴掃了過來！",
+    "art": [
+      "[cyan]        __[/][red]◆[/][cyan]__        [/]",
+      "[cyan]     .-'[/][gold]◉[/][cyan]    [/][gold]◉[/][cyan]'-.     [/]",
+      "[cyan]    /  [/][white]vVVVVVv[/][cyan]   \\    [/]",
+      "[cyan]    \\  [/][white]^^^^^^^[/][cyan]   /    [/]",
+      "[blue]     '-.  ~~~  .-'     [/]",
+      "[blue]  ~~~~  )    (  ~~~~   [/]",
+      "[blue] ~~~~~~(  ≋≋  )~~~~~~  [/]",
+      "[blue]   ~~~~ '----' ~~~~    [/]"
+    ]
+  },
+  {
+    "id": "sandScorpion",
+    "name": "沙蠍",
+    "level": 12,
+    "stats": {
+      "maxHp": 130,
+      "attack": 38,
+      "defense": 22,
+      "speed": 12
+    },
+    "exp": 95,
+    "gold": 40,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "poisonSting",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "antidote",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "attackMessage": "揮動大螯夾了過來！",
+    "art": [
+      "[orange]   _       _     [/]",
+      "[orange]  (\\\\__[/][red]oo[/][orange]__//)    [/]",
+      "[orange]   \\_( ''' )_/  ,  [/]",
+      "[orange]    / /|||\\ \\__/   [/]"
+    ]
+  },
+  {
+    "id": "desertVulture",
+    "name": "禿鷲",
+    "level": 12,
+    "stats": {
+      "maxHp": 110,
+      "attack": 40,
+      "defense": 14,
+      "speed": 24
+    },
+    "exp": 90,
+    "gold": 38,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "diveAttack",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "attackMessage": "用利爪抓了過來！",
+    "art": [
+      "[gray] __          __ [/]",
+      "[gray] \\ '-.[/][red]◥◤[/][gray].-' / [/]",
+      "[gray]  '-._(  )_.-'  [/]",
+      "[orange]      /  \\      [/]"
+    ]
+  },
+  {
+    "id": "duneWorm",
+    "name": "沙丘巨蟲",
+    "level": 13,
+    "stats": {
+      "maxHp": 220,
+      "attack": 42,
+      "defense": 16,
+      "speed": 6
+    },
+    "exp": 115,
+    "gold": 45,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "swallow",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "hiPotion",
+        "chance": 0.15
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "attackMessage": "扭動著撞了過來！",
+    "art": [
+      "[orange]     .-~~~-.     [/]",
+      "[orange]    / [/][red]VVVVV[/][orange] \\    [/]",
+      "[orange]   |  [/][red]^^^^^[/][orange]  |   [/]",
+      "[gold]  ~~~~~~~~~~~~~  [/]"
+    ]
+  },
+  {
+    "id": "cactusSoldier",
+    "name": "仙人掌兵",
+    "level": 13,
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 20,
+      "attack": 39,
+      "defense": 20,
+      "speed": 9
+    },
+    "exp": 105,
+    "gold": 42,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "needleBurst",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Fire"
+    ],
+    "attackMessage": "揮出長滿刺的手臂！",
+    "art": [
+      "[green]     _|_     [/]",
+      "[green]  _ |[/][white]o o[/][green]| _  [/]",
+      "[green] | ||[/][red] ^ [/][green]|| | [/]",
+      "[green]  \\_|   |_/  [/]",
+      "[green]    |___|    [/]"
+    ]
+  },
+  {
+    "id": "fireSpirit",
+    "name": "火焰精靈",
+    "level": 14,
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 40,
+      "attack": 36,
+      "defense": 14,
+      "magic": 44,
+      "speed": 18
+    },
+    "exp": 140,
+    "gold": 44,
+    "actions": [
+      {
+        "weight": 1
+      },
+      {
+        "skillId": "flameBurst",
+        "weight": 3
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "ether",
+        "chance": 0.15
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "attackMessage": "化成火球撞了過來！",
+    "art": [
+      "[red]     (  )    [/]",
+      "[orange]    ( [/][gold]◕◕[/][orange] )   [/]",
+      "[red]   (  ~~  )  [/]",
+      "[orange]    `----`   [/]"
+    ]
+  },
+  {
+    "id": "mummy",
+    "name": "木乃伊",
+    "level": 14,
+    "stats": {
+      "maxHp": 260,
+      "maxMp": 20,
+      "attack": 46,
+      "defense": 18,
+      "magic": 20,
+      "speed": 8
+    },
+    "exp": 150,
+    "gold": 48,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "curseWrap",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "mintLeaf",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Fire",
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep"
+    ],
+    "attackMessage": "伸出纏著繃帶的手抓了過來！",
+    "art": [
+      "[white]    .===.    [/]",
+      "[white]   ( [/][red]-[/][white] [/][red]-[/][white] )   [/]",
+      "[white]  /|=====|\\  [/]",
+      "[white] / |=====| \\ [/]",
+      "[white]   |== ==|   [/]"
+    ]
+  },
+  {
+    "id": "stoneSentinel",
+    "name": "石像衛兵",
+    "level": 15,
+    "stats": {
+      "maxHp": 300,
+      "attack": 52,
+      "defense": 32,
+      "speed": 5
+    },
+    "exp": 165,
+    "gold": 52,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "hardenShell",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "揮動石拳砸了過來！",
+    "art": [
+      "[gray]   .-----.   [/]",
+      "[gray]   |[/][red]■[/][gray] [/][red]■[/][gray]|   [/]",
+      "[gray]  /|_____|\\  [/]",
+      "[gray] |_| ||| |_| [/]",
+      "[gray]   _|   |_   [/]"
+    ]
+  },
+  {
+    "id": "lavaSlime",
+    "name": "熔岩史萊姆",
+    "level": 15,
+    "stats": {
+      "maxHp": 200,
+      "maxMp": 30,
+      "attack": 50,
+      "defense": 20,
+      "magic": 40,
+      "speed": 10
+    },
+    "exp": 155,
+    "gold": 50,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "lavaBreath",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "attackMessage": "滾燙的身體撲了過來！",
+    "art": [
+      "[red]     _.---._     [/]",
+      "[red]   .'  [/][gold]● ●[/][red]  '.   [/]",
+      "[orange]  |    [/][gold]\\_/[/][orange]    |  [/]",
+      "[red]   \\_~_~_~_~_/   [/]"
+    ]
+  },
+  {
+    "id": "ruinGuardian",
+    "name": "遺跡守衛",
+    "level": 17,
+    "stats": {
+      "maxHp": 3400,
+      "maxMp": 200,
+      "attack": 76,
+      "defense": 30,
+      "magic": 52,
+      "speed": 11
+    },
+    "exp": 2000,
+    "gold": 900,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "magmaFist",
+        "weight": 2
+      },
+      {
+        "skillId": "quakeStomp",
+        "weight": 2
+      },
+      {
+        "skillId": "overheat",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "揮動巨大的石臂橫掃而來！",
+    "art": [
+      "[gray]       ._______.       [/]",
+      "[gray]       | [/][red]◣   ◢[/][gray] |       [/]",
+      "[gray]   ____|_______|____   [/]",
+      "[gray]  /  |  [/][red]( ✹ )[/][gray]  |  \\  [/]",
+      "[gray] |[/][orange]##[/][gray]|   [/][red]~~~[/][gray]   |[/][orange]##[/][gray]| [/]",
+      "[gray] |__|_________|__|  [/]",
+      "[gray]     |__|   |__|     [/]",
+      "[orange]    [[__]   [[__]    [/]"
+    ]
+  },
+  {
+    "id": "shadowKnight",
+    "name": "暗影騎士",
+    "level": 18,
+    "stats": {
+      "maxHp": 340,
+      "maxMp": 30,
+      "attack": 66,
+      "defense": 34,
+      "magic": 20,
+      "speed": 14
+    },
+    "exp": 230,
+    "gold": 80,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "shadowSlash",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "hiPotion",
+        "chance": 0.2
+      }
+    ],
+    "weakTo": [
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison"
+    ],
+    "attackMessage": "揮動漆黑的長劍斬了過來！",
+    "art": [
+      "[purple]    _/\\_    [/]",
+      "[purple]   |[/][red]=  =[/][purple]|   [/]",
+      "[purple]  /|====|\\  [/]",
+      "[purple] / |====| |[/][gray]/[/]",
+      "[purple]   _|  |_   [/]"
+    ]
+  },
+  {
+    "id": "gazer",
+    "name": "魔眼球",
+    "level": 17,
+    "stats": {
+      "maxHp": 260,
+      "maxMp": 40,
+      "attack": 54,
+      "defense": 24,
+      "magic": 44,
+      "speed": 16
+    },
+    "exp": 210,
+    "gold": 70,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "stoneGaze",
+        "weight": 1
+      },
+      {
+        "skillId": "darkWave",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "mintLeaf",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Holy",
+      "Thunder"
+    ],
+    "attackMessage": "用觸手抽了過來！",
+    "art": [
+      "[purple]   .-\"\"\"-.   [/]",
+      "[purple]  /  [/][white]( [/][red]●[/][white] )[/][purple] \\  [/]",
+      "[purple]  \\       /  [/]",
+      "[purple]   '~~~~~'   [/]"
+    ]
+  },
+  {
+    "id": "wraith",
+    "name": "怨靈",
+    "level": 17,
+    "stats": {
+      "maxHp": 230,
+      "maxMp": 40,
+      "attack": 52,
+      "defense": 20,
+      "magic": 40,
+      "speed": 20
+    },
+    "exp": 200,
+    "gold": 60,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "wail",
+        "weight": 1
+      },
+      {
+        "skillId": "darkWave",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Holy",
+      "Fire"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "穿過身體，帶走一陣寒意！",
+    "art": [
+      "[gray]    .---.    [/]",
+      "[gray]   ( [/][cyan]o o[/][gray] )   [/]",
+      "[gray]   |  [/][dim]O[/][gray]  |   [/]",
+      "[gray]   /\\/\\/\\/   [/]"
+    ]
+  },
+  {
+    "id": "hellhound",
+    "name": "地獄犬",
+    "level": 18,
+    "stats": {
+      "maxHp": 290,
+      "maxMp": 30,
+      "attack": 60,
+      "defense": 26,
+      "magic": 36,
+      "speed": 22
+    },
+    "exp": 220,
+    "gold": 75,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "hellfire",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "attackMessage": "張開燃燒的大嘴咬了過來！",
+    "art": [
+      "[red]  /\\_____/\\  [/]",
+      "[red] /  [/][gold]◉[/][red]   [/][gold]◉[/][red]  \\ [/]",
+      "[red](     ▼     )[/]",
+      "[red] \\ [/][orange]\\vvvvv/[/][red] / [/]"
+    ]
+  },
+  {
+    "id": "demonKing",
+    "name": "魔王",
+    "level": 22,
+    "stats": {
+      "maxHp": 2600,
+      "maxMp": 300,
+      "attack": 72,
+      "defense": 36,
+      "magic": 52,
+      "speed": 15
+    },
+    "exp": 3000,
+    "gold": 0,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "darkWave",
+        "weight": 2
+      },
+      {
+        "skillId": "despairTouch",
+        "weight": 2
+      },
+      {
+        "skillId": "darkMist",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "nextPhase": "demonKingTrue",
+    "phaseMessage": "魔王的身軀碎裂了——不，是從裡面[red b]裂開[/]了！\n黑霧全部湧回，凝聚成一個巨大的身影……",
+    "attackMessage": "揮動黑色的權杖砸了下來！",
+    "art": [
+      "[purple]      _/\\  /\\_      [/]",
+      "[purple]     /  [/][red]◥  ◤[/][purple]  \\     [/]",
+      "[purple]    |   [/][red]▼▼▼▼[/][purple]   |    [/]",
+      "[purple]   /|  \\____/  |\\   [/]",
+      "[purple]  / |  [/][gold]◆[/][purple]    [/][gold]◆[/][purple]  | \\  [/]",
+      "[purple] /__|__________|__\\ [/]",
+      "[purple]    |___|  |___|    [/]"
+    ]
+  },
+  {
+    "id": "demonKingTrue",
+    "name": "魔王・真身",
+    "level": 24,
+    "stats": {
+      "maxHp": 2300,
+      "maxMp": 400,
+      "attack": 76,
+      "defense": 34,
+      "magic": 60,
+      "speed": 18
+    },
+    "exp": 5000,
+    "gold": 0,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "doom",
+        "weight": 2
+      },
+      {
+        "skillId": "soulRend",
+        "weight": 2
+      },
+      {
+        "skillId": "evilEye",
+        "weight": 1
+      },
+      {
+        "skillId": "darkRegen",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "巨大的爪子橫掃而來！",
+    "art": [
+      "[red]  /\\      [/][purple]◢◣[/][red]      /\\  [/]",
+      "[red] /  \\   [/][purple]_/[/][gold]◉◉[/][purple]\\_[/][red]   /  \\ [/]",
+      "[purple]|    \\/   [/][red]▼▼[/][purple]   \\/    |[/]",
+      "[purple]|    [/][red]VVVVVVVVVVVV[/][purple]    |[/]",
+      "[purple] \\    [/][red]^^^^^^^^^^[/][purple]    / [/]",
+      "[purple]  \\_______  _______/  [/]",
+      "[purple]   //   |    |   \\\\   [/]",
+      "[purple]  //    '----'    \\\\  [/]"
+    ]
+  }
+]

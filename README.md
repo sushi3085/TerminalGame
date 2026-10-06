@@ -1,8 +1,8 @@
 # TerminalGame
 
-用 C# 寫文字 JRPG 的終端機 UI 框架（`TerminalGame.Tui`），附一個可玩的迷你 Demo。
+用 C# 寫文字 JRPG 的終端機 UI 框架（`TerminalGame.Tui`），以及用它製作的 JRPG《光之試煉》——四章（低語森林、河港村、砂岩城、魔王城）可以從頭玩到結局，約 1 小時：四位夥伴、三座城鎮、迷宮機關、狀態異常與屬性弱點、兩階段的最終 Boss。
 
-- .NET 8、零第三方執行期依賴，直接輸出 ANSI/VT 序列
+- .NET 10、零第三方執行期依賴，直接輸出 ANSI/VT 序列
 - 雙緩衝＋差異輸出（只送變動的格子）、真彩色（自動降級 256 / 16 色）
 - 全形字（中日韓）正確對齊，CJK 感知的換行與禁則處理
 - JRPG 元件：打字機對話框（逐字、分頁、標點停頓）、指令選單、HP/MP 條、視窗框、modal 選單
@@ -13,7 +13,7 @@
 
 ## 執行 Demo
 
-需要 [.NET 8 SDK](https://dotnet.microsoft.com/download) 與支援 UTF-8 的終端機（建議 80×24 以上）。
+需要 [.NET 10 SDK](https://dotnet.microsoft.com/download) 與支援 UTF-8 的終端機（建議 80×24 以上）。
 
 ```bash
 dotnet run --project src/TerminalGame.Demo
@@ -24,7 +24,9 @@ dotnet run --project src/TerminalGame.Demo
 | ↑ ↓ ← → | 移動游標 |
 | Enter / Space / Z | 確認；對話中：先顯示整段，再按翻頁 |
 | Esc / Backspace / X | 取消 |
-| Tab / M | 開啟狀態面板（城鎮中） |
+| Tab / M | 開啟隊伍選單（道具、技能、裝備、狀態、冒險日誌） |
+| ← → | 裝備／狀態畫面中切換角色 |
+| 戰鬥指令「自動」 | 之後的我方回合交給自動戰鬥；按 Esc 在下一個回合收回控制 |
 | Ctrl+C | 離開 |
 
 沒有 TTY（CI、遠端 shell）時，可印出一段腳本化的遊戲流程畫面：
@@ -75,14 +77,34 @@ src/TerminalGame.Tui/        框架
   Widgets/     Widget · StackPanel · Border · Label · TextBlock
                MenuList · DialogueBox · ProgressBar · ArtBlock · Spacer
   Runtime/     Application（主迴圈）· Scene（場景、焦點、modal）
-src/TerminalGame.Demo/       迷你 JRPG
-tests/TerminalGame.Tui.Tests/  xUnit 測試
-docs/DESIGN.md               設計文件
+src/TerminalGame.Rpg/        遊戲規則（不依賴 UI，可單元測試、可模擬）
+  Data/        *Def 定義 · ContentDb（載入 JSON 並驗證交叉引用）
+  State/       PartyMember · Inventory · Flags · GameSession · Progression · SaveData
+  Battle/      BattleEngine（事件式）· BattleEvent · DamageFormula
+  Script/      Condition（條件式）· ScriptRunner（事件腳本直譯器）
+  World/       WorldRules（移動、遇敵）· ShopRules · FieldRules
+src/TerminalGame.Demo/       遊戲本體（Scenes：Title · Location · Battle · Shop · PartyMenu · Equip · Status）
+content/                     遊戲資料 JSON：技能、道具、角色、敵人、開局設定
+tests/TerminalGame.Tui.Tests/  框架測試
+tests/TerminalGame.Rpg.Tests/  規則與內容驗證測試
+tests/TerminalGame.Demo.Tests/ 以無頭終端實際按鍵遊玩的流程測試
+docs/DESIGN.md               框架設計文件
+docs/ROADMAP.md              遊戲開發路線圖與進度
+docs/CONTENT.md              內容 JSON 撰寫指南
+tools/TerminalGame.Sim/      平衡模擬器（dotnet run --project tools/TerminalGame.Sim）
 ```
+
+### 遊戲資料
+
+`content/*.json` 會複製到執行檔旁的 `content/` 目錄，啟動時載入。技能、道具、角色、敵人、地點、商店、事件腳本、冒險日誌、夥伴閒聊全部是資料；所有 id 引用與條件式在載入時檢查，打錯字會直接列出錯誤而不是遊戲中途當掉。格式說明見 [docs/CONTENT.md](docs/CONTENT.md)。
+
+存檔位置：`~/.local/share/TerminalGame/saves/`（Windows 為 `%LOCALAPPDATA%\TerminalGame\saves\`）。在旅館休息時可以存檔。
+
+戰鬥規則集中在 `BattleEngine`、`DamageFormula` 與 `StatusRules`（狀態異常、屬性）：引擎每次行動回傳一串 `BattleEvent`，`BattleScene` 只負責把事件轉成訊息並播放，因此規則可以脫離畫面測試與模擬。
 
 ## 開發
 
-目標框架統一設定在 `Directory.Build.props`（目前 `net8.0`，這是開發時唯一驗證過的版本）。若要跟 Visual Studio 範本一樣用 `net10.0`，改那一行即可。
+目標框架統一設定在 `Directory.Build.props`（目前 `net10.0`），所有專案共用。
 
 ```bash
 dotnet build          # 同時以 .editorconfig 檢查命名規範（IDE1006）
