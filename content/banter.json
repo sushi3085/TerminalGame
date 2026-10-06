@@ -99,6 +99,61 @@
     "script": "banterChapter2End"
   },
   {
+    "id": "xueJoin",
+    "at": [
+      "sandstoneCity",
+      "oasis"
+    ],
+    "if": "party:xue",
+    "script": "banterXueJoin"
+  },
+  {
+    "id": "ruins",
+    "at": [
+      "ruinsCourt",
+      "ruinsHall"
+    ],
+    "if": "party:xue",
+    "script": "banterRuins"
+  },
+  {
+    "id": "sealedDoor",
+    "at": [
+      "ruinsHall"
+    ],
+    "if": "!(flag:ruinsWest && flag:ruinsEast)",
+    "script": "banterSealedDoor"
+  },
+  {
+    "id": "altar",
+    "at": [
+      "ruinsAltar"
+    ],
+    "if": "flag:guardianDefeated == 0",
+    "script": "banterAltar"
+  },
+  {
+    "id": "city",
+    "at": [
+      "sandstoneCity"
+    ],
+    "if": "party:xue && flag:guardianDefeated == 0",
+    "script": "banterCity"
+  },
+  {
+    "id": "afterGuardian",
+    "if": "flag:guardianDefeated && flag:chapter3Done == 0",
+    "script": "banterAfterGuardian"
+  },
+  {
+    "id": "chapter3End",
+    "at": [
+      "sandstoneCity"
+    ],
+    "if": "flag:chapter3Done",
+    "script": "banterChapter3End"
+  },
+  {
     "id": "smallTalk",
     "once": false,
     "script": "banterSmallTalk"
@@ -119,5 +174,11 @@
     "once": false,
     "if": "party:bal",
     "script": "banterBalTalk"
+  },
+  {
+    "id": "xueTalk",
+    "once": false,
+    "if": "party:xue",
+    "script": "banterXueTalk"
   }
 ]

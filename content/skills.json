@@ -348,5 +348,239 @@
       }
     },
     "useMessage": "緊緊[red]吸附[/]上來！"
+  },
+  {
+    "id": "healWind",
+    "name": "治癒之風",
+    "mpCost": 9,
+    "target": "AllAllies",
+    "effect": {
+      "kind": "Heal",
+      "power": 30,
+      "magicScaling": 70
+    },
+    "description": "溫柔的風恢復全體同伴的 HP。",
+    "useMessage": "雙手合十，喚來[green]治癒之風[/]……"
+  },
+  {
+    "id": "iceShard",
+    "name": "冰晶",
+    "mpCost": 5,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Magical",
+      "power": 210,
+      "element": "Ice"
+    },
+    "description": "射出銳利的冰晶。火焰的生物特別怕冰。",
+    "useMessage": "凝聚寒氣，射出[cyan]冰晶[/]！"
+  },
+  {
+    "id": "purify",
+    "name": "淨化",
+    "mpCost": 3,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Status",
+      "cures": [
+        "Poison",
+        "Sleep",
+        "Paralysis",
+        "AttackDown",
+        "DefenseDown"
+      ]
+    },
+    "description": "解除一名同伴的中毒、睡眠、麻痺與能力下降。",
+    "useMessage": "輕聲祈禱——[white]淨化[/]！"
+  },
+  {
+    "id": "revival",
+    "name": "復甦",
+    "mpCost": 12,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Revive",
+      "power": 50
+    },
+    "description": "讓倒下的同伴復活，恢復一半 HP。",
+    "useMessage": "高舉法杖，光芒灑落——[gold]復甦[/]！"
+  },
+  {
+    "id": "blizzard",
+    "name": "暴風雪",
+    "mpCost": 12,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 135,
+      "element": "Ice"
+    },
+    "description": "冰雪席捲所有敵人。",
+    "useMessage": "氣溫驟降，[cyan]暴風雪[/]呼嘯而過！"
+  },
+  {
+    "id": "holyLight",
+    "name": "聖光",
+    "mpCost": 14,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 150,
+      "element": "Holy"
+    },
+    "description": "神聖的光芒灼燒所有敵人。邪惡之物特別怕聖光。",
+    "useMessage": "天空裂開一道縫，[gold]聖光[/]傾瀉而下！"
+  },
+  {
+    "id": "lightBlade",
+    "name": "光之劍",
+    "mpCost": 8,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 200,
+      "element": "Holy"
+    },
+    "description": "讓劍刃纏上光芒斬擊。",
+    "useMessage": "劍刃亮起白光——[gold]光之劍[/]！"
+  },
+  {
+    "id": "frostArrow",
+    "name": "冰霜箭",
+    "mpCost": 5,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 160,
+      "element": "Ice"
+    },
+    "description": "箭頭結著霜的一箭。",
+    "useMessage": "箭頭凝結白霜——[cyan]冰霜箭[/]！"
+  },
+  {
+    "id": "earthSplitter",
+    "name": "地裂斬",
+    "mpCost": 8,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Physical",
+      "power": 95
+    },
+    "description": "斧頭劈進地面，震傷所有敵人。",
+    "useMessage": "斧頭重重劈進地面——[orange]地裂斬[/]！"
+  },
+  {
+    "id": "poisonSting",
+    "name": "毒針",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 110,
+      "status": {
+        "kind": "Poison",
+        "chance": 0.5,
+        "turns": 3
+      }
+    },
+    "useMessage": "翹起尾巴刺出[purple]毒針[/]！"
+  },
+  {
+    "id": "swallow",
+    "name": "吞噬",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 165
+    },
+    "useMessage": "從沙裡張開大口[red]吞噬[/]！"
+  },
+  {
+    "id": "needleBurst",
+    "name": "千針",
+    "mpCost": 4,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Physical",
+      "power": 70
+    },
+    "useMessage": "全身的刺一齊射出——[green]千針[/]！"
+  },
+  {
+    "id": "flameBurst",
+    "name": "火焰",
+    "mpCost": 4,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Magical",
+      "power": 190,
+      "element": "Fire"
+    },
+    "useMessage": "吐出一團[red]火焰[/]！"
+  },
+  {
+    "id": "lavaBreath",
+    "name": "熔岩吐息",
+    "mpCost": 7,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 105,
+      "element": "Fire"
+    },
+    "useMessage": "噴出滾燙的[red]熔岩吐息[/]！"
+  },
+  {
+    "id": "curseWrap",
+    "name": "詛咒繃帶",
+    "mpCost": 4,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "Sleep",
+        "chance": 0.5,
+        "turns": 2
+      }
+    },
+    "useMessage": "甩出纏著[purple]詛咒繃帶[/]的手臂……"
+  },
+  {
+    "id": "magmaFist",
+    "name": "熔岩拳",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 150
+    },
+    "useMessage": "燒紅的拳頭[red]熔岩拳[/]砸了下來！"
+  },
+  {
+    "id": "quakeStomp",
+    "name": "地震",
+    "mpCost": 8,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Physical",
+      "power": 85,
+      "status": {
+        "kind": "Paralysis",
+        "chance": 0.2,
+        "turns": 1
+      }
+    },
+    "useMessage": "抬起巨腳重重踏下——[orange]地震[/]！"
+  },
+  {
+    "id": "overheat",
+    "name": "核心過熱",
+    "target": "Self",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "AttackUp",
+        "turns": 3
+      }
+    },
+    "useMessage": "胸口的核心燒得通紅——[red]核心過熱[/]！"
   }
 ]

@@ -352,5 +352,205 @@
     "name": "黑色結晶",
     "kind": "Key",
     "description": "水蛇體內取出的結晶，摸起來冰冷刺骨。"
+  },
+  {
+    "id": "hiEther",
+    "name": "高級魔力水",
+    "kind": "Consumable",
+    "price": 90,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "RestoreMp",
+      "power": 40
+    },
+    "description": "濃縮的魔力泉水。恢復 40 點 MP。"
+  },
+  {
+    "id": "oakStaff",
+    "name": "橡木杖",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 80,
+    "bonus": {
+      "attack": 2,
+      "magic": 4
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "神殿見習生用的法杖。"
+  },
+  {
+    "id": "priestRobe",
+    "name": "神官袍",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 120,
+    "bonus": {
+      "defense": 3,
+      "magic": 3
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "繡著銀線的白袍。"
+  },
+  {
+    "id": "steelSword",
+    "name": "鋼劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 620,
+    "bonus": {
+      "attack": 18
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "砂岩城的名匠打造的鋼劍。"
+  },
+  {
+    "id": "hornBow",
+    "name": "角弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 640,
+    "bonus": {
+      "attack": 20,
+      "speed": 2
+    },
+    "equippableBy": [
+      "rin"
+    ],
+    "description": "用沙漠羚羊角做的弓，又輕又強。"
+  },
+  {
+    "id": "warHammer",
+    "name": "戰鎚",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 600,
+    "bonus": {
+      "attack": 19
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "敲得碎岩石的鐵鎚。"
+  },
+  {
+    "id": "crystalStaff",
+    "name": "水晶杖",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 580,
+    "bonus": {
+      "attack": 5,
+      "magic": 9
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "杖頭鑲著透明水晶。"
+  },
+  {
+    "id": "steelPlate",
+    "name": "鋼板甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 600,
+    "bonus": {
+      "defense": 14
+    },
+    "equippableBy": [
+      "hero",
+      "bal"
+    ],
+    "description": "厚重的鋼板甲。"
+  },
+  {
+    "id": "desertCloak",
+    "name": "沙漠斗篷",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 480,
+    "bonus": {
+      "defense": 9,
+      "speed": 2,
+      "magic": 2
+    },
+    "description": "擋得住烈日和沙暴的斗篷。"
+  },
+  {
+    "id": "sandTurban",
+    "name": "沙漠頭巾",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 300,
+    "bonus": {
+      "defense": 6,
+      "maxHp": 10
+    },
+    "description": "一層層纏繞的厚頭巾。"
+  },
+  {
+    "id": "sunAmulet",
+    "name": "太陽護符",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 520,
+    "bonus": {
+      "maxHp": 30,
+      "defense": 2
+    },
+    "description": "刻著太陽紋的護符，摸起來暖暖的。"
+  },
+  {
+    "id": "sunBlade",
+    "name": "太陽之刃",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 0,
+    "bonus": {
+      "attack": 24,
+      "magic": 3
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "遺跡深處供奉的劍，刀身像在發光。"
+  },
+  {
+    "id": "guardianShield",
+    "name": "守衛之盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "defense": 12,
+      "maxHp": 25
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "遺跡守衛用過的石盾，出奇地輕。"
+  },
+  {
+    "id": "frostRing",
+    "name": "霜之戒",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "magic": 6,
+      "maxMp": 15
+    },
+    "description": "在烈日下也不會融化的冰之戒指。"
+  },
+  {
+    "id": "sealStone",
+    "name": "封印石碎片",
+    "kind": "Key",
+    "description": "遺跡祭壇上剝落的石片，刻著古老的封印文字。"
   }
 ]

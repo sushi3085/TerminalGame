@@ -508,5 +508,371 @@
       "[blue] ~~~~~~(  ≋≋  )~~~~~~  [/]",
       "[blue]   ~~~~ '----' ~~~~    [/]"
     ]
+  },
+  {
+    "id": "sandScorpion",
+    "name": "沙蠍",
+    "level": 12,
+    "stats": {
+      "maxHp": 130,
+      "attack": 38,
+      "defense": 22,
+      "speed": 12
+    },
+    "exp": 95,
+    "gold": 40,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "poisonSting",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "antidote",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "attackMessage": "揮動大螯夾了過來！",
+    "art": [
+      "[orange]   _       _     [/]",
+      "[orange]  (\\\\__[/][red]oo[/][orange]__//)    [/]",
+      "[orange]   \\_( ''' )_/  ,  [/]",
+      "[orange]    / /|||\\ \\__/   [/]"
+    ]
+  },
+  {
+    "id": "desertVulture",
+    "name": "禿鷲",
+    "level": 12,
+    "stats": {
+      "maxHp": 110,
+      "attack": 40,
+      "defense": 14,
+      "speed": 24
+    },
+    "exp": 90,
+    "gold": 38,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "diveAttack",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "potion",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "attackMessage": "用利爪抓了過來！",
+    "art": [
+      "[gray] __          __ [/]",
+      "[gray] \\ '-.[/][red]◥◤[/][gray].-' / [/]",
+      "[gray]  '-._(  )_.-'  [/]",
+      "[orange]      /  \\      [/]"
+    ]
+  },
+  {
+    "id": "duneWorm",
+    "name": "沙丘巨蟲",
+    "level": 13,
+    "stats": {
+      "maxHp": 220,
+      "attack": 42,
+      "defense": 16,
+      "speed": 6
+    },
+    "exp": 115,
+    "gold": 45,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "swallow",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "hiPotion",
+        "chance": 0.15
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "attackMessage": "扭動著撞了過來！",
+    "art": [
+      "[orange]     .-~~~-.     [/]",
+      "[orange]    / [/][red]VVVVV[/][orange] \\    [/]",
+      "[orange]   |  [/][red]^^^^^[/][orange]  |   [/]",
+      "[gold]  ~~~~~~~~~~~~~  [/]"
+    ]
+  },
+  {
+    "id": "cactusSoldier",
+    "name": "仙人掌兵",
+    "level": 13,
+    "stats": {
+      "maxHp": 150,
+      "maxMp": 20,
+      "attack": 39,
+      "defense": 20,
+      "speed": 9
+    },
+    "exp": 105,
+    "gold": 42,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "needleBurst",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Fire"
+    ],
+    "attackMessage": "揮出長滿刺的手臂！",
+    "art": [
+      "[green]     _|_     [/]",
+      "[green]  _ |[/][white]o o[/][green]| _  [/]",
+      "[green] | ||[/][red] ^ [/][green]|| | [/]",
+      "[green]  \\_|   |_/  [/]",
+      "[green]    |___|    [/]"
+    ]
+  },
+  {
+    "id": "fireSpirit",
+    "name": "火焰精靈",
+    "level": 14,
+    "stats": {
+      "maxHp": 160,
+      "maxMp": 40,
+      "attack": 36,
+      "defense": 14,
+      "magic": 44,
+      "speed": 18
+    },
+    "exp": 140,
+    "gold": 44,
+    "actions": [
+      {
+        "weight": 1
+      },
+      {
+        "skillId": "flameBurst",
+        "weight": 3
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "ether",
+        "chance": 0.15
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "attackMessage": "化成火球撞了過來！",
+    "art": [
+      "[red]     (  )    [/]",
+      "[orange]    ( [/][gold]◕◕[/][orange] )   [/]",
+      "[red]   (  ~~  )  [/]",
+      "[orange]    `----`   [/]"
+    ]
+  },
+  {
+    "id": "mummy",
+    "name": "木乃伊",
+    "level": 14,
+    "stats": {
+      "maxHp": 260,
+      "maxMp": 20,
+      "attack": 46,
+      "defense": 18,
+      "magic": 20,
+      "speed": 8
+    },
+    "exp": 150,
+    "gold": 48,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "curseWrap",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "mintLeaf",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Fire",
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep"
+    ],
+    "attackMessage": "伸出纏著繃帶的手抓了過來！",
+    "art": [
+      "[white]    .===.    [/]",
+      "[white]   ( [/][red]-[/][white] [/][red]-[/][white] )   [/]",
+      "[white]  /|=====|\\  [/]",
+      "[white] / |=====| \\ [/]",
+      "[white]   |== ==|   [/]"
+    ]
+  },
+  {
+    "id": "stoneSentinel",
+    "name": "石像衛兵",
+    "level": 15,
+    "stats": {
+      "maxHp": 300,
+      "attack": 52,
+      "defense": 32,
+      "speed": 5
+    },
+    "exp": 165,
+    "gold": 52,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "hardenShell",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Thunder"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "揮動石拳砸了過來！",
+    "art": [
+      "[gray]   .-----.   [/]",
+      "[gray]   |[/][red]■[/][gray] [/][red]■[/][gray]|   [/]",
+      "[gray]  /|_____|\\  [/]",
+      "[gray] |_| ||| |_| [/]",
+      "[gray]   _|   |_   [/]"
+    ]
+  },
+  {
+    "id": "lavaSlime",
+    "name": "熔岩史萊姆",
+    "level": 15,
+    "stats": {
+      "maxHp": 200,
+      "maxMp": 30,
+      "attack": 50,
+      "defense": 20,
+      "magic": 40,
+      "speed": 10
+    },
+    "exp": 155,
+    "gold": 50,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "lavaBreath",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "attackMessage": "滾燙的身體撲了過來！",
+    "art": [
+      "[red]     _.---._     [/]",
+      "[red]   .'  [/][gold]● ●[/][red]  '.   [/]",
+      "[orange]  |    [/][gold]\\_/[/][orange]    |  [/]",
+      "[red]   \\_~_~_~_~_/   [/]"
+    ]
+  },
+  {
+    "id": "ruinGuardian",
+    "name": "遺跡守衛",
+    "level": 17,
+    "stats": {
+      "maxHp": 3400,
+      "maxMp": 200,
+      "attack": 76,
+      "defense": 30,
+      "magic": 52,
+      "speed": 11
+    },
+    "exp": 2000,
+    "gold": 900,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "magmaFist",
+        "weight": 2
+      },
+      {
+        "skillId": "quakeStomp",
+        "weight": 2
+      },
+      {
+        "skillId": "overheat",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "揮動巨大的石臂橫掃而來！",
+    "art": [
+      "[gray]       ._______.       [/]",
+      "[gray]       | [/][red]◣   ◢[/][gray] |       [/]",
+      "[gray]   ____|_______|____   [/]",
+      "[gray]  /  |  [/][red]( ✹ )[/][gray]  |  \\  [/]",
+      "[gray] |[/][orange]##[/][gray]|   [/][red]~~~[/][gray]   |[/][orange]##[/][gray]| [/]",
+      "[gray] |__|_________|__|  [/]",
+      "[gray]     |__|   |__|     [/]",
+      "[orange]    [[__]   [[__]    [/]"
+    ]
   }
 ]

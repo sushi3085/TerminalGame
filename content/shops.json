@@ -46,5 +46,32 @@
       "ironHelm",
       "pearlAmulet"
     ]
+  },
+  {
+    "id": "cityItems",
+    "name": "砂岩城・道具店「駱駝」",
+    "items": [
+      "potion",
+      "hiPotion",
+      "antidote",
+      "mintLeaf",
+      "ether",
+      "hiEther",
+      "phoenixDown"
+    ]
+  },
+  {
+    "id": "citySmith",
+    "name": "砂岩城・武器防具店",
+    "items": [
+      "steelSword",
+      "hornBow",
+      "warHammer",
+      "crystalStaff",
+      "steelPlate",
+      "desertCloak",
+      "sandTurban",
+      "sunAmulet"
+    ]
   }
 ]

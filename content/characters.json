@@ -34,6 +34,10 @@
       {
         "skillId": "thunder",
         "level": 9
+      },
+      {
+        "skillId": "lightBlade",
+        "level": 14
       }
     ],
     "initialEquipment": [
@@ -77,6 +81,10 @@
       {
         "skillId": "rapidShot",
         "level": 11
+      },
+      {
+        "skillId": "frostArrow",
+        "level": 13
       }
     ],
     "initialEquipment": [
@@ -116,6 +124,10 @@
       {
         "skillId": "ironWall",
         "level": 11
+      },
+      {
+        "skillId": "earthSplitter",
+        "level": 14
       }
     ],
     "initialEquipment": [
@@ -124,5 +136,56 @@
       "harborShield"
     ],
     "attackMessage": "揮動短斧劈砍！"
+  },
+  {
+    "id": "xue",
+    "name": "小雪",
+    "baseStats": {
+      "maxHp": 30,
+      "maxMp": 20,
+      "attack": 3,
+      "defense": 3,
+      "magic": 9,
+      "speed": 6
+    },
+    "growth": {
+      "maxHp": 6,
+      "maxMp": 4,
+      "attack": 1,
+      "defense": 1,
+      "magic": 3,
+      "speed": 1
+    },
+    "skills": [
+      {
+        "skillId": "healWind",
+        "level": 1
+      },
+      {
+        "skillId": "iceShard",
+        "level": 1
+      },
+      {
+        "skillId": "purify",
+        "level": 1
+      },
+      {
+        "skillId": "revival",
+        "level": 1
+      },
+      {
+        "skillId": "blizzard",
+        "level": 15
+      },
+      {
+        "skillId": "holyLight",
+        "level": 16
+      }
+    ],
+    "initialEquipment": [
+      "oakStaff",
+      "priestRobe"
+    ],
+    "attackMessage": "用法杖敲了下去！"
   }
 ]

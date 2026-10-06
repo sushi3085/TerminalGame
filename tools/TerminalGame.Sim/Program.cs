@@ -134,4 +134,39 @@ if (chapter(2, "河港村"))
     story("深潭水蛇（少一級）", ch2Boss(11), serpent);
 }
 
+// ── Chapter 3 ────────────────────────────────────────────────────────────────────────────────
+(string, int)[] ch3Items = [("potion", 4), ("hiPotion", 4), ("ether", 2), ("antidote", 2), ("mintLeaf", 2), ("phoenixDown", 2)];
+Checkpoint desert = new("沙原 Lv12×3",
+    [new("hero", 12, "corsairSaber", "chainMail", "ironHelm", "pearlAmulet"), new("rin", 12, "compositeBow", "rangerVest", "ironHelm"),
+     new("bal", 12, "ironAxe", "chainMail", "leatherCap", "shellShield")], ch3Items);
+MemberSetup[] tier3(int level, string heroWeapon = "steelSword", string balShield = "shellShield", string xueRing = "acornCharm") =>
+[
+    new("hero", level, heroWeapon, "steelPlate", "sandTurban", "pearlAmulet"),
+    new("rin", level, "hornBow", "desertCloak", "sandTurban", "acornCharm"),
+    new("bal", level, "warHammer", "steelPlate", "ironHelm", balShield),
+    new("xue", level, "crystalStaff", "priestRobe", "sandTurban", xueRing),
+];
+Checkpoint oasisParty = new("綠洲 Lv13×4",
+    [new("hero", 13, "corsairSaber", "chainMail", "ironHelm", "pearlAmulet"), new("rin", 13, "compositeBow", "rangerVest", "ironHelm"),
+     new("bal", 13, "ironAxe", "chainMail", "leatherCap", "shellShield"), new("xue", 13, "oakStaff", "priestRobe")], ch3Items);
+Checkpoint court = new("前庭 Lv13×4", tier3(13), ch3Items);
+Checkpoint halls = new("迴廊 Lv14×4", tier3(14, balShield: "guardianShield"), ch3Items);
+(string, int)[] guardianItems = [("potion", 4), ("hiPotion", 5), ("ether", 2), ("hiEther", 2), ("phoenixDown", 3), ("mintLeaf", 2)];
+Checkpoint ch3Boss(int level) => new($"守衛 Lv{level}×4", tier3(level, "sunBlade", "guardianShield", "frostRing"), guardianItems);
+string[] guardian = ["fireSpirit", "ruinGuardian", "fireSpirit"];
+
+if (chapter(3, "砂岩城"))
+{
+    area("desertRoad", desert, oasisParty);
+    area("oasis", oasisParty, court);
+    area("ruinsCourt", court, halls);
+    area("ruinsHall", halls, ch3Boss(16));
+    area("ruinsWest", halls, ch3Boss(16));
+    area("ruinsEast", halls, ch3Boss(16));
+    story("遺跡守衛", ch3Boss(16), guardian);
+    story("遺跡守衛（多練一級）", ch3Boss(17), guardian);
+    story("遺跡守衛（少一級）", ch3Boss(15), guardian);
+    story("遺跡守衛（少兩級）", ch3Boss(14), guardian);
+}
+
 Console.WriteLine($"Estimated levelling time (random battles only): {totalMinutes:F0} min");

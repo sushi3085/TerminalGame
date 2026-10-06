@@ -470,6 +470,11 @@
         "to": "riverMouth",
         "label": "往河口沙洲",
         "if": "flag:portIntro"
+      },
+      {
+        "to": "desertRoad",
+        "label": "往東方沙漠",
+        "if": "flag:chapter2Done"
       }
     ]
   },
@@ -761,6 +766,435 @@
       {
         "to": "wreckDeck",
         "label": "回中層甲板"
+      }
+    ]
+  },
+  {
+    "id": "desertRoad",
+    "name": "灼熱沙原",
+    "palette": "desert",
+    "art": [
+      "[gold]                 \\  |  /                             [/]",
+      "[gold]               --  ( )  --                           [/]",
+      "[gold]      .           /  |  \\        .        [/][green] |[/][gold]        [/]",
+      "[orange]  _.-~~-._        _.-~~~~-._            [/][green]-+-[/][orange]  _.-~ [/]",
+      "[gold] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [/]"
+    ],
+    "description": "熱風捲著沙粒打在臉上。地平線上的空氣扭曲著，遠方隱約有一座城的影子。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "sandScorpion",
+          "desertVulture"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "duneWorm",
+          "sandScorpion"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "desertVulture",
+          "desertVulture",
+          "cactusSoldier"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "cactusSoldier",
+          "sandScorpion",
+          "sandScorpion"
+        ],
+        "weight": 1
+      }
+    ],
+    "exits": [
+      {
+        "to": "riverPort",
+        "label": "回河港村"
+      },
+      {
+        "to": "sandstoneCity",
+        "label": "前往砂岩城"
+      }
+    ]
+  },
+  {
+    "id": "sandstoneCity",
+    "name": "砂岩城",
+    "kind": "Town",
+    "palette": "desert",
+    "art": [
+      "[gold]          _                 [/][white]⌒[/][gold]                _[/]         ",
+      "[orange]    _____| |_____     ______/ \\______     _____| |_____[/]",
+      "[orange]   |  [/][gold]學者館[/][orange]     |   |  神  殿     |   |  市  集     |[/] ",
+      "[orange]   |___[]________|   |___[]___[]___|   |___[]________|[/] ",
+      "[gold] ::::::::::::::::::::::::::::::::::::::::::::::::::::: [/]"
+    ],
+    "description": "沙色的石牆圍著一座熱鬧的城。可是街上的人都皺著眉頭——城東的遺跡，每到夜晚就冒出紅光。",
+    "onEnter": [
+      {
+        "script": "cityArrive",
+        "if": "flag:cityIntro == 0"
+      },
+      {
+        "script": "chapter3End",
+        "if": "flag:guardianDefeated && flag:chapter3Done == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "學者館",
+        "script": "archive"
+      },
+      {
+        "label": "神殿",
+        "script": "temple"
+      },
+      {
+        "label": "道具店",
+        "script": "cityItemShop"
+      },
+      {
+        "label": "武器防具店",
+        "script": "citySmithShop"
+      },
+      {
+        "label": "旅館",
+        "script": "cityInn"
+      },
+      {
+        "label": "市集的商人",
+        "script": "cityMerchant"
+      }
+    ],
+    "exits": [
+      {
+        "to": "desertRoad",
+        "label": "回灼熱沙原"
+      },
+      {
+        "to": "oasis",
+        "label": "往月影綠洲",
+        "if": "party:xue"
+      }
+    ]
+  },
+  {
+    "id": "oasis",
+    "name": "月影綠洲",
+    "palette": "desert",
+    "art": [
+      "[green]      \\\\|//                          \\\\|//          [/]",
+      "[green]     --(  )--        [/][gold]~ ~[/][green]          --(  )--         [/]",
+      "[orange]        ||                               ||           [/]",
+      "[gold]  ......||......[/][cyan]~~~~~~~~~~~~~~~~~[/][gold].......||.......   [/]",
+      "[gold] ...............[/][cyan] ~~~~~~~~~~~~~~~ [/][gold]...................  [/]"
+    ],
+    "description": "椰棗樹圍著一汪清澈的泉水。這裡涼快得讓人想睡午覺。再往東走，就是遺跡了。",
+    "encounterRate": 0.3,
+    "encounters": [
+      {
+        "enemies": [
+          "sandScorpion",
+          "sandScorpion",
+          "desertVulture"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "duneWorm",
+          "cactusSoldier",
+          "desertVulture"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "mummy",
+          "sandScorpion",
+          "cactusSoldier"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "在泉水邊休息",
+        "script": "oasisRest"
+      },
+      {
+        "label": "挖掘沙裡的東西",
+        "script": "chestOasis"
+      }
+    ],
+    "exits": [
+      {
+        "to": "sandstoneCity",
+        "label": "回砂岩城"
+      },
+      {
+        "to": "ruinsCourt",
+        "label": "前往熾熱遺跡"
+      }
+    ]
+  },
+  {
+    "id": "ruinsCourt",
+    "name": "熾熱遺跡・前庭",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange]     ___        ___        ___        ___        ___     [/]",
+      "[orange]    |   |      |   |      |   |      |   |      |   |    [/]",
+      "[orange]    |   |      |   |    [/][red] /█████\\ [/][orange]   |   |      |   |    [/]",
+      "[orange]    |___|      |___|    [/][red]|  ▲▲▲  |[/][orange]   |___|      |___|    [/]",
+      "[red] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::: [/]"
+    ],
+    "description": "倒塌的石柱之間，地面熱得發燙。遺跡入口的石門大開，裡面透出暗紅色的光。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "mummy",
+          "fireSpirit",
+          "fireSpirit"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "cactusSoldier",
+          "fireSpirit",
+          "mummy"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "mummy",
+          "mummy",
+          "sandScorpion"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查倒下的石像",
+        "script": "chestStatue"
+      }
+    ],
+    "exits": [
+      {
+        "to": "oasis",
+        "label": "回月影綠洲"
+      },
+      {
+        "to": "ruinsHall",
+        "label": "進入遺跡"
+      }
+    ]
+  },
+  {
+    "id": "ruinsHall",
+    "name": "熾熱遺跡・大迴廊",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange] ___________________________________________________ [/]",
+      "[orange]|[/]  [red]◆[/]                  [red]╔═══════╗[/]                  [red]◆[/]  [orange]|[/]",
+      "[orange]|[/]                     [red]║ 封 印 ║[/]                     [orange]|[/]",
+      "[orange]|[/] [orange]西側[/]                [red]║  ◉ ◉  ║[/]                [orange]東側[/] [orange]|[/]",
+      "[orange]|____________________[/][red]╚═══════╝[/][orange]______________________|[/]"
+    ],
+    "description": "長長的迴廊盡頭，是一扇刻滿文字的巨大石門。門上有兩個圓形的凹槽，左右兩邊各有一條通道。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "stoneSentinel",
+          "fireSpirit",
+          "fireSpirit"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "mummy",
+          "lavaSlime",
+          "fireSpirit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lavaSlime",
+          "lavaSlime",
+          "mummy"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查封印的石門",
+        "script": "sealedDoor",
+        "if": "!(flag:ruinsWest && flag:ruinsEast)"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsCourt",
+        "label": "回前庭"
+      },
+      {
+        "to": "ruinsWest",
+        "label": "往西側通道"
+      },
+      {
+        "to": "ruinsEast",
+        "label": "往東側通道"
+      },
+      {
+        "to": "ruinsAltar",
+        "label": "穿過石門",
+        "if": "flag:ruinsWest && flag:ruinsEast"
+      }
+    ]
+  },
+  {
+    "id": "ruinsWest",
+    "name": "熾熱遺跡・月之間",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange] _________________________________________ [/]",
+      "[orange]|[/]                  [white]☾[/]                      [orange]|[/]",
+      "[orange]|[/]   [gray][石台][/]                      [gold]▣[/]         [orange]|[/]",
+      "[orange]|_________________________________________|[/]"
+    ],
+    "description": "天花板上開了一個圓洞，月光一樣的冷光落在中央的石台上。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "stoneSentinel",
+          "mummy",
+          "fireSpirit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "lavaSlime",
+          "lavaSlime",
+          "fireSpirit"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "按下月之石台",
+        "script": "moonPlate"
+      },
+      {
+        "label": "打開角落的寶箱",
+        "script": "chestMoon"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsHall",
+        "label": "回大迴廊"
+      }
+    ]
+  },
+  {
+    "id": "ruinsEast",
+    "name": "熾熱遺跡・日之間",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[orange] _________________________________________ [/]",
+      "[orange]|[/]                  [gold]☀[/]                      [orange]|[/]",
+      "[orange]|[/]   [gray][石台][/]                      [gold]▣[/]         [orange]|[/]",
+      "[orange]|_________________________________________|[/]"
+    ],
+    "description": "熱氣從地板的裂縫湧上來。中央的石台刻著太陽的圖案，燙得不能用手碰。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "fireSpirit",
+          "lavaSlime",
+          "fireSpirit"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "stoneSentinel",
+          "stoneSentinel",
+          "fireSpirit"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "按下日之石台",
+        "script": "sunPlate"
+      },
+      {
+        "label": "打開角落的寶箱",
+        "script": "chestSun"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsHall",
+        "label": "回大迴廊"
+      }
+    ]
+  },
+  {
+    "id": "ruinsAltar",
+    "name": "熾熱遺跡・祭壇",
+    "kind": "Dungeon",
+    "palette": "ruins",
+    "art": [
+      "[red]          .           ▲           .[/]           ",
+      "[orange]    ______________/ [/][red]███[/][orange] \\______________[/]       ",
+      "[orange]   |              | [/][red]✹[/][orange] |              |[/]        ",
+      "[orange]   |    [/][gray]▓▓▓▓[/][orange]      |[/][red]███[/][orange]|      [/][gray]▓▓▓▓[/][orange]    |[/]        ",
+      "[red]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [/]"
+    ],
+    "description": "熔岩在祭壇四周緩緩流動。祭壇中央，一尊巨大的石像胸口，紅色的核心正在跳動。",
+    "spots": [
+      {
+        "label": "走近石像",
+        "script": "guardianFight",
+        "if": "flag:guardianDefeated == 0"
+      },
+      {
+        "label": "崩落的祭壇",
+        "script": "afterGuardian",
+        "if": "flag:guardianDefeated"
+      }
+    ],
+    "exits": [
+      {
+        "to": "ruinsHall",
+        "label": "回大迴廊"
       }
     ]
   }

@@ -1,6 +1,7 @@
 using TerminalGame.Rpg.Battle;
 using TerminalGame.Rpg.Data;
 using TerminalGame.Rpg.State;
+using TerminalGame.Rpg.World;
 
 namespace TerminalGame.Sim;
 
@@ -93,9 +94,9 @@ public static class Simulator
     }
 
     /// <summary>
-    /// How many random battles in a row the party survives before it should head back to rest. A sensible player turns
-    /// back once someone falls, or total HP is below <paramref name="retreatAt"/> with no healing magic left (potions are
-    /// kept for emergencies). Returns the average battles per trip, the share of trips that end in defeat, and exp.
+    /// How many random battles in a row the party survives before it should head back to rest. Between battles the party
+    /// heals with magic from the field menu; a sensible player turns back once someone falls, or total HP is below
+    /// <paramref name="retreatAt"/> with no healing magic left (potions are kept for emergencies). Returns the average battles per trip, the share of trips that end in defeat, and exp.
     /// </summary>
     public static (double battles, double defeatRate, double expPerTrip) trips(
         ContentDb content, Checkpoint checkpoint, LocationDef location, AutoPolicy policy, int runs, double retreatAt = 0.5, int seed = 1)
@@ -118,6 +119,7 @@ public static class Simulator
 
                 battles++;
                 exp += result.exp;
+                healBetweenBattles(session);
                 bool canHeal = session.party.Any(m => m.isAlive && m.skills.Any(s => s.effect.kind == EffectKind.Heal && m.mp >= s.mpCost));
                 double hpLeft = session.party.Sum(m => m.hp) / (double)session.party.Sum(m => m.stats.maxHp);
                 if (session.party.Any(m => !m.isAlive) || (hpLeft < retreatAt && !canHeal))
@@ -128,6 +130,32 @@ public static class Simulator
         }
 
         return (battles / runs, defeats / (double)runs, exp / runs);
+    }
+
+    /// <summary>What a player does from the field menu after a fight: heal anyone below 60% with healing magic while MP lasts.</summary>
+    private static void healBetweenBattles(GameSession session)
+    {
+        for (int guard = 0; guard < 20; guard++)
+        {
+            PartyMember? hurt = session.party.Where(m => m.isAlive && m.hp < m.stats.maxHp * 0.6).OrderBy(m => (double)m.hp / m.stats.maxHp).FirstOrDefault();
+            if (hurt is null)
+            {
+                return;
+            }
+
+            (PartyMember caster, SkillDef skill)? cast = session.party
+                .Where(m => m.isAlive)
+                .SelectMany(m => m.skills.Where(s => s.effect.kind == EffectKind.Heal && FieldRules.usableInField(s) && m.mp >= s.mpCost).Select(s => (m, s)))
+                .OrderBy(c => c.s.mpCost)
+                .Cast<(PartyMember, SkillDef)?>()
+                .FirstOrDefault();
+            if (cast is not (PartyMember caster, SkillDef skill))
+            {
+                return;
+            }
+
+            FieldRules.castSkill(session, caster, skill, hurt);
+        }
     }
 
     private static EncounterDef pick(LocationDef location, Random random)

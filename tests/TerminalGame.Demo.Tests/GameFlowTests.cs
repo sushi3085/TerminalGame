@@ -337,6 +337,98 @@ public sealed class GameFlowTests : IDisposable
     }
 
     [Fact]
+    public void chapterThreeCanBePlayedToTheEnd()
+    {
+        GameSession session = startAt("riverPort", "metRin", "bossDefeated", "chapter1Done", "portIntro", "metBal", "serpentDefeated", "chapter2Done");
+        session.addMember("rin", 12);
+        session.addMember("bal", 12);
+        foreach (PartyMember member in session.party)
+        {
+            member.gainExp(200_000);
+        }
+
+        act("往東方沙漠");
+        act("前往砂岩城");
+        pressEnterUntil(atActions); // the gate guard
+        Assert.DoesNotContain("往月影綠洲", screen);
+
+        act("學者館");
+        pressEnterUntil(atActions);
+        Assert.Equal(1, session.flags["scholarTalk"]);
+        act("神殿");
+        List<string> join = pressEnterUntil(atActions);
+        Assert.Contains(join, s => s.Contains("小雪加入了隊伍"));
+        Assert.Equal(4, session.party.Count);
+        // Max level alone is not enough for a bot that only ever attacks; give everyone the gear a player would have by now.
+        string[][] gear = [["steelSword", "steelPlate", "sandTurban"], ["hornBow", "desertCloak", "sandTurban"],
+            ["warHammer", "steelPlate", "sandTurban", "shellShield"], ["crystalStaff", "desertCloak", "sandTurban"]];
+        for (int i = 0; i < 4; i++)
+        {
+            foreach (string itemId in gear[i])
+            {
+                session.party[i].equip(game.content.item(itemId));
+            }
+
+            session.party[i].restore();
+        }
+
+        act("往月影綠洲");
+        act("前往熾熱遺跡");
+        act("進入遺跡");
+        Assert.DoesNotContain("穿過石門", screen);
+        act("往西側通道");
+        act("按下月之石台");
+        act("回大迴廊");
+        act("往東側通道");
+        act("按下日之石台");
+        act("打開角落的寶箱");
+        act("回大迴廊");
+        act("穿過石門");
+        pressEnterUntil(atActions);
+        session.restoreParty(); // a player would have gone back to rest after the random battles on the way
+        act("走近石像");
+        // Only ever attacking cannot beat a boss built around healing: switch the battle to 自動 (the last command).
+        pressEnterUntil(() => app.currentScene is BattleScene battle && battle.focusedWidget is MenuList && !battle.hasModal);
+        press(Key.Up, Key.Enter);
+        List<string> boss = pressEnterUntil(atActions);
+        Assert.Contains(boss, s => s.Contains("自動"));
+        Assert.Contains(boss, s => s.Contains("遺跡守衛"));
+        Assert.Equal(1, session.flags["guardianDefeated"]);
+        Assert.True(session.inventory.has("sealStone"));
+        Assert.True(session.inventory.has("sunBlade"));
+
+        act("回大迴廊");
+        act("回前庭");
+        act("回月影綠洲");
+        act("回砂岩城");
+        List<string> ending = pressEnterUntil(atActions);
+        Assert.Contains(ending, s => s.Contains("第三章「砂岩城」 完"));
+        Assert.Equal(1, session.flags["chapter3Done"]);
+    }
+
+    [Fact]
+    public void autoBattlePlaysPartyTurnsUntilEscIsPressed()
+    {
+        GameSession session = game.startNew();
+        session.party[0].gainExp(5000);
+        app.pushScene(new EmptyScene());
+        BattleScene battle = new(game, ["forestLord"], canEscape: false);
+        app.pushScene(battle);
+        bool atCommands() => battle.focusedWidget is MenuList && !battle.hasModal;
+        pressEnterUntil(atCommands);
+
+        press(Key.Up, Key.Enter); // 自動
+        Assert.Contains("自動", screen);
+        press(Key.Escape);
+        Assert.DoesNotContain("自動 Esc", screen);
+        pressEnterUntil(() => atCommands() || app.currentScene is not BattleScene);
+
+        Assert.Same(battle, app.currentScene);
+        Assert.Contains("指令", screen);
+        Assert.Equal(BattleOutcome.Ongoing, battle.outcome);
+    }
+
+    [Fact]
     public void statusPanelShowsDerivedStatsAndEquipment()
     {
         GameSession session = game.startNew();

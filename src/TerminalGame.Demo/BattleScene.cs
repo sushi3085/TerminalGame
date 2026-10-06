@@ -2,6 +2,7 @@ using TerminalGame.Rpg.Battle;
 using TerminalGame.Rpg.Data;
 using TerminalGame.Rpg.State;
 using TerminalGame.Tui;
+using TerminalGame.Tui.Input;
 using TerminalGame.Tui.Rendering;
 using TerminalGame.Tui.Runtime;
 using TerminalGame.Tui.Widgets;
@@ -35,7 +36,12 @@ public sealed class BattleScene : Scene
     private readonly Dictionary<Combatant, List<StatusKind>> shownStatuses = new();
     private readonly MenuList commands = new();
     private readonly DialogueBox messages = new();
+    private readonly AutoPolicy autoPolicy = new();
+    private readonly Border commandFrame;
     private Action? afterMessage;
+
+    /// <summary>On after choosing 自動: every party turn is decided by <see cref="AutoPolicy"/> until Esc is pressed.</summary>
+    private bool autoBattle;
 
     public BattleScene(Game game, IEnumerable<string> enemyIds, bool canEscape = true, string? palette = null)
         : this(game.session, enemyIds, canEscape, palette)
@@ -100,7 +106,8 @@ public sealed class BattleScene : Scene
         };
 
         StackPanel bottom = new(Orientation.Horizontal) { layoutHeight = Length.cells(8) };
-        bottom.add(new Border(commands, "指令") { layoutWidth = Length.cells(16), padding = new Thickness(1, 0, 0, 0) });
+        commandFrame = new Border(commands, "指令") { layoutWidth = Length.cells(16), padding = new Thickness(1, 0, 0, 0) };
+        bottom.add(commandFrame);
         bottom.add(messages);
         bottom.add(new Border(partyPanel, "隊伍") { layoutWidth = Length.cells(solo ? 24 : 32) });
 
@@ -272,6 +279,13 @@ public sealed class BattleScene : Scene
             return;
         }
 
+        if (autoBattle)
+        {
+            syncBars();
+            act(autoPolicy.decide(engine, session));
+            return;
+        }
+
         syncBars(); // move the ▶ marker
         beginPlayerTurn();
     }
@@ -287,6 +301,7 @@ public sealed class BattleScene : Scene
             MenuItem.of("道具", usableItems().Any()),
             MenuItem.of("防禦"),
             MenuItem.of("逃跑", engine.canEscape),
+            MenuItem.of("自動"),
         });
         commands.select(keep);
         setFocus(commands);
@@ -324,10 +339,29 @@ public sealed class BattleScene : Scene
             case 3:
                 act(new GuardAction(actor));
                 break;
-            default:
+            case 4:
                 act(new EscapeAction(actor));
                 break;
+            default:
+                setAuto(true);
+                act(autoPolicy.decide(engine, session));
+                break;
         }
+    }
+
+    /// <summary>Esc while auto-battling hands control back at the next party turn.</summary>
+    public override void onKey(KeyEvent keyEvent)
+    {
+        if (autoBattle && keyEvent.action == GameAction.Cancel)
+        {
+            setAuto(false);
+        }
+    }
+
+    private void setAuto(bool on)
+    {
+        autoBattle = on;
+        commandFrame.setTitle(on ? "[gold]自動[/] Esc解除" : "指令");
     }
 
     private void chooseSkill(Combatant actor)
