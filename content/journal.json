@@ -74,6 +74,30 @@
     {
       "if": "flag:chapter3Done",
       "text": "前往北方荒原的[red]魔王城[/]。"
+    },
+    {
+      "if": "flag:chapter3Done && flag:castleOpen == 0",
+      "text": "穿過北方荒原，前往[red]魔王城[/]。"
+    },
+    {
+      "if": "flag:castleOpen",
+      "text": "熄滅東塔與地下墓室的黑色火炬，打開王座之門。"
+    },
+    {
+      "if": "flag:castleOpen && (flag:towerTorch || flag:cryptTorch)",
+      "text": "還有一處黑色火炬。熄滅它，打開王座之門。"
+    },
+    {
+      "if": "flag:towerTorch && flag:cryptTorch",
+      "text": "前往[red]王座之間[/]，打倒魔王。"
+    },
+    {
+      "if": "flag:demonKingDefeated",
+      "text": "回到[gold]晨曦鎮[/]。"
+    },
+    {
+      "if": "flag:gameCleared",
+      "text": "冒險結束了。自由地四處走走吧。"
     }
   ],
   "chronicle": [
@@ -156,6 +180,26 @@
     {
       "if": "flag:chapter3Done",
       "text": "魔王城從北方荒原浮起。帶著封印石碎片，就能穿過它的結界。"
+    },
+    {
+      "if": "flag:castleOpen",
+      "text": "封印石碎片打開了魔王城的結界。"
+    },
+    {
+      "if": "flag:chestTower",
+      "text": "在東塔找到三百年前的聖劍。"
+    },
+    {
+      "if": "flag:towerTorch && flag:cryptTorch",
+      "text": "熄滅了兩處黑色火炬，王座之門打開了。"
+    },
+    {
+      "if": "flag:demonKingDefeated",
+      "text": "在王座之間打倒了魔王。魔王城沉回了荒原的地底。"
+    },
+    {
+      "if": "flag:gameCleared",
+      "text": "和平回到了世界。四人各自踏上了歸途。"
     }
   ]
 }

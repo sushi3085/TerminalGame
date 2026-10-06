@@ -15,6 +15,10 @@
     "description": "炊煙從石砌屋頂升起。[gold]晨曦鎮[/]的早晨總是很安靜。",
     "onEnter": [
       {
+        "script": "epilogue",
+        "if": "flag:demonKingDefeated && flag:gameCleared == 0"
+      },
+      {
         "script": "elderIntro",
         "if": "flag:introDone == 0"
       },
@@ -883,6 +887,11 @@
         "to": "oasis",
         "label": "往月影綠洲",
         "if": "party:xue"
+      },
+      {
+        "to": "northWastes",
+        "label": "往北方荒原",
+        "if": "flag:chapter3Done"
       }
     ]
   },
@@ -1195,6 +1204,286 @@
       {
         "to": "ruinsHall",
         "label": "回大迴廊"
+      }
+    ]
+  },
+  {
+    "id": "northWastes",
+    "name": "北方荒原",
+    "palette": "castle",
+    "art": [
+      "[dim]   .        .         [/][red]◢█◣[/][dim]         .        .     [/]",
+      "[dim]        .          [/][purple]_/█████\\_[/][dim]          .          [/]",
+      "[gray]   ^       ^      [/][purple]|█|  █  |█|[/][gray]      ^        ^      [/]",
+      "[gray]  /|\\  _  /|\\   __[/][purple]|█|__[/][red]▲[/][purple]__|█|[/][gray]__   /|\\  _  /|\\   [/]",
+      "[dim] ::::::::::::::::::::::::::::::::::::::::::::::::::::: [/]"
+    ],
+    "description": "枯樹和碎石一路延伸到天邊。暗紅色的天空下，魔王城像一根刺一樣插在大地上。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "hellhound",
+          "wraith"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "gazer",
+          "wraith",
+          "wraith"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "hellhound",
+          "hellhound",
+          "gazer"
+        ],
+        "weight": 2
+      }
+    ],
+    "exits": [
+      {
+        "to": "sandstoneCity",
+        "label": "回砂岩城"
+      },
+      {
+        "to": "castleGate",
+        "label": "前往魔王城"
+      }
+    ]
+  },
+  {
+    "id": "castleGate",
+    "name": "魔王城・城門",
+    "kind": "Town",
+    "palette": "castle",
+    "art": [
+      "[purple]   ▲         ▲                     ▲       ▲     [/]",
+      "[purple]  |█|_______|█|      [/][red]◢█◣[/][purple]          |█|_______|█|    [/]",
+      "[purple]  |█|  ___  |█|_____[/][red]|███|[/][purple]_________|█|  ___  |█|    [/]",
+      "[purple]  |█| |   | |█|     [/][red]|▓▓▓|[/][purple]         |█| |   | |█|    [/]",
+      "[purple]  |█|_|___|_|█|_____[/][red]|▓▓▓|[/][purple]_________|█|_|___|_|█|    [/]"
+    ],
+    "description": "巨大的城門前，結界像黑色的水面一樣流動。城門邊，一尊斷了手臂的女神像靜靜地站著。",
+    "onEnter": [
+      {
+        "script": "castleBarrier",
+        "if": "flag:castleOpen == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "女神像",
+        "script": "goddessStatue"
+      },
+      {
+        "label": "神秘商人",
+        "script": "castleShop"
+      }
+    ],
+    "exits": [
+      {
+        "to": "northWastes",
+        "label": "回北方荒原"
+      },
+      {
+        "to": "castleHall",
+        "label": "進入城內",
+        "if": "flag:castleOpen"
+      }
+    ]
+  },
+  {
+    "id": "castleHall",
+    "name": "魔王城・大廳",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[purple] ___________________________________________________ [/]",
+      "[purple]|[/]  [red]♨[/]  [dim]東塔[/]            [red]╔═════╗[/]          [dim]地下墓室[/]  [red]♨[/]  [purple]|[/]",
+      "[purple]|[/]                     [red]║ ◥ ◤ ║[/]                       [purple]|[/]",
+      "[purple]|_____________________[/][red]╚═════╝[/][purple]_______________________|[/]"
+    ],
+    "description": "挑高的大廳裡掛滿了破爛的旗幟。正面通往王座的大門上，燃著兩團黑色的火焰圖騰——和東塔、地下墓室的方向連在一起。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "shadowKnight",
+          "wraith"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "shadowKnight",
+          "gazer",
+          "hellhound"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "wraith",
+          "wraith",
+          "gazer"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查王座之門",
+        "script": "throneDoor",
+        "if": "!(flag:towerTorch && flag:cryptTorch)"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleGate",
+        "label": "回城門"
+      },
+      {
+        "to": "castleTower",
+        "label": "往東塔"
+      },
+      {
+        "to": "castleCrypt",
+        "label": "往地下墓室"
+      },
+      {
+        "to": "throneRoom",
+        "label": "走向王座之間",
+        "if": "flag:towerTorch && flag:cryptTorch"
+      }
+    ]
+  },
+  {
+    "id": "castleTower",
+    "name": "魔王城・東塔",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[purple]              /\\              [/]",
+      "[purple]             /  \\             [/]",
+      "[purple]            | [/][red]♨[/][purple]  |            [/]",
+      "[purple]            |    |            [/]",
+      "[purple]            |[/][gold]▣[/][purple]   |            [/]",
+      "[purple]   _________|____|_________   [/]"
+    ],
+    "description": "螺旋階梯一路通到塔頂。黑色的火炬在祭台上燃燒，旁邊放著一個蒙塵的長箱。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "gazer",
+          "gazer",
+          "wraith"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "shadowKnight",
+          "hellhound"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "熄滅黑色火炬",
+        "script": "towerTorch"
+      },
+      {
+        "label": "打開蒙塵的長箱",
+        "script": "chestTower"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleHall",
+        "label": "回大廳"
+      }
+    ]
+  },
+  {
+    "id": "castleCrypt",
+    "name": "魔王城・地下墓室",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[gray]  ____   ____   ____   ____   ____  [/]",
+      "[gray] |[/][dim]+[/][gray]   | |[/][dim]+[/][gray]   | |[/][red]♨[/][gray]   | |[/][dim]+[/][gray]   | |[/][dim]+[/][gray]   | [/]",
+      "[gray] |    | |    | |    | |    | |[/][gold]▣[/][gray]   | [/]",
+      "[gray] |____| |____| |____| |____| |____| [/]"
+    ],
+    "description": "一排排石棺沿著牆壁排開。最深處的石棺上，黑色的火焰無聲地燃燒著。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "wraith",
+          "wraith",
+          "shadowKnight"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "hellhound",
+          "hellhound",
+          "wraith"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "熄滅黑色火炬",
+        "script": "cryptTorch"
+      },
+      {
+        "label": "打開刻著龍紋的石棺",
+        "script": "chestCrypt"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleHall",
+        "label": "回大廳"
+      }
+    ]
+  },
+  {
+    "id": "throneRoom",
+    "name": "魔王城・王座之間",
+    "kind": "Dungeon",
+    "palette": "castle",
+    "art": [
+      "[red]               ◢◣               [/]",
+      "[purple]            ___||___            [/]",
+      "[purple]            |  [/][red]◥◤[/][purple]  |            [/]",
+      "[purple]            |[/][gold]◆[/][purple]____[/][gold]◆[/][purple]|            [/]",
+      "[purple]  __________|______|__________  [/]",
+      "[red]  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  [/]"
+    ],
+    "description": "紅色的地毯一路鋪到王座前。王座上，有個人影正撐著下巴，像是等了你們很久。",
+    "spots": [
+      {
+        "label": "走向王座",
+        "script": "demonKingFight",
+        "if": "flag:demonKingDefeated == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "castleHall",
+        "label": "回大廳"
       }
     ]
   }

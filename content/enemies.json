@@ -874,5 +874,282 @@
       "[gray]     |__|   |__|     [/]",
       "[orange]    [[__]   [[__]    [/]"
     ]
+  },
+  {
+    "id": "shadowKnight",
+    "name": "暗影騎士",
+    "level": 18,
+    "stats": {
+      "maxHp": 340,
+      "maxMp": 30,
+      "attack": 66,
+      "defense": 34,
+      "magic": 20,
+      "speed": 14
+    },
+    "exp": 230,
+    "gold": 80,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "shadowSlash",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "hiPotion",
+        "chance": 0.2
+      }
+    ],
+    "weakTo": [
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison"
+    ],
+    "attackMessage": "揮動漆黑的長劍斬了過來！",
+    "art": [
+      "[purple]    _/\\_    [/]",
+      "[purple]   |[/][red]=  =[/][purple]|   [/]",
+      "[purple]  /|====|\\  [/]",
+      "[purple] / |====| |[/][gray]/[/]",
+      "[purple]   _|  |_   [/]"
+    ]
+  },
+  {
+    "id": "gazer",
+    "name": "魔眼球",
+    "level": 17,
+    "stats": {
+      "maxHp": 260,
+      "maxMp": 40,
+      "attack": 54,
+      "defense": 24,
+      "magic": 44,
+      "speed": 16
+    },
+    "exp": 210,
+    "gold": 70,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "stoneGaze",
+        "weight": 1
+      },
+      {
+        "skillId": "darkWave",
+        "weight": 1
+      }
+    ],
+    "drops": [
+      {
+        "itemId": "mintLeaf",
+        "chance": 0.3
+      }
+    ],
+    "weakTo": [
+      "Holy",
+      "Thunder"
+    ],
+    "attackMessage": "用觸手抽了過來！",
+    "art": [
+      "[purple]   .-\"\"\"-.   [/]",
+      "[purple]  /  [/][white]( [/][red]●[/][white] )[/][purple] \\  [/]",
+      "[purple]  \\       /  [/]",
+      "[purple]   '~~~~~'   [/]"
+    ]
+  },
+  {
+    "id": "wraith",
+    "name": "怨靈",
+    "level": 17,
+    "stats": {
+      "maxHp": 230,
+      "maxMp": 40,
+      "attack": 52,
+      "defense": 20,
+      "magic": 40,
+      "speed": 20
+    },
+    "exp": 200,
+    "gold": 60,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "wail",
+        "weight": 1
+      },
+      {
+        "skillId": "darkWave",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Holy",
+      "Fire"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "穿過身體，帶走一陣寒意！",
+    "art": [
+      "[gray]    .---.    [/]",
+      "[gray]   ( [/][cyan]o o[/][gray] )   [/]",
+      "[gray]   |  [/][dim]O[/][gray]  |   [/]",
+      "[gray]   /\\/\\/\\/   [/]"
+    ]
+  },
+  {
+    "id": "hellhound",
+    "name": "地獄犬",
+    "level": 18,
+    "stats": {
+      "maxHp": 290,
+      "maxMp": 30,
+      "attack": 60,
+      "defense": 26,
+      "magic": 36,
+      "speed": 22
+    },
+    "exp": 220,
+    "gold": 75,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "hellfire",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Ice"
+    ],
+    "resists": [
+      "Fire"
+    ],
+    "attackMessage": "張開燃燒的大嘴咬了過來！",
+    "art": [
+      "[red]  /\\_____/\\  [/]",
+      "[red] /  [/][gold]◉[/][red]   [/][gold]◉[/][red]  \\ [/]",
+      "[red](     ▼     )[/]",
+      "[red] \\ [/][orange]\\vvvvv/[/][red] / [/]"
+    ]
+  },
+  {
+    "id": "demonKing",
+    "name": "魔王",
+    "level": 22,
+    "stats": {
+      "maxHp": 2600,
+      "maxMp": 300,
+      "attack": 72,
+      "defense": 36,
+      "magic": 52,
+      "speed": 15
+    },
+    "exp": 3000,
+    "gold": 0,
+    "actions": [
+      {
+        "weight": 3
+      },
+      {
+        "skillId": "darkWave",
+        "weight": 2
+      },
+      {
+        "skillId": "despairTouch",
+        "weight": 2
+      },
+      {
+        "skillId": "darkMist",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "nextPhase": "demonKingTrue",
+    "phaseMessage": "魔王的身軀碎裂了——不，是從裡面[red b]裂開[/]了！\n黑霧全部湧回，凝聚成一個巨大的身影……",
+    "attackMessage": "揮動黑色的權杖砸了下來！",
+    "art": [
+      "[purple]      _/\\  /\\_      [/]",
+      "[purple]     /  [/][red]◥  ◤[/][purple]  \\     [/]",
+      "[purple]    |   [/][red]▼▼▼▼[/][purple]   |    [/]",
+      "[purple]   /|  \\____/  |\\   [/]",
+      "[purple]  / |  [/][gold]◆[/][purple]    [/][gold]◆[/][purple]  | \\  [/]",
+      "[purple] /__|__________|__\\ [/]",
+      "[purple]    |___|  |___|    [/]"
+    ]
+  },
+  {
+    "id": "demonKingTrue",
+    "name": "魔王・真身",
+    "level": 24,
+    "stats": {
+      "maxHp": 2300,
+      "maxMp": 400,
+      "attack": 76,
+      "defense": 34,
+      "magic": 60,
+      "speed": 18
+    },
+    "exp": 5000,
+    "gold": 0,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "doom",
+        "weight": 2
+      },
+      {
+        "skillId": "soulRend",
+        "weight": 2
+      },
+      {
+        "skillId": "evilEye",
+        "weight": 1
+      },
+      {
+        "skillId": "darkRegen",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "巨大的爪子橫掃而來！",
+    "art": [
+      "[red]  /\\      [/][purple]◢◣[/][red]      /\\  [/]",
+      "[red] /  \\   [/][purple]_/[/][gold]◉◉[/][purple]\\_[/][red]   /  \\ [/]",
+      "[purple]|    \\/   [/][red]▼▼[/][purple]   \\/    |[/]",
+      "[purple]|    [/][red]VVVVVVVVVVVV[/][purple]    |[/]",
+      "[purple] \\    [/][red]^^^^^^^^^^[/][purple]    / [/]",
+      "[purple]  \\_______  _______/  [/]",
+      "[purple]   //   |    |   \\\\   [/]",
+      "[purple]  //    '----'    \\\\  [/]"
+    ]
   }
 ]

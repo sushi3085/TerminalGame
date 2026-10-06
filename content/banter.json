@@ -154,9 +154,46 @@
     "script": "banterChapter3End"
   },
   {
+    "id": "wastes",
+    "at": [
+      "northWastes"
+    ],
+    "if": "flag:chapter3Done",
+    "script": "banterWastes"
+  },
+  {
+    "id": "gate",
+    "at": [
+      "castleGate"
+    ],
+    "if": "flag:castleOpen",
+    "script": "banterGate"
+  },
+  {
+    "id": "hall",
+    "at": [
+      "castleHall"
+    ],
+    "script": "banterHall"
+  },
+  {
+    "id": "holySword",
+    "if": "flag:chestTower && flag:demonKingDefeated == 0",
+    "script": "banterHolySword"
+  },
+  {
+    "id": "throne",
+    "at": [
+      "throneRoom"
+    ],
+    "if": "flag:demonKingDefeated == 0",
+    "script": "banterThrone"
+  },
+  {
     "id": "smallTalk",
     "once": false,
-    "script": "banterSmallTalk"
+    "script": "banterSmallTalk",
+    "if": "flag:gameCleared == 0"
   },
   {
     "id": "forestTalk",
@@ -167,18 +204,25 @@
       "woodsClearing",
       "woodsDeep"
     ],
-    "script": "banterForestTalk"
+    "script": "banterForestTalk",
+    "if": "flag:gameCleared == 0"
   },
   {
     "id": "balTalk",
     "once": false,
-    "if": "party:bal",
+    "if": "party:bal && flag:gameCleared == 0",
     "script": "banterBalTalk"
   },
   {
     "id": "xueTalk",
     "once": false,
-    "if": "party:xue",
+    "if": "party:xue && flag:gameCleared == 0",
     "script": "banterXueTalk"
+  },
+  {
+    "id": "cleared",
+    "once": false,
+    "if": "flag:gameCleared",
+    "script": "banterCleared"
   }
 ]

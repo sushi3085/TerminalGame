@@ -190,4 +190,32 @@ public class BalanceTests
         Assert.True(expected >= 0.75, $"guardian at Lv16: {expected:P0}");
         Assert.True(low <= 0.6, $"guardian at Lv14 should be a real risk: {low:P0}");
     }
+
+    [Fact]
+    public void demonKingTakesBothPhasesAndRewardsTheExpectedLevel()
+    {
+        (string, int, string[])[] at(int level) =>
+        [
+            ("hero", level, ["holySword", "mithrilMail", "mithrilHelm", "angelRing"]),
+            ("rin", level, ["galeBow", "mysticRobe", "sandTurban", "acornCharm"]),
+            ("bal", level, ["titanAxe", "mithrilMail", "ironHelm", "dragonShield"]),
+            ("xue", level, ["sageStaff", "mysticRobe", "sandTurban", "frostRing"]),
+        ];
+        string[] fight = ["shadowKnight", "demonKing", "shadowKnight"];
+        GameSession stocked(int seed, int level)
+        {
+            GameSession session = party(seed, at(level));
+            session.inventory.add("hiPotion", 6);
+            session.inventory.add("hiEther", 3);
+            session.inventory.add("phoenixDown", 4);
+            session.inventory.add("elixir", 2);
+            return session;
+        }
+
+        double expected = winRate(seed => stocked(seed, 19), fight, new AutoPolicy());
+        double low = winRate(seed => stocked(seed, 17), fight, new AutoPolicy());
+
+        Assert.True(expected >= 0.7, $"demon king at Lv19: {expected:P0}");
+        Assert.True(low <= 0.5, $"demon king at Lv17 should be a real risk: {low:P0}");
+    }
 }

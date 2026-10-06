@@ -582,5 +582,187 @@
       }
     },
     "useMessage": "胸口的核心燒得通紅——[red]核心過熱[/]！"
+  },
+  {
+    "id": "braveSlash",
+    "name": "勇者之劍",
+    "mpCost": 14,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 300,
+      "element": "Holy"
+    },
+    "description": "將所有勇氣灌注在一劍之中。",
+    "useMessage": "劍身迸出耀眼的光——[gold b]勇者之劍[/]！"
+  },
+  {
+    "id": "starfall",
+    "name": "流星箭雨",
+    "mpCost": 12,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Physical",
+      "power": 130
+    },
+    "description": "射向天際的箭化為流星落下。",
+    "useMessage": "一箭射向天際——箭化成[cyan]流星[/]傾瀉而下！"
+  },
+  {
+    "id": "fortress",
+    "name": "不動要塞",
+    "mpCost": 8,
+    "target": "Self",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "DefenseUp",
+        "turns": 4
+      }
+    },
+    "description": "架起大盾，4 回合內自己的防禦大幅提升。",
+    "useMessage": "雙腳扎進地面，化身[cyan]不動要塞[/]！"
+  },
+  {
+    "id": "darkWave",
+    "name": "黑暗波動",
+    "mpCost": 8,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 115
+    },
+    "useMessage": "釋放出一圈漆黑的[purple]波動[/]！"
+  },
+  {
+    "id": "despairTouch",
+    "name": "絕望之觸",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 155,
+      "status": {
+        "kind": "AttackDown",
+        "chance": 0.6,
+        "turns": 3
+      }
+    },
+    "useMessage": "伸出冰冷的手——[purple]絕望之觸[/]！"
+  },
+  {
+    "id": "darkMist",
+    "name": "暗黑之霧",
+    "mpCost": 6,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "DefenseDown",
+        "chance": 0.6,
+        "turns": 3
+      }
+    },
+    "useMessage": "吐出濃濃的[purple]暗黑之霧[/]……"
+  },
+  {
+    "id": "doom",
+    "name": "終焉",
+    "mpCost": 14,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 150
+    },
+    "useMessage": "天地一暗——[red b]終焉[/]降臨！"
+  },
+  {
+    "id": "evilEye",
+    "name": "魔眼",
+    "mpCost": 8,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "Paralysis",
+        "chance": 0.3,
+        "turns": 2
+      }
+    },
+    "useMessage": "額頭裂開，第三隻[red]魔眼[/]睜開了……"
+  },
+  {
+    "id": "soulRend",
+    "name": "靈魂撕裂",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 200
+    },
+    "useMessage": "巨爪撕向靈魂——[red]靈魂撕裂[/]！"
+  },
+  {
+    "id": "darkRegen",
+    "name": "黑暗再生",
+    "mpCost": 20,
+    "target": "Self",
+    "effect": {
+      "kind": "Heal",
+      "power": 300,
+      "magicScaling": 200
+    },
+    "useMessage": "黑霧湧回體內，傷口[purple]再生[/]了……"
+  },
+  {
+    "id": "shadowSlash",
+    "name": "暗影斬",
+    "mpCost": 3,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 150
+    },
+    "useMessage": "揮出漆黑的[purple]暗影斬[/]！"
+  },
+  {
+    "id": "stoneGaze",
+    "name": "石化凝視",
+    "mpCost": 4,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "Paralysis",
+        "chance": 0.5,
+        "turns": 2
+      }
+    },
+    "useMessage": "巨大的眼珠死死[gold]凝視[/]……"
+  },
+  {
+    "id": "wail",
+    "name": "哀嚎",
+    "mpCost": 4,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "Sleep",
+        "chance": 0.25,
+        "turns": 2
+      }
+    },
+    "useMessage": "發出令人昏沉的[purple]哀嚎[/]……"
+  },
+  {
+    "id": "hellfire",
+    "name": "地獄火",
+    "mpCost": 5,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 95,
+      "element": "Fire"
+    },
+    "useMessage": "噴出漆黑的[red]地獄火[/]！"
   }
 ]

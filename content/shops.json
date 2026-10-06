@@ -73,5 +73,24 @@
       "sandTurban",
       "sunAmulet"
     ]
+  },
+  {
+    "id": "castleMerchant",
+    "name": "魔王城・神秘商人",
+    "items": [
+      "hiPotion",
+      "ether",
+      "hiEther",
+      "phoenixDown",
+      "elixir",
+      "mithrilSword",
+      "galeBow",
+      "titanAxe",
+      "sageStaff",
+      "mithrilMail",
+      "mysticRobe",
+      "mithrilHelm",
+      "angelRing"
+    ]
   }
 ]

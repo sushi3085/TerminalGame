@@ -38,6 +38,10 @@
       {
         "skillId": "lightBlade",
         "level": 14
+      },
+      {
+        "skillId": "braveSlash",
+        "level": 18
       }
     ],
     "initialEquipment": [
@@ -85,6 +89,10 @@
       {
         "skillId": "frostArrow",
         "level": 13
+      },
+      {
+        "skillId": "starfall",
+        "level": 17
       }
     ],
     "initialEquipment": [
@@ -128,6 +136,10 @@
       {
         "skillId": "earthSplitter",
         "level": 14
+      },
+      {
+        "skillId": "fortress",
+        "level": 17
       }
     ],
     "initialEquipment": [

@@ -552,5 +552,169 @@
     "name": "封印石碎片",
     "kind": "Key",
     "description": "遺跡祭壇上剝落的石片，刻著古老的封印文字。"
+  },
+  {
+    "id": "elixir",
+    "name": "萬能藥",
+    "kind": "Consumable",
+    "price": 400,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Heal",
+      "power": 999,
+      "cures": [
+        "Poison",
+        "Sleep",
+        "Paralysis",
+        "AttackDown",
+        "DefenseDown"
+      ]
+    },
+    "description": "傳說中的靈藥。HP 全滿並解除所有異常。"
+  },
+  {
+    "id": "mithrilSword",
+    "name": "秘銀劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1200,
+    "bonus": {
+      "attack": 28
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "輕如羽毛、利如寒冰的秘銀劍。"
+  },
+  {
+    "id": "galeBow",
+    "name": "疾風弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1250,
+    "bonus": {
+      "attack": 30,
+      "speed": 3
+    },
+    "equippableBy": [
+      "rin"
+    ],
+    "description": "弦一響，風就跟著走。"
+  },
+  {
+    "id": "titanAxe",
+    "name": "巨人斧",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1200,
+    "bonus": {
+      "attack": 29
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "只有巴爾掄得動的巨斧。"
+  },
+  {
+    "id": "sageStaff",
+    "name": "賢者之杖",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1100,
+    "bonus": {
+      "attack": 8,
+      "magic": 14
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "歷代大賢者傳下來的法杖。"
+  },
+  {
+    "id": "mithrilMail",
+    "name": "秘銀甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 1150,
+    "bonus": {
+      "defense": 20
+    },
+    "equippableBy": [
+      "hero",
+      "bal"
+    ],
+    "description": "秘銀編成的鎧甲，比鋼還硬。"
+  },
+  {
+    "id": "mysticRobe",
+    "name": "神秘法袍",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 1000,
+    "bonus": {
+      "defense": 13,
+      "magic": 5,
+      "speed": 1
+    },
+    "equippableBy": [
+      "rin",
+      "xue"
+    ],
+    "description": "織進了護身咒文的法袍。"
+  },
+  {
+    "id": "mithrilHelm",
+    "name": "秘銀盔",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 700,
+    "bonus": {
+      "defense": 9,
+      "maxHp": 20
+    },
+    "description": "秘銀打造的頭盔。"
+  },
+  {
+    "id": "angelRing",
+    "name": "天使之戒",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 1100,
+    "bonus": {
+      "maxHp": 40,
+      "maxMp": 15,
+      "defense": 3
+    },
+    "description": "據說戴上就能聽見天使的歌聲。"
+  },
+  {
+    "id": "holySword",
+    "name": "聖劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 0,
+    "bonus": {
+      "attack": 36,
+      "magic": 6
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "三百年前封印魔王的勇者之劍。"
+  },
+  {
+    "id": "dragonShield",
+    "name": "龍鱗盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "defense": 16,
+      "maxHp": 40
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "用龍鱗打造的盾。"
   }
 ]

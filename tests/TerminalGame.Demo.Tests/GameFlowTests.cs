@@ -407,6 +407,67 @@ public sealed class GameFlowTests : IDisposable
     }
 
     [Fact]
+    public void finalChapterCanBePlayedToTheEnding()
+    {
+        GameSession session = startAt("sandstoneCity", "metRin", "bossDefeated", "chapter1Done", "portIntro", "metBal", "serpentDefeated",
+            "chapter2Done", "cityIntro", "scholarTalk", "guardianDefeated", "chapter3Done");
+        session.addMember("rin", 16);
+        session.addMember("bal", 16);
+        session.addMember("xue", 16);
+        session.inventory.add("sealStone");
+        session.inventory.add("hiPotion", 9);
+        string[][] gear = [["mithrilSword", "mithrilMail", "mithrilHelm", "angelRing"], ["galeBow", "mysticRobe", "mithrilHelm", "angelRing"],
+            ["titanAxe", "mithrilMail", "mithrilHelm", "shellShield"], ["sageStaff", "mysticRobe", "mithrilHelm", "angelRing"]];
+        for (int i = 0; i < 4; i++)
+        {
+            session.party[i].gainExp(500_000);
+            foreach (string itemId in gear[i])
+            {
+                session.party[i].equip(game.content.item(itemId));
+            }
+
+            session.party[i].restore();
+        }
+
+        act("往北方荒原");
+        act("前往魔王城");
+        pressEnterUntil(atActions); // the barrier gives way to the seal stone
+        Assert.Equal(1, session.flags["castleOpen"]);
+
+        act("女神像");
+        pressEnterUntil("在這裡休息？");
+        press(Key.Enter);
+        pressEnterUntil("要記錄冒險嗎？");
+        press(Key.Down, Key.Enter); // 否
+        Assert.Equal("castleGate", session.respawnLocationId);
+
+        act("進入城內");
+        act("往東塔");
+        act("熄滅黑色火炬");
+        act("打開蒙塵的長箱");
+        act("回大廳");
+        Assert.DoesNotContain("走向王座之間", screen);
+        act("往地下墓室");
+        act("熄滅黑色火炬");
+        act("回大廳");
+        act("走向王座之間");
+        pressEnterUntil(atActions);
+        session.restoreParty();
+        act("走向王座");
+        pressEnterUntil(() => app.currentScene is BattleScene battle && battle.focusedWidget is MenuList && !battle.hasModal);
+        press(Key.Up, Key.Enter); // 自動
+        List<string> ending = pressEnterUntil(atActions, maxPresses: 600);
+
+        Assert.Contains(ending, s => s.Contains("魔王・真身"));
+        Assert.Contains(ending, s => s.Contains("終章「魔王城」 完"));
+        Assert.Equal(1, session.flags["demonKingDefeated"]);
+        Assert.Equal(1, session.flags["gameCleared"]);
+        Assert.Equal("dawnTown", session.locationId);
+        Assert.False(session.inventory.has("sealStone"));
+        Assert.True(session.inventory.has("holySword"));
+    }
+
+    [Fact]
     public void autoBattlePlaysPartyTurnsUntilEscIsPressed()
     {
         GameSession session = game.startNew();

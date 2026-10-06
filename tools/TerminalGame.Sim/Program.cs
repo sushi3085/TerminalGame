@@ -17,6 +17,7 @@ ContentDb content = ContentDb.loadDirectory(Path.Combine(AppContext.BaseDirector
 AutoPolicy careful = new() { spendMp = false };
 AutoPolicy allOut = new() { spendMp = true };
 double totalMinutes = 0;
+HashSet<string> countedTargets = new(); // areas sharing a levelling target (dungeon rooms) are alternatives, not additions
 
 void area(string locationId, Checkpoint checkpoint, Checkpoint? next)
 {
@@ -48,7 +49,11 @@ void area(string locationId, Checkpoint checkpoint, Checkpoint? next)
         int needed = Enumerable.Range(from, Math.Max(0, to - from)).Sum(Progression.expToNext);
         double battlesNeeded = needed / Math.Max(1, expPerBattle);
         double minutes = battlesNeeded * (roundsPerBattle * 6 + 10) / 60;
-        totalMinutes += minutes;
+        if (countedTargets.Add(next.name))
+        {
+            totalMinutes += minutes;
+        }
+
         Console.WriteLine($"   to reach Lv{to}: {needed} exp ≈ {battlesNeeded:F1} battles ≈ {minutes:F1} min");
     }
 
@@ -169,4 +174,37 @@ if (chapter(3, "砂岩城"))
     story("遺跡守衛（少兩級）", ch3Boss(14), guardian);
 }
 
+// ── Final chapter ────────────────────────────────────────────────────────────────────────────
+(string, int)[] ch4Items = [("hiPotion", 6), ("ether", 2), ("hiEther", 2), ("phoenixDown", 3), ("mintLeaf", 2)];
+Checkpoint wastes = new("荒原 Lv16×4", tier3(16, "sunBlade", "guardianShield", "frostRing"), ch4Items);
+Checkpoint castle = new("城內 Lv17×4",
+[
+    new("hero", 17, "holySword", "mithrilMail", "sandTurban", "pearlAmulet"),
+    new("rin", 17, "hornBow", "desertCloak", "sandTurban", "acornCharm"),
+    new("bal", 17, "warHammer", "steelPlate", "ironHelm", "dragonShield"),
+    new("xue", 17, "crystalStaff", "priestRobe", "sandTurban", "frostRing"),
+], ch4Items);
+(string, int)[] finalItems = [("hiPotion", 6), ("hiEther", 3), ("phoenixDown", 4), ("elixir", 2), ("mintLeaf", 2)];
+Checkpoint finalBoss(int level) => new($"魔王 Lv{level}×4",
+[
+    new("hero", level, "holySword", "mithrilMail", "mithrilHelm", "angelRing"),
+    new("rin", level, "galeBow", "mysticRobe", "sandTurban", "acornCharm"),
+    new("bal", level, "titanAxe", "mithrilMail", "ironHelm", "dragonShield"),
+    new("xue", level, "sageStaff", "mysticRobe", "sandTurban", "frostRing"),
+], finalItems);
+string[] demonKing = ["shadowKnight", "demonKing", "shadowKnight"];
+
+if (chapter(4, "魔王城"))
+{
+    area("northWastes", wastes, castle);
+    area("castleHall", castle, finalBoss(19));
+    area("castleTower", castle, finalBoss(19));
+    area("castleCrypt", castle, finalBoss(19));
+    story("魔王（兩階段）", finalBoss(19), demonKing);
+    story("魔王（多練一級）", finalBoss(20), demonKing);
+    story("魔王（少一級）", finalBoss(18), demonKing);
+    story("魔王（少兩級）", finalBoss(17), demonKing);
+}
+
+// Each area's levelling segment counts once; story, bosses, shops and walking are not included (roughly +25 min overall).
 Console.WriteLine($"Estimated levelling time (random battles only): {totalMinutes:F0} min");

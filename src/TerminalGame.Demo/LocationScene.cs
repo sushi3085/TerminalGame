@@ -296,14 +296,24 @@ public sealed class LocationScene : Scene
         }
     }
 
+    /// <summary>A paid inn, or with <paramref name="price"/> 0 a free rest point (no innkeeper lines).</summary>
     private void stayAtInn(int price, Action then)
     {
         const string keeper = "[cyan]旅館老闆[/]";
-        say($"歡迎光臨！住一晚 [gold]{price}[/] G，要休息嗎？", keeper, () => Ui.confirm(this, $"住宿 {price} G？", yes =>
+        bool free = price == 0;
+        Action ask = () => Ui.confirm(this, free ? "在這裡休息？" : $"住宿 {price} G？", yes =>
         {
             if (!yes)
             {
-                say("隨時歡迎再來。", keeper, then);
+                if (free)
+                {
+                    then();
+                }
+                else
+                {
+                    say("隨時歡迎再來。", keeper, then);
+                }
+
                 return;
             }
 
@@ -317,7 +327,7 @@ public sealed class LocationScene : Scene
             session.restoreParty();
             session.respawnLocationId = location.id;
             refreshStatus();
-            say("（好好地睡了一晚，HP 與 MP 全部恢復了。）", null, () => Ui.confirm(this, "要記錄冒險嗎？", save =>
+            say(free ? "（休息了一會兒，HP 與 MP 全部恢復了。）" : "（好好地睡了一晚，HP 與 MP 全部恢復了。）", null, () => Ui.confirm(this, "要記錄冒險嗎？", save =>
             {
                 if (!save)
                 {
@@ -335,6 +345,15 @@ public sealed class LocationScene : Scene
                     say($"[red]無法存檔：{ex.Message}[/]", null, then);
                 }
             }));
-        }));
+        });
+
+        if (free)
+        {
+            ask();
+        }
+        else
+        {
+            say($"歡迎光臨！住一晚 [gold]{price}[/] G，要休息嗎？", keeper, ask);
+        }
     }
 }
