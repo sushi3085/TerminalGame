@@ -167,7 +167,7 @@ public sealed class BattleScene : Scene
             int maxHp = c.stats.maxHp;
             string hpColor = hp <= 0 ? "dim" : hp * 4 <= maxHp ? "red" : hp * 2 <= maxHp ? "gold" : "white";
             string name = hp > 0 ? $"[gold]{c.name}[/]" : $"[dim]{c.name}[/]";
-            view.name.setText($"{marker}{name} [{hpColor}]{hp,3}/{maxHp,-3}[/] [dim]MP[/]{mp,3}{statuses}");
+            view.name.setText($"{marker}{name} [{hpColor}]{hp,3}/{maxHp,-3}[/] [dim]MP[/] {mp,3}{statuses}");
         }
     }
 

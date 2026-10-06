@@ -490,6 +490,22 @@ public sealed class GameFlowTests : IDisposable
     }
 
     [Fact]
+    public void partyPanelKeepsThreeDigitMpApartFromItsLabel()
+    {
+        GameSession session = game.startNew();
+        PartyMember xue = session.addMember("xue", level: 25);
+        session.addMember("rin", level: 25);
+        session.addMember("bal", level: 25);
+        Assert.True(xue.mp >= 100);
+        app.pushScene(new EmptyScene());
+        app.pushScene(new BattleScene(game, ["slime"]));
+        app.step(0);
+
+        Assert.Contains($"MP {xue.mp}", screen);
+        Assert.DoesNotContain($"MP{xue.mp}", screen);
+    }
+
+    [Fact]
     public void statusPanelShowsDerivedStatsAndEquipment()
     {
         GameSession session = game.startNew();
