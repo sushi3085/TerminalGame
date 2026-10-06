@@ -15,7 +15,14 @@ namespace TerminalGame.Demo;
 /// </summary>
 public sealed class BattleScene : Scene
 {
-    private sealed record EnemyView(Combatant combatant, Label name, ArtBlock art, ProgressBar hp);
+    /// <summary>Mutable because a boss's next phase takes over its column.</summary>
+    private sealed class EnemyView(EnemyCombatant combatant, Label name, ArtBlock art, ProgressBar hp)
+    {
+        public EnemyCombatant combatant { get; set; } = combatant;
+        public Label name { get; } = name;
+        public ArtBlock art { get; } = art;
+        public ProgressBar hp { get; } = hp;
+    }
 
     /// <summary>Solo: name, HP bar, MP bar. Party of 2+: one compact text line per member (bars are null).</summary>
     private sealed record MemberView(Combatant combatant, Label name, ProgressBar? hp, ProgressBar? mp);
@@ -61,7 +68,7 @@ public sealed class BattleScene : Scene
             column.add(new Spacer());
             column.add(Ui.centered(hp));
             enemyRow.add(column);
-            enemyViews.Add(new EnemyView(enemy, name, art, hp));
+            enemyViews.Add(new EnemyView(e, name, art, hp));
         }
 
         StackPanel partyPanel = new(Orientation.Vertical);
@@ -122,7 +129,7 @@ public sealed class BattleScene : Scene
     {
         foreach (EnemyView view in enemyViews)
         {
-            EnemyCombatant enemy = (EnemyCombatant)view.combatant;
+            EnemyCombatant enemy = view.combatant;
             int hp = shown[enemy].hp;
             view.hp.value = hp;
             if (hp <= 0)
@@ -214,6 +221,18 @@ public sealed class BattleScene : Scene
                 case HealEvent h:
                     shown[h.target] = (h.remainingHp, shown[h.target].mp);
                     break;
+                case ReviveEvent r:
+                    shown[r.target] = (r.remainingHp, shown[r.target].mp);
+                    break;
+                case PhaseChangedEvent p:
+                    EnemyView column = enemyViews.First(v => v.combatant == p.previous);
+                    column.combatant = p.next;
+                    column.art.setArt(string.Join("\n", p.next.def.art));
+                    column.art.layoutHeight = Length.cells(Math.Max(1, p.next.def.art.Count));
+                    column.hp.maximum = p.next.stats.maxHp;
+                    shown[p.next] = (p.next.hp, p.next.mp);
+                    shownStatuses[p.next] = new List<StatusKind>();
+                    break;
                 case MpRestoreEvent m:
                     shown[m.target] = (shown[m.target].hp, m.remainingMp);
                     break;
@@ -264,7 +283,7 @@ public sealed class BattleScene : Scene
         commands.setItems(new[]
         {
             MenuItem.of("攻擊"),
-            MenuItem.of("技能", engine.skillsOf(actor).Count > 0),
+            MenuItem.of("技能", engine.skillsOf(actor).Any(s => usable(actor, s))),
             MenuItem.of("道具", usableItems().Any()),
             MenuItem.of("防禦"),
             MenuItem.of("逃跑", engine.canEscape),
@@ -276,6 +295,10 @@ public sealed class BattleScene : Scene
             messages.show($"[gold]{actor.name}[/]要怎麼做？");
         }
     }
+
+    /// <summary>Affordable and with someone to aim at (a revive needs a fallen ally).</summary>
+    private bool usable(Combatant actor, SkillDef skill) =>
+        engine.canAfford(actor, skill) && engine.candidatesFor(actor, skill.target, skill.effect).Count > 0;
 
     private IEnumerable<(ItemDef item, int count)> usableItems() =>
         session.inventory.entries
@@ -290,7 +313,7 @@ public sealed class BattleScene : Scene
         switch (index)
         {
             case 0:
-                chooseTarget(actor, TargetKind.SingleEnemy, target => act(new AttackAction(actor, target!)));
+                chooseTarget(actor, TargetKind.SingleEnemy, null, target => act(new AttackAction(actor, target!)));
                 break;
             case 1:
                 chooseSkill(actor);
@@ -312,8 +335,8 @@ public sealed class BattleScene : Scene
         IReadOnlyList<SkillDef> skills = engine.skillsOf(actor);
         pick(
             "技能",
-            skills.Select(s => MenuItem.of($"{s.name} [dim]MP{s.mpCost}[/]", engine.canAfford(actor, s))),
-            i => chooseTarget(actor, skills[i].target, target => act(new SkillAction(actor, skills[i], target))));
+            skills.Select(s => MenuItem.of($"{s.name} [dim]MP{s.mpCost}[/]", usable(actor, s))),
+            i => chooseTarget(actor, skills[i].target, skills[i].effect, target => act(new SkillAction(actor, skills[i], target))));
     }
 
     private void chooseItem(Combatant actor)
@@ -321,16 +344,17 @@ public sealed class BattleScene : Scene
         List<(ItemDef item, int count)> items = usableItems().ToList();
         pick(
             "道具",
-            items.Select(e => MenuItem.of($"{e.item.name} x{e.count}")),
-            i => chooseTarget(actor, items[i].item.target, target => act(new ItemAction(actor, items[i].item, target))));
+            items.Select(e => MenuItem.of($"{e.item.name} x{e.count}", engine.candidatesFor(actor, e.item.target, e.item.effect!).Count > 0)),
+            i => chooseTarget(actor, items[i].item.target, items[i].item.effect!, target => act(new ItemAction(actor, items[i].item, target))));
     }
 
     /// <summary>Asks for a target only when there is a real choice; otherwise picks the obvious one.</summary>
-    private void chooseTarget(Combatant actor, TargetKind kind, Action<Combatant?> then)
+    private void chooseTarget(Combatant actor, TargetKind kind, EffectDef? effect, Action<Combatant?> then)
     {
         IReadOnlyList<Combatant> candidates = kind switch
         {
             TargetKind.SingleEnemy => engine.opponentsOf(actor),
+            TargetKind.SingleAlly when effect is not null => engine.candidatesFor(actor, kind, effect),
             TargetKind.SingleAlly => engine.alliesOf(actor),
             _ => [],
         };

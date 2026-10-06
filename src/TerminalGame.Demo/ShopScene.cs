@@ -198,6 +198,11 @@ public static class EquipText
             return "[dim]已裝備[/]";
         }
 
+        if (item is not null && !item.canBeEquippedBy(member.def))
+        {
+            return "[dim]無法裝備[/]";
+        }
+
         StatBlock now = member.stats;
         StatBlock next = member.previewStats(slot, item);
         List<string> parts = new();

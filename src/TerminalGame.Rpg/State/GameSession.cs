@@ -108,11 +108,11 @@ public sealed class GameSession
 
     /// <summary>
     /// Equips an item from the inventory; whatever was in that slot goes back to the inventory.
-    /// Returns false (and changes nothing) if the item is not in the inventory.
+    /// Returns false (and changes nothing) if the item is not in the inventory or the member cannot wear it.
     /// </summary>
     public bool equipFromInventory(PartyMember member, ItemDef item)
     {
-        if (item.kind != ItemKind.Equipment || !inventory.has(item.id))
+        if (item.kind != ItemKind.Equipment || !inventory.has(item.id) || !item.canBeEquippedBy(member.def))
         {
             return false;
         }

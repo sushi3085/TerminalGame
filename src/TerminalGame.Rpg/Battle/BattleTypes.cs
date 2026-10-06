@@ -80,6 +80,11 @@ public sealed record StatusRemovedEvent(Combatant target, StatusKind kind, Statu
 /// <summary>The actor's turn passes without an action (asleep or paralysed).</summary>
 public sealed record TurnSkippedEvent(Combatant actor, StatusKind cause) : BattleEvent;
 
+public sealed record ReviveEvent(Combatant target, int remainingHp) : BattleEvent;
+
+/// <summary><paramref name="next"/> took <paramref name="previous"/>'s place (same slot); it acts from the next round.</summary>
+public sealed record PhaseChangedEvent(EnemyCombatant previous, EnemyCombatant next) : BattleEvent;
+
 public sealed record PoisonDamageEvent(Combatant target, int amount, int remainingHp) : BattleEvent;
 
 public sealed record HealEvent(Combatant target, int amount, int remainingHp) : BattleEvent;

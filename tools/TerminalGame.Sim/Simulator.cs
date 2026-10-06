@@ -58,16 +58,18 @@ public static class Simulator
     {
         int mpBefore = session.party.Sum(m => m.mp);
         int itemsUsed = 0;
+        int exp = 0;
         BattleEngine engine = new(session, enemyIds.Select(session.content.enemy));
         engine.start();
         while (engine.outcome == BattleOutcome.Ongoing && engine.round <= maxRounds)
         {
             BattleAction action = engine.currentActor!.side == Side.Party ? policy.decide(engine, session) : engine.decideEnemyAction();
-            itemsUsed += engine.execute(action).OfType<ItemUsedEvent>().Count();
+            IReadOnlyList<BattleEvent> events = engine.execute(action);
+            itemsUsed += events.OfType<ItemUsedEvent>().Count();
+            exp += events.OfType<VictoryEvent>().Sum(v => v.exp);
         }
 
         int maxHp = session.party.Sum(m => m.stats.maxHp);
-        int exp = engine.outcome == BattleOutcome.Victory ? engine.enemies.Cast<EnemyCombatant>().Sum(e => e.def.exp) : 0;
         return new BattleResult(
             engine.outcome,
             engine.round,

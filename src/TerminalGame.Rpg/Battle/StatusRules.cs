@@ -16,9 +16,6 @@ public static class StatusRules
     /// <summary>Chance that paralysis costs a turn.</summary>
     public const double paralysisChance = 0.5;
 
-    public static bool isAilment(StatusKind kind) => kind is StatusKind.Poison or StatusKind.Sleep or StatusKind.Paralysis
-        or StatusKind.AttackDown or StatusKind.DefenseDown;
-
     /// <summary>The buff a debuff cancels and vice versa; applying one while the other is active just removes both.</summary>
     public static StatusKind? opposite(StatusKind kind) => kind switch
     {

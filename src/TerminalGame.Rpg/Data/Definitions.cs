@@ -43,6 +43,9 @@ public enum EffectKind
 
     /// <summary>No HP/MP change: only applies <see cref="EffectDef.status"/> and/or removes <see cref="EffectDef.cures"/>.</summary>
     Status,
+
+    /// <summary>Brings a fallen ally back with power% of max HP (at least 1). Only fallen allies can be targeted.</summary>
+    Revive,
 }
 
 /// <summary>Damage element. Enemies list what they are weak to (×1.5) or resist (×0.5).</summary>
@@ -71,6 +74,9 @@ public enum StatusKind
     DefenseUp,
     AttackDown,
     DefenseDown,
+
+    /// <summary>Draws the other side's single-target attacks and skills.</summary>
+    Taunt,
 }
 
 /// <summary>A status an effect may inflict on each target it hits.</summary>
@@ -132,6 +138,11 @@ public sealed record ItemDef
 
     /// <summary>Equipment only: added to the wearer's stats.</summary>
     public StatBlock bonus { get; init; }
+
+    /// <summary>Equipment only: character ids that can wear it; empty = anyone.</summary>
+    public IReadOnlyList<string> equippableBy { get; init; } = [];
+
+    public bool canBeEquippedBy(CharacterDef character) => equippableBy.Count == 0 || equippableBy.Contains(character.id);
 
     /// <summary>Consumables only.</summary>
     public TargetKind target { get; init; } = TargetKind.SingleAlly;
@@ -206,6 +217,12 @@ public sealed record EnemyDef
 
     /// <summary>Statuses that never take hold (bosses are usually immune to Sleep and Paralysis).</summary>
     public IReadOnlyList<StatusKind> immuneTo { get; init; } = [];
+
+    /// <summary>Enemy id that takes this one's place when it falls (a boss's second form). Rewards of both are paid.</summary>
+    public string? nextPhase { get; init; }
+
+    /// <summary>Narration when <see cref="nextPhase"/> appears.</summary>
+    public string phaseMessage { get; init; } = "";
 
     /// <summary>Battle narration after the name for a plain attack, e.g. "撲了過來！". Empty = a generic line.</summary>
     public string attackMessage { get; init; } = "";

@@ -16,6 +16,7 @@ public static class StatusText
         StatusKind.DefenseUp => "[green]防↑[/]",
         StatusKind.AttackDown => "[red]攻↓[/]",
         StatusKind.DefenseDown => "[red]防↓[/]",
+        StatusKind.Taunt => "[orange]挑[/]",
         _ => "?",
     };
 
@@ -30,6 +31,7 @@ public static class StatusText
         StatusKind.DefenseUp => "防禦提升",
         StatusKind.AttackDown => "攻擊下降",
         StatusKind.DefenseDown => "防禦下降",
+        StatusKind.Taunt => "挑釁",
         _ => kind.ToString(),
     };
 
@@ -52,6 +54,7 @@ public static class StatusText
         StatusKind.DefenseUp => "的防禦力[green]提升了[/]！",
         StatusKind.AttackDown => "的攻擊力[red]下降了[/]！",
         StatusKind.DefenseDown => "的防禦力[red]下降了[/]！",
+        StatusKind.Taunt => "擺出[orange]挑釁[/]的架勢，吸引了敵人的注意！",
         _ => "",
     };
 
@@ -63,6 +66,7 @@ public static class StatusText
         (StatusKind.Poison, _) => "身上的毒消退了。",
         (StatusKind.Paralysis, _) => "的麻痺解除了。",
         (StatusKind.AttackUp or StatusKind.AttackDown, _) => "的攻擊力恢復了原狀。",
+        (StatusKind.Taunt, _) => "的挑釁結束了。",
         _ => "的防禦力恢復了原狀。",
     };
 

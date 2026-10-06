@@ -6,9 +6,10 @@ namespace TerminalGame.Rpg.Battle;
 /// <summary>
 /// A reasonable player, for the balance simulator (and a future in-game "auto" command). Priorities each turn:
 /// <list type="number">
+/// <item>Revive a fallen ally with a skill, else an item.</item>
 /// <item>Heal an ally below <see cref="healThreshold"/> with a skill, else a potion.</item>
 /// <item>Wake a sleeping ally or cure paralysis/poison, with a skill or an item.</item>
-/// <item>In a long fight (when <see cref="spendMp"/> is on), buff the strongest ally that lacks it.</item>
+/// <item>In a long fight (when <see cref="spendMp"/> is on), buff the strongest ally that lacks it, or taunt.</item>
 /// <item>Hit two or more enemies with an area skill.</item>
 /// <item>When <see cref="spendMp"/> is on, use the strongest affordable single-target skill.</item>
 /// <item>Otherwise attack the enemy with the least HP left (finish things off).</item>
@@ -31,6 +32,23 @@ public sealed class AutoPolicy
         IReadOnlyList<Combatant> allies = engine.alliesOf(actor);
         IReadOnlyList<Combatant> enemies = engine.opponentsOf(actor);
         IReadOnlyList<SkillDef> skills = engine.skillsOf(actor).Where(s => engine.canAfford(actor, s)).ToList();
+
+        if (engine.fallenAlliesOf(actor).Count > 0)
+        {
+            SkillDef? revive = skills.FirstOrDefault(s => s.effect.kind == EffectKind.Revive);
+            if (revive is not null)
+            {
+                return new SkillAction(actor, revive, engine.fallenAlliesOf(actor)[0]);
+            }
+
+            ItemDef? feather = useItems
+                ? session.inventory.entries.Select(e => session.content.item(e.itemId)).FirstOrDefault(i => i.usableInBattle && i.effect!.kind == EffectKind.Revive)
+                : null;
+            if (feather is not null)
+            {
+                return new ItemAction(actor, feather, engine.fallenAlliesOf(actor)[0]);
+            }
+        }
 
         Combatant? hurt = allies
             .Where(a => (double)a.hp / a.stats.maxHp < healThreshold)
@@ -138,14 +156,14 @@ public sealed class AutoPolicy
             return null;
         }
 
-        foreach (SkillDef skill in skills.Where(s => s.effect is { kind: EffectKind.Status, status.kind: StatusKind.AttackUp or StatusKind.DefenseUp }))
+        foreach (SkillDef skill in skills.Where(s => s.effect is { kind: EffectKind.Status, status.kind: StatusKind.AttackUp or StatusKind.DefenseUp or StatusKind.Taunt }))
         {
             StatusKind kind = skill.effect.status!.kind;
             Combatant? target = skill.target switch
             {
                 TargetKind.Self => actor.has(kind) ? null : actor,
                 TargetKind.SingleAlly => allies.Where(a => !a.has(kind)).OrderByDescending(a => kind == StatusKind.AttackUp ? a.stats.attack : a.stats.defense).FirstOrDefault(),
-                TargetKind.AllAllies => allies.Any(a => !a.has(kind)) ? actor : null,
+                TargetKind.AllAllies => allies.Count(a => !a.has(kind)) >= 2 ? actor : null,
                 _ => null,
             };
             if (target is not null)

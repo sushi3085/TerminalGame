@@ -227,6 +227,11 @@ public sealed class ContentDb
             {
                 errors.Add($"{owner}: negative price");
             }
+
+            foreach (string characterId in item.equippableBy.Where(c => !characterMap.ContainsKey(c)))
+            {
+                errors.Add($"{owner}: unknown character '{characterId}' in equippableBy");
+            }
         }
 
         foreach (CharacterDef character in characterMap.Values)
@@ -254,6 +259,10 @@ public sealed class ContentDb
                 {
                     errors.Add($"{owner}: two initial items in slot {item.slot}");
                 }
+                else if (!item.canBeEquippedBy(character))
+                {
+                    errors.Add($"{owner}: cannot equip initial item '{itemId}'");
+                }
             }
         }
 
@@ -263,6 +272,11 @@ public sealed class ContentDb
             if (enemy.stats.maxHp <= 0)
             {
                 errors.Add($"{owner}: maxHp must be positive");
+            }
+
+            if (enemy.nextPhase is not null && !enemyMap.ContainsKey(enemy.nextPhase))
+            {
+                errors.Add($"{owner}: unknown nextPhase '{enemy.nextPhase}'");
             }
 
             foreach (EnemyActionDef action in enemy.actions)

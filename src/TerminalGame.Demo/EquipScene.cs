@@ -94,7 +94,7 @@ public sealed class EquipScene : Scene
         List<ItemDef?> candidates = new() { null };
         candidates.AddRange(session.inventory.entries
             .Select(e => session.content.item(e.itemId))
-            .Where(i => i.kind == ItemKind.Equipment && i.slot == slot));
+            .Where(i => i.kind == ItemKind.Equipment && i.slot == slot && i.canBeEquippedBy(member.def)));
 
         MenuList list = Ui.showPicker(this, slotLabels[slotIndex].label,
             candidates.Select(i => MenuItem.of(i is null ? "[dim](卸下)[/]" : $"{i.name}  {EquipText.change(member, slot, i)}")),

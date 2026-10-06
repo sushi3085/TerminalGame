@@ -92,17 +92,18 @@ public static class ShopRules
 /// <summary>Using healing items and skills from the party menu, outside battle.</summary>
 public static class FieldRules
 {
-    public static bool isFieldEffect(EffectDef? effect) => effect?.kind is EffectKind.Heal or EffectKind.RestoreMp;
+    public static bool isFieldEffect(EffectDef? effect) => effect?.kind is EffectKind.Heal or EffectKind.RestoreMp or EffectKind.Revive;
 
     public static bool usableInField(ItemDef item) => item.kind == ItemKind.Consumable && isFieldEffect(item.effect);
 
     public static bool usableInField(SkillDef skill) => isFieldEffect(skill.effect);
 
-    /// <summary>Whether <paramref name="target"/> would gain anything (fallen members cannot be healed).</summary>
-    public static bool wouldHelp(EffectDef effect, PartyMember target) => target.isAlive && effect.kind switch
+    /// <summary>Whether <paramref name="target"/> would gain anything (fallen members can only be revived).</summary>
+    public static bool wouldHelp(EffectDef effect, PartyMember target) => effect.kind switch
     {
-        EffectKind.Heal => target.hp < target.stats.maxHp,
-        EffectKind.RestoreMp => target.mp < target.stats.maxMp,
+        EffectKind.Revive => !target.isAlive,
+        EffectKind.Heal => target.isAlive && target.hp < target.stats.maxHp,
+        EffectKind.RestoreMp => target.isAlive && target.mp < target.stats.maxMp,
         _ => false,
     };
 
@@ -130,14 +131,20 @@ public static class FieldRules
     }
 
     private static IEnumerable<PartyMember> targetsFor(GameSession session, TargetKind kind, PartyMember chosen) =>
-        kind == TargetKind.AllAllies ? session.party.Where(m => m.isAlive) : [chosen];
+        kind == TargetKind.AllAllies ? session.party : [chosen];
 
+    /// <summary>Amounts are HP restored (Heal, Revive) or MP restored.</summary>
     private static IReadOnlyList<(PartyMember member, int amount)> apply(GameSession session, StatBlock user, EffectDef effect, IEnumerable<PartyMember> targets)
     {
         List<(PartyMember, int)> results = new();
-        foreach (PartyMember member in targets.Where(m => m.isAlive))
+        foreach (PartyMember member in targets.Where(m => m.isAlive != (effect.kind == EffectKind.Revive)))
         {
-            if (effect.kind == EffectKind.Heal)
+            if (effect.kind == EffectKind.Revive)
+            {
+                member.hp = Math.Max(1, member.stats.maxHp * effect.power / 100);
+                results.Add((member, member.hp));
+            }
+            else if (effect.kind == EffectKind.Heal)
             {
                 int before = member.hp;
                 member.hp += DamageFormula.rollHeal(user, effect, session.random);

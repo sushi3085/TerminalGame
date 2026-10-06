@@ -80,6 +80,11 @@ public sealed class PartyMember
             throw new ArgumentException($"'{item.id}' is not equipment", nameof(item));
         }
 
+        if (!item.canBeEquippedBy(def))
+        {
+            throw new ArgumentException($"{def.id} cannot equip '{item.id}'", nameof(item));
+        }
+
         ItemDef? previous = equippedIn(slot);
         equipped[slot] = item.id;
         clampResources();
@@ -132,7 +137,7 @@ public sealed class PartyMember
         return levelUps;
     }
 
-    /// <summary>Overwrites progress with saved values. Unknown or misplaced equipment ids are dropped.</summary>
+    /// <summary>Overwrites progress with saved values. Unknown, misplaced or no longer allowed equipment ids are dropped.</summary>
     internal void load(int savedLevel, int savedExp, IReadOnlyDictionary<EquipSlot, string> savedEquipment, int savedHp, int savedMp)
     {
         level = Math.Clamp(savedLevel, 1, Progression.maxLevel);
@@ -140,7 +145,7 @@ public sealed class PartyMember
         equipped.Clear();
         foreach ((EquipSlot slot, string itemId) in savedEquipment)
         {
-            if (content.hasItem(itemId) && content.item(itemId).slot == slot)
+            if (content.hasItem(itemId) && content.item(itemId).slot == slot && content.item(itemId).canBeEquippedBy(def))
             {
                 equipped[slot] = itemId;
             }

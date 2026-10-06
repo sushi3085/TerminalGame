@@ -29,6 +29,9 @@ public sealed class BattleEngine
     private readonly List<Combatant> enemySide = new();
     private readonly Queue<Combatant> turnQueue = new();
 
+    /// <summary>Boss forms that were replaced by their next phase; they still pay out at the end.</summary>
+    private readonly List<EnemyDef> pastPhases = new();
+
     public BattleEngine(GameSession session, IEnumerable<EnemyDef> enemies, bool canEscape = true)
     {
         this.session = session;
@@ -76,6 +79,25 @@ public sealed class BattleEngine
 
     public bool canAfford(Combatant c, SkillDef skill) => c.mp >= skill.mpCost;
 
+    /// <summary>Fallen members of <paramref name="c"/>'s side (revive targets).</summary>
+    public IReadOnlyList<Combatant> fallenAlliesOf(Combatant c) => (c.side == Side.Party ? partySide : enemySide).Where(x => !x.isAlive).ToList();
+
+    /// <summary>Who <paramref name="actor"/> could aim <paramref name="effect"/> at; empty = it would do nothing now.</summary>
+    public IReadOnlyList<Combatant> candidatesFor(Combatant actor, TargetKind kind, EffectDef effect)
+    {
+        if (effect.kind == EffectKind.Revive)
+        {
+            return kind is TargetKind.SingleAlly or TargetKind.AllAllies ? fallenAlliesOf(actor) : [];
+        }
+
+        return kind switch
+        {
+            TargetKind.Self => [actor],
+            TargetKind.SingleAlly or TargetKind.AllAllies => alliesOf(actor),
+            _ => opponentsOf(actor),
+        };
+    }
+
     /// <summary>Begins round 1 and picks the first actor.</summary>
     public IReadOnlyList<BattleEvent> start()
     {
@@ -113,7 +135,7 @@ public sealed class BattleEngine
         {
             case AttackAction attack:
                 events.Add(new AttackEvent(attack.actor));
-                applyEffect(attack.actor, resolveTargets(attack.actor, TargetKind.SingleEnemy, attack.target), basicAttack, events);
+                applyEffect(attack.actor, resolveTargets(attack.actor, TargetKind.SingleEnemy, attack.target, basicAttack), basicAttack, events);
                 break;
             case SkillAction skill:
                 useSkill(skill, events);
@@ -157,7 +179,8 @@ public sealed class BattleEngine
         {
             SkillDef? skill = entry.skillId is null ? null : session.content.skill(entry.skillId);
             // A buff the enemy already has would be a wasted turn.
-            bool pointless = skill is { target: TargetKind.Self, effect.status: { } buff } && enemy.has(buff.kind);
+            bool pointless = (skill is { target: TargetKind.Self, effect.status: { } buff } && enemy.has(buff.kind))
+                || (skill is { effect.kind: EffectKind.Revive } && fallenAlliesOf(enemy).Count == 0);
             if (skill is null || (canAfford(enemy, skill) && !pointless))
             {
                 options.Add((skill, entry.weight));
@@ -182,12 +205,13 @@ public sealed class BattleEngine
 
         if (chosen is null)
         {
-            return new AttackAction(enemy, pickRandom(opponentsOf(enemy)));
+            return new AttackAction(enemy, pickOpponent(enemy));
         }
 
         Combatant? target = chosen.target switch
         {
-            TargetKind.SingleEnemy => pickRandom(opponentsOf(enemy)),
+            TargetKind.SingleEnemy => pickOpponent(enemy),
+            TargetKind.SingleAlly when chosen.effect.kind == EffectKind.Revive => fallenAlliesOf(enemy).FirstOrDefault(),
             TargetKind.SingleAlly => mostHurt(alliesOf(enemy)),
             _ => null,
         };
@@ -209,7 +233,7 @@ public sealed class BattleEngine
 
         actor.mp -= action.skill.mpCost;
         events.Add(new SkillUsedEvent(actor, action.skill, actor.mp));
-        applyEffect(actor, resolveTargets(actor, action.skill.target, action.target), action.skill.effect, events);
+        applyEffect(actor, resolveTargets(actor, action.skill.target, action.target, action.skill.effect), action.skill.effect, events);
     }
 
     private void useItem(ItemAction action, List<BattleEvent> events)
@@ -227,7 +251,7 @@ public sealed class BattleEngine
         }
 
         events.Add(new ItemUsedEvent(actor, item, session.inventory.count(item.id)));
-        applyEffect(actor, resolveTargets(actor, item.target, action.target), item.effect!, events);
+        applyEffect(actor, resolveTargets(actor, item.target, action.target, item.effect!), item.effect!, events);
     }
 
     private void tryEscape(EscapeAction action, List<BattleEvent> events)
@@ -248,8 +272,16 @@ public sealed class BattleEngine
         }
     }
 
-    private IReadOnlyList<Combatant> resolveTargets(Combatant actor, TargetKind kind, Combatant? chosen)
+    private IReadOnlyList<Combatant> resolveTargets(Combatant actor, TargetKind kind, Combatant? chosen, EffectDef effect)
     {
+        if (effect.kind == EffectKind.Revive)
+        {
+            IReadOnlyList<Combatant> fallen = candidatesFor(actor, kind, effect);
+            return kind == TargetKind.AllAllies ? fallen
+                : chosen is not null && fallen.Contains(chosen) ? [chosen]
+                : fallen.Take(1).ToList();
+        }
+
         IReadOnlyList<Combatant> allies = alliesOf(actor);
         IReadOnlyList<Combatant> opponents = opponentsOf(actor);
         return kind switch
@@ -296,6 +328,10 @@ public sealed class BattleEngine
                     int mpBefore = target.mp;
                     target.mp += effect.power;
                     events.Add(new MpRestoreEvent(target, target.mp - mpBefore, target.mp));
+                    break;
+                case EffectKind.Revive:
+                    target.hp = Math.Max(1, target.stats.maxHp * effect.power / 100);
+                    events.Add(new ReviveEvent(target, target.hp));
                     break;
             }
 
@@ -354,11 +390,19 @@ public sealed class BattleEngine
         events.Add(new StatusRemovedEvent(target, status.kind, reason));
     }
 
-    private static void defeat(Combatant target, List<BattleEvent> events)
+    private void defeat(Combatant target, List<BattleEvent> events)
     {
         target.isGuarding = false;
         target.clearStatuses();
         events.Add(new DefeatedEvent(target));
+        if (target is EnemyCombatant { def.nextPhase: { } nextId } fallen)
+        {
+            EnemyDef nextDef = session.content.enemy(nextId);
+            EnemyCombatant next = new(nextDef, fallen.slot, nextDef.name);
+            enemySide[enemySide.IndexOf(fallen)] = next;
+            pastPhases.Add(fallen.def);
+            events.Add(new PhaseChangedEvent(fallen, next));
+        }
     }
 
     /// <summary>Poison damage, then every status of <paramref name="actor"/> loses a turn.</summary>
@@ -438,11 +482,11 @@ public sealed class BattleEngine
         int exp = 0;
         int gold = 0;
         List<ItemDef> drops = new();
-        foreach (EnemyCombatant enemy in enemySide.Cast<EnemyCombatant>())
+        foreach (EnemyDef def in pastPhases.Concat(enemySide.Cast<EnemyCombatant>().Select(e => e.def)))
         {
-            exp += enemy.def.exp;
-            gold += enemy.def.gold;
-            foreach (DropDef drop in enemy.def.drops)
+            exp += def.exp;
+            gold += def.gold;
+            foreach (DropDef drop in def.drops)
             {
                 if (random.NextDouble() < drop.chance)
                 {
@@ -523,6 +567,13 @@ public sealed class BattleEngine
     }
 
     private Combatant pickRandom(IReadOnlyList<Combatant> candidates) => candidates[random.Next(candidates.Count)];
+
+    /// <summary>A random opponent, unless one of them is taunting.</summary>
+    private Combatant pickOpponent(Combatant actor)
+    {
+        IReadOnlyList<Combatant> opponents = opponentsOf(actor);
+        return opponents.FirstOrDefault(o => o.has(StatusKind.Taunt)) ?? pickRandom(opponents);
+    }
 
     private static Combatant mostHurt(IReadOnlyList<Combatant> candidates) =>
         candidates.OrderBy(c => (double)c.hp / Math.Max(1, c.stats.maxHp)).ThenBy(c => c.slot).First();
