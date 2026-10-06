@@ -2,7 +2,7 @@
 
 目標：用 `TerminalGame.Tui` 做出一款**可完整遊玩約 60 分鐘**的文字 JRPG——多座村莊、分階裝備、多位夥伴、有冒險氛圍。
 
-本文件同時是**跨 session 的工作交接單**：每完成一項就勾選，並在最後的「進度日誌」補一行。新 session 開始時，先讀本文件與 `docs/DESIGN.md`。
+本文件同時是**跨 session 的工作交接單**：每完成一項就勾選，並在最後的「進度日誌」補一行。新 session 開始時，先讀本文件、`docs/DEVELOPMENT.md` 與 `docs/DESIGN.md`。
 
 ---
 
@@ -156,9 +156,7 @@ tools/
 
 ## 5. 給下一個 session 的交接
 
-- **環境**：雲端容器預設沒有 .NET。`builds.dotnet.microsoft.com` 被網路政策擋下，請改用 Ubuntu 套件：`apt-get install -y dotnet-sdk-10.0`（必要時先 `apt-get update`）。NuGet 可正常連線。
-- **驗證**：`dotnet build`（0 警告）、`dotnet test`（三個測試專案）、`dotnet run --project src/TerminalGame.Demo -- --snapshot`。
-- **sln 換行**：`dotnet sln add` 會把 `TerminalGame.sln` 改成 LF，加完專案後請轉回 CRLF（`sed -i 's/\r\{0,1\}$/\r/' TerminalGame.sln`）。
+- **環境與踩過的坑**：見 [`docs/DEVELOPMENT.md`](DEVELOPMENT.md)（.NET 安裝、驗證指令、sln 換行、平衡比較的做法）。
 - **M0 留下的設計決定**
   - 戰鬥是「逐人行動」制（每回合依速度±10% 排序，輪到誰誰就行動），不是 DQ 式「先全員下指令再結算」。
   - 勝利時存活的成員各自拿到全額經驗值；倒下的成員拿不到。
