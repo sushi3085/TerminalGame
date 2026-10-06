@@ -1,0 +1,720 @@
+[
+  {
+    "id": "potion",
+    "name": "傷藥",
+    "kind": "Consumable",
+    "price": 8,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Heal",
+      "power": 25
+    },
+    "description": "用草藥熬成的藥膏。恢復 25 點 HP。"
+  },
+  {
+    "id": "hiPotion",
+    "name": "上等傷藥",
+    "kind": "Consumable",
+    "price": 40,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Heal",
+      "power": 70
+    },
+    "description": "加了蜂蜜的高級藥膏。恢復 70 點 HP。"
+  },
+  {
+    "id": "ether",
+    "name": "魔力水",
+    "kind": "Consumable",
+    "price": 30,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "RestoreMp",
+      "power": 15
+    },
+    "description": "泛著藍光的泉水。恢復 15 點 MP。"
+  },
+  {
+    "id": "antidote",
+    "name": "解毒草",
+    "kind": "Consumable",
+    "price": 10,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Status",
+      "cures": [
+        "Poison"
+      ]
+    },
+    "description": "苦得要命的藥草。解除中毒。"
+  },
+  {
+    "id": "mintLeaf",
+    "name": "薄荷葉",
+    "kind": "Consumable",
+    "price": 15,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Status",
+      "cures": [
+        "Sleep",
+        "Paralysis"
+      ]
+    },
+    "description": "清涼的薄荷葉。讓同伴清醒、解除麻痺。"
+  },
+  {
+    "id": "woodenSword",
+    "name": "木劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 30,
+    "bonus": {
+      "attack": 2
+    },
+    "description": "練習用的木劍。",
+    "equippableBy": [
+      "hero"
+    ]
+  },
+  {
+    "id": "bronzeSword",
+    "name": "青銅劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 120,
+    "bonus": {
+      "attack": 6
+    },
+    "description": "鎮上鐵匠打的青銅劍，沉甸甸的。",
+    "equippableBy": [
+      "hero"
+    ]
+  },
+  {
+    "id": "huntersBow",
+    "name": "獵弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 100,
+    "bonus": {
+      "attack": 4,
+      "speed": 1
+    },
+    "description": "琳的父親親手做的獵弓。",
+    "equippableBy": [
+      "rin"
+    ]
+  },
+  {
+    "id": "longBow",
+    "name": "長弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 240,
+    "bonus": {
+      "attack": 9,
+      "speed": 1
+    },
+    "description": "紫杉木製的長弓，射程極遠。",
+    "equippableBy": [
+      "rin"
+    ]
+  },
+  {
+    "id": "clothTunic",
+    "name": "布衣",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 20,
+    "bonus": {
+      "defense": 2
+    },
+    "description": "普通的旅行布衣。"
+  },
+  {
+    "id": "leatherArmor",
+    "name": "皮甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 90,
+    "bonus": {
+      "defense": 5
+    },
+    "description": "鞣製過的皮革護甲。"
+  },
+  {
+    "id": "leatherCap",
+    "name": "皮帽",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 40,
+    "bonus": {
+      "defense": 2
+    },
+    "description": "擋得住樹枝的皮帽。"
+  },
+  {
+    "id": "swiftCharm",
+    "name": "疾風護符",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 150,
+    "bonus": {
+      "speed": 3
+    },
+    "description": "刻著風紋的護符，讓腳步變輕。"
+  },
+  {
+    "id": "acornCharm",
+    "name": "橡實護符",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 60,
+    "bonus": {
+      "maxHp": 10,
+      "defense": 1
+    },
+    "description": "用森林橡實串成的護身符。"
+  },
+  {
+    "id": "forestHeart",
+    "name": "森林之心",
+    "kind": "Key",
+    "description": "森林之主留下的翠綠色種子。摸起來暖暖的。"
+  },
+  {
+    "id": "phoenixDown",
+    "name": "不死鳥之羽",
+    "kind": "Consumable",
+    "price": 120,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Revive",
+      "power": 30
+    },
+    "description": "讓倒下的同伴復活，恢復三成 HP。"
+  },
+  {
+    "id": "boardingAxe",
+    "name": "登船斧",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 160,
+    "bonus": {
+      "attack": 7
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "港口護衛用的短柄斧。"
+  },
+  {
+    "id": "harborShield",
+    "name": "港口圓盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 120,
+    "bonus": {
+      "defense": 4
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "刻著船錨紋章的圓盾。"
+  },
+  {
+    "id": "ironSword",
+    "name": "鐵劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 320,
+    "bonus": {
+      "attack": 12
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "河港村鍛造的鐵劍，刃口很利。"
+  },
+  {
+    "id": "compositeBow",
+    "name": "複合弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 340,
+    "bonus": {
+      "attack": 14,
+      "speed": 1
+    },
+    "equippableBy": [
+      "rin"
+    ],
+    "description": "以獸角與木材貼合的強弓。"
+  },
+  {
+    "id": "ironAxe",
+    "name": "鐵斧",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 300,
+    "bonus": {
+      "attack": 12
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "沉重的雙手斧。"
+  },
+  {
+    "id": "chainMail",
+    "name": "鎖子甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 300,
+    "bonus": {
+      "defense": 9
+    },
+    "equippableBy": [
+      "hero",
+      "bal"
+    ],
+    "description": "細密的鐵環編成的甲。"
+  },
+  {
+    "id": "rangerVest",
+    "name": "遊俠背心",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 240,
+    "bonus": {
+      "defense": 6,
+      "speed": 2
+    },
+    "description": "輕巧的皮背心，不妨礙拉弓。"
+  },
+  {
+    "id": "ironHelm",
+    "name": "鐵盔",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 160,
+    "bonus": {
+      "defense": 4
+    },
+    "description": "擋得住落石的鐵盔。"
+  },
+  {
+    "id": "pearlAmulet",
+    "name": "珍珠墜飾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 280,
+    "bonus": {
+      "maxMp": 10,
+      "magic": 3
+    },
+    "description": "河蚌裡取出的珍珠，泛著柔光。"
+  },
+  {
+    "id": "corsairSaber",
+    "name": "海盜彎刀",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 0,
+    "bonus": {
+      "attack": 17,
+      "speed": 1
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "沉船船長的彎刀，刀身沒有一點鏽。"
+  },
+  {
+    "id": "shellShield",
+    "name": "螺殼大盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "defense": 8,
+      "maxHp": 15
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "巨大海螺殼打磨成的盾。"
+  },
+  {
+    "id": "darkCrystal",
+    "name": "黑色結晶",
+    "kind": "Key",
+    "description": "水蛇體內取出的結晶，摸起來冰冷刺骨。"
+  },
+  {
+    "id": "hiEther",
+    "name": "高級魔力水",
+    "kind": "Consumable",
+    "price": 90,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "RestoreMp",
+      "power": 40
+    },
+    "description": "濃縮的魔力泉水。恢復 40 點 MP。"
+  },
+  {
+    "id": "oakStaff",
+    "name": "橡木杖",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 80,
+    "bonus": {
+      "attack": 2,
+      "magic": 4
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "神殿見習生用的法杖。"
+  },
+  {
+    "id": "priestRobe",
+    "name": "神官袍",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 120,
+    "bonus": {
+      "defense": 3,
+      "magic": 3
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "繡著銀線的白袍。"
+  },
+  {
+    "id": "steelSword",
+    "name": "鋼劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 620,
+    "bonus": {
+      "attack": 18
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "砂岩城的名匠打造的鋼劍。"
+  },
+  {
+    "id": "hornBow",
+    "name": "角弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 640,
+    "bonus": {
+      "attack": 20,
+      "speed": 2
+    },
+    "equippableBy": [
+      "rin"
+    ],
+    "description": "用沙漠羚羊角做的弓，又輕又強。"
+  },
+  {
+    "id": "warHammer",
+    "name": "戰鎚",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 600,
+    "bonus": {
+      "attack": 19
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "敲得碎岩石的鐵鎚。"
+  },
+  {
+    "id": "crystalStaff",
+    "name": "水晶杖",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 580,
+    "bonus": {
+      "attack": 5,
+      "magic": 9
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "杖頭鑲著透明水晶。"
+  },
+  {
+    "id": "steelPlate",
+    "name": "鋼板甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 600,
+    "bonus": {
+      "defense": 14
+    },
+    "equippableBy": [
+      "hero",
+      "bal"
+    ],
+    "description": "厚重的鋼板甲。"
+  },
+  {
+    "id": "desertCloak",
+    "name": "沙漠斗篷",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 480,
+    "bonus": {
+      "defense": 9,
+      "speed": 2,
+      "magic": 2
+    },
+    "description": "擋得住烈日和沙暴的斗篷。"
+  },
+  {
+    "id": "sandTurban",
+    "name": "沙漠頭巾",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 300,
+    "bonus": {
+      "defense": 6,
+      "maxHp": 10
+    },
+    "description": "一層層纏繞的厚頭巾。"
+  },
+  {
+    "id": "sunAmulet",
+    "name": "太陽護符",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 520,
+    "bonus": {
+      "maxHp": 30,
+      "defense": 2
+    },
+    "description": "刻著太陽紋的護符，摸起來暖暖的。"
+  },
+  {
+    "id": "sunBlade",
+    "name": "太陽之刃",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 0,
+    "bonus": {
+      "attack": 24,
+      "magic": 3
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "遺跡深處供奉的劍，刀身像在發光。"
+  },
+  {
+    "id": "guardianShield",
+    "name": "守衛之盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "defense": 12,
+      "maxHp": 25
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "遺跡守衛用過的石盾，出奇地輕。"
+  },
+  {
+    "id": "frostRing",
+    "name": "霜之戒",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "magic": 6,
+      "maxMp": 15
+    },
+    "description": "在烈日下也不會融化的冰之戒指。"
+  },
+  {
+    "id": "sealStone",
+    "name": "封印石碎片",
+    "kind": "Key",
+    "description": "遺跡祭壇上剝落的石片，刻著古老的封印文字。"
+  },
+  {
+    "id": "elixir",
+    "name": "萬能藥",
+    "kind": "Consumable",
+    "price": 400,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Heal",
+      "power": 999,
+      "cures": [
+        "Poison",
+        "Sleep",
+        "Paralysis",
+        "AttackDown",
+        "DefenseDown"
+      ]
+    },
+    "description": "傳說中的靈藥。HP 全滿並解除所有異常。"
+  },
+  {
+    "id": "mithrilSword",
+    "name": "秘銀劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1200,
+    "bonus": {
+      "attack": 28
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "輕如羽毛、利如寒冰的秘銀劍。"
+  },
+  {
+    "id": "galeBow",
+    "name": "疾風弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1250,
+    "bonus": {
+      "attack": 30,
+      "speed": 3
+    },
+    "equippableBy": [
+      "rin"
+    ],
+    "description": "弦一響，風就跟著走。"
+  },
+  {
+    "id": "titanAxe",
+    "name": "巨人斧",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1200,
+    "bonus": {
+      "attack": 29
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "只有巴爾掄得動的巨斧。"
+  },
+  {
+    "id": "sageStaff",
+    "name": "賢者之杖",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 1100,
+    "bonus": {
+      "attack": 8,
+      "magic": 14
+    },
+    "equippableBy": [
+      "xue"
+    ],
+    "description": "歷代大賢者傳下來的法杖。"
+  },
+  {
+    "id": "mithrilMail",
+    "name": "秘銀甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 1150,
+    "bonus": {
+      "defense": 20
+    },
+    "equippableBy": [
+      "hero",
+      "bal"
+    ],
+    "description": "秘銀編成的鎧甲，比鋼還硬。"
+  },
+  {
+    "id": "mysticRobe",
+    "name": "神秘法袍",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 1000,
+    "bonus": {
+      "defense": 13,
+      "magic": 5,
+      "speed": 1
+    },
+    "equippableBy": [
+      "rin",
+      "xue"
+    ],
+    "description": "織進了護身咒文的法袍。"
+  },
+  {
+    "id": "mithrilHelm",
+    "name": "秘銀盔",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 700,
+    "bonus": {
+      "defense": 9,
+      "maxHp": 20
+    },
+    "description": "秘銀打造的頭盔。"
+  },
+  {
+    "id": "angelRing",
+    "name": "天使之戒",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 1100,
+    "bonus": {
+      "maxHp": 40,
+      "maxMp": 15,
+      "defense": 3
+    },
+    "description": "據說戴上就能聽見天使的歌聲。"
+  },
+  {
+    "id": "holySword",
+    "name": "聖劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 0,
+    "bonus": {
+      "attack": 36,
+      "magic": 6
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "三百年前封印魔王的勇者之劍。"
+  },
+  {
+    "id": "dragonShield",
+    "name": "龍鱗盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "defense": 16,
+      "maxHp": 40
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "用龍鱗打造的盾。"
+  }
+]

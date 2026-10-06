@@ -1,0 +1,11 @@
+{
+  "party": [
+    {
+      "characterId": "hero",
+      "level": 3
+    }
+  ],
+  "items": [],
+  "gold": 50,
+  "location": "dawnTown"
+}

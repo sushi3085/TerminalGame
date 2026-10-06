@@ -1,0 +1,203 @@
+[
+  {
+    "id": "hero",
+    "name": "艾倫",
+    "baseStats": {
+      "maxHp": 44,
+      "maxMp": 14,
+      "attack": 7,
+      "defense": 4,
+      "magic": 6,
+      "speed": 6
+    },
+    "growth": {
+      "maxHp": 8,
+      "maxMp": 3,
+      "attack": 2,
+      "defense": 1,
+      "magic": 2,
+      "speed": 1
+    },
+    "skills": [
+      {
+        "skillId": "fireball",
+        "level": 1
+      },
+      {
+        "skillId": "heal",
+        "level": 4
+      },
+      {
+        "skillId": "rally",
+        "level": 6
+      },
+      {
+        "skillId": "thunder",
+        "level": 9
+      },
+      {
+        "skillId": "lightBlade",
+        "level": 14
+      },
+      {
+        "skillId": "braveSlash",
+        "level": 18
+      }
+    ],
+    "initialEquipment": [
+      "woodenSword",
+      "clothTunic"
+    ],
+    "attackMessage": "揮劍斬擊！"
+  },
+  {
+    "id": "rin",
+    "name": "琳",
+    "baseStats": {
+      "maxHp": 36,
+      "maxMp": 10,
+      "attack": 9,
+      "defense": 3,
+      "magic": 4,
+      "speed": 10
+    },
+    "growth": {
+      "maxHp": 7,
+      "maxMp": 2,
+      "attack": 2,
+      "defense": 1,
+      "magic": 1,
+      "speed": 2
+    },
+    "skills": [
+      {
+        "skillId": "pierceArrow",
+        "level": 1
+      },
+      {
+        "skillId": "numbingArrow",
+        "level": 5
+      },
+      {
+        "skillId": "arrowRain",
+        "level": 6
+      },
+      {
+        "skillId": "rapidShot",
+        "level": 11
+      },
+      {
+        "skillId": "frostArrow",
+        "level": 13
+      },
+      {
+        "skillId": "starfall",
+        "level": 17
+      }
+    ],
+    "initialEquipment": [
+      "huntersBow",
+      "clothTunic"
+    ],
+    "attackMessage": "拉弓放箭！"
+  },
+  {
+    "id": "bal",
+    "name": "巴爾",
+    "baseStats": {
+      "maxHp": 40,
+      "maxMp": 4,
+      "attack": 6,
+      "defense": 5,
+      "magic": 2,
+      "speed": 1
+    },
+    "growth": {
+      "maxHp": 11,
+      "maxMp": 1,
+      "attack": 2,
+      "defense": 2,
+      "magic": 0,
+      "speed": 1
+    },
+    "skills": [
+      {
+        "skillId": "provoke",
+        "level": 1
+      },
+      {
+        "skillId": "heavyBlow",
+        "level": 1
+      },
+      {
+        "skillId": "ironWall",
+        "level": 11
+      },
+      {
+        "skillId": "earthSplitter",
+        "level": 14
+      },
+      {
+        "skillId": "fortress",
+        "level": 17
+      }
+    ],
+    "initialEquipment": [
+      "boardingAxe",
+      "clothTunic",
+      "harborShield"
+    ],
+    "attackMessage": "揮動短斧劈砍！"
+  },
+  {
+    "id": "xue",
+    "name": "小雪",
+    "baseStats": {
+      "maxHp": 30,
+      "maxMp": 20,
+      "attack": 3,
+      "defense": 3,
+      "magic": 9,
+      "speed": 6
+    },
+    "growth": {
+      "maxHp": 6,
+      "maxMp": 4,
+      "attack": 1,
+      "defense": 1,
+      "magic": 3,
+      "speed": 1
+    },
+    "skills": [
+      {
+        "skillId": "healWind",
+        "level": 1
+      },
+      {
+        "skillId": "iceShard",
+        "level": 1
+      },
+      {
+        "skillId": "purify",
+        "level": 1
+      },
+      {
+        "skillId": "revival",
+        "level": 1
+      },
+      {
+        "skillId": "blizzard",
+        "level": 15
+      },
+      {
+        "skillId": "holyLight",
+        "level": 16
+      }
+    ],
+    "initialEquipment": [
+      "oakStaff",
+      "priestRobe"
+    ],
+    "attackMessage": "用法杖敲了下去！"
+  }
+]

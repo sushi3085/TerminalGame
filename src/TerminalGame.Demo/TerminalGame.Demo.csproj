@@ -5,5 +5,10 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerminalGame.Tui\TerminalGame.Tui.csproj" />
+    <ProjectReference Include="..\TerminalGame.Rpg\TerminalGame.Rpg.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Game data is plain JSON next to the executable: edit content/*.json to rebalance without touching code. -->
+    <None Include="..\..\content\**\*.json" LinkBase="content" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

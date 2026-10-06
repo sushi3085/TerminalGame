@@ -1,0 +1,96 @@
+[
+  {
+    "id": "dawnItems",
+    "name": "晨曦鎮・道具店「綠葉」",
+    "items": [
+      "potion",
+      "hiPotion",
+      "antidote",
+      "mintLeaf",
+      "ether"
+    ]
+  },
+  {
+    "id": "dawnSmith",
+    "name": "晨曦鎮・鐵匠鋪",
+    "items": [
+      "bronzeSword",
+      "huntersBow",
+      "leatherArmor",
+      "leatherCap",
+      "acornCharm",
+      "swiftCharm"
+    ]
+  },
+  {
+    "id": "portItems",
+    "name": "河港村・道具店「浪花」",
+    "items": [
+      "potion",
+      "hiPotion",
+      "antidote",
+      "mintLeaf",
+      "ether",
+      "phoenixDown"
+    ]
+  },
+  {
+    "id": "portSmith",
+    "name": "河港村・武器防具店",
+    "items": [
+      "ironSword",
+      "compositeBow",
+      "ironAxe",
+      "chainMail",
+      "rangerVest",
+      "ironHelm",
+      "pearlAmulet"
+    ]
+  },
+  {
+    "id": "cityItems",
+    "name": "砂岩城・道具店「駱駝」",
+    "items": [
+      "potion",
+      "hiPotion",
+      "antidote",
+      "mintLeaf",
+      "ether",
+      "hiEther",
+      "phoenixDown"
+    ]
+  },
+  {
+    "id": "citySmith",
+    "name": "砂岩城・武器防具店",
+    "items": [
+      "steelSword",
+      "hornBow",
+      "warHammer",
+      "crystalStaff",
+      "steelPlate",
+      "desertCloak",
+      "sandTurban",
+      "sunAmulet"
+    ]
+  },
+  {
+    "id": "castleMerchant",
+    "name": "魔王城・神秘商人",
+    "items": [
+      "hiPotion",
+      "ether",
+      "hiEther",
+      "phoenixDown",
+      "elixir",
+      "mithrilSword",
+      "galeBow",
+      "titanAxe",
+      "sageStaff",
+      "mithrilMail",
+      "mysticRobe",
+      "mithrilHelm",
+      "angelRing"
+    ]
+  }
+]

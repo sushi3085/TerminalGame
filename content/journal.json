@@ -1,0 +1,205 @@
+{
+  "objectives": [
+    {
+      "text": "去長老家，聽聽長老有什麼事。"
+    },
+    {
+      "if": "flag:introDone",
+      "text": "進入[green]低語森林[/]，尋找失蹤的琳。"
+    },
+    {
+      "if": "flag:sawTracks",
+      "text": "順著腳印，前往[cyan]林間空地[/]。"
+    },
+    {
+      "if": "flag:metRin",
+      "text": "和琳一起前往[cyan]森林深處[/]，查明異變的原因。"
+    },
+    {
+      "if": "flag:metRin && flag:sawHutMap",
+      "text": "前往森林深處的[red]蘑菇圈[/]——森林之主就在那裡。"
+    },
+    {
+      "if": "flag:bossDefeated",
+      "text": "回[gold]晨曦鎮[/]向長老報告。"
+    },
+    {
+      "if": "flag:chapter1Done",
+      "text": "沿著南方大道，前往[cyan]河港村[/]。"
+    },
+    {
+      "if": "flag:portIntro",
+      "text": "到[cyan]河口沙洲[/]找護衛巴爾。"
+    },
+    {
+      "if": "flag:metBal",
+      "text": "進入[cyan]沉船洞窟[/]，查明藍光的來源。"
+    },
+    {
+      "if": "flag:metBal && flag:waterLowered",
+      "text": "積水退了。走下樓梯，前往[cyan]底艙[/]。"
+    },
+    {
+      "if": "flag:serpentDefeated",
+      "text": "回[gold]河港村[/]向港務長報告。"
+    },
+    {
+      "if": "flag:chapter2Done",
+      "text": "往東前往沙漠中的[cyan]砂岩城[/]。"
+    },
+    {
+      "if": "flag:cityIntro",
+      "text": "到[cyan]學者館[/]，請薩德老先生看看黑色結晶。"
+    },
+    {
+      "if": "flag:scholarTalk",
+      "text": "到[cyan]神殿[/]找神官小雪。"
+    },
+    {
+      "if": "party:xue",
+      "text": "經過月影綠洲，前往[cyan]熾熱遺跡[/]。"
+    },
+    {
+      "if": "party:xue && (flag:ruinsWest || flag:ruinsEast)",
+      "text": "啟動另一側的石台，打開大迴廊的石門。"
+    },
+    {
+      "if": "flag:ruinsWest && flag:ruinsEast",
+      "text": "穿過石門，前往遺跡深處的[red]祭壇[/]。"
+    },
+    {
+      "if": "flag:guardianDefeated",
+      "text": "回[gold]砂岩城[/]找薩德老先生。"
+    },
+    {
+      "if": "flag:chapter3Done",
+      "text": "前往北方荒原的[red]魔王城[/]。"
+    },
+    {
+      "if": "flag:chapter3Done && flag:castleOpen == 0",
+      "text": "穿過北方荒原，前往[red]魔王城[/]。"
+    },
+    {
+      "if": "flag:castleOpen",
+      "text": "熄滅東塔與地下墓室的黑色火炬，打開王座之門。"
+    },
+    {
+      "if": "flag:castleOpen && (flag:towerTorch || flag:cryptTorch)",
+      "text": "還有一處黑色火炬。熄滅它，打開王座之門。"
+    },
+    {
+      "if": "flag:towerTorch && flag:cryptTorch",
+      "text": "前往[red]王座之間[/]，打倒魔王。"
+    },
+    {
+      "if": "flag:demonKingDefeated",
+      "text": "回到[gold]晨曦鎮[/]。"
+    },
+    {
+      "if": "flag:gameCleared",
+      "text": "冒險結束了。自由地四處走走吧。"
+    }
+  ],
+  "chronicle": [
+    {
+      "if": "flag:introDone",
+      "text": "長老拜託艾倫進入低語森林，尋找失蹤三天的獵人之女琳。"
+    },
+    {
+      "if": "flag:chestStump",
+      "text": "在森林入口的空心樹樁裡找到了傷藥。"
+    },
+    {
+      "if": "flag:sawTracks",
+      "text": "在森林小徑發現獵人家的斷箭，腳印往林間空地延伸。"
+    },
+    {
+      "if": "flag:sawHutMap",
+      "text": "獵人小屋的地圖上，森林深處的蘑菇圈被炭筆圈了起來。"
+    },
+    {
+      "if": "flag:metRin",
+      "text": "在林間空地從狼群手中救出了琳。琳加入了隊伍。"
+    },
+    {
+      "if": "flag:chestMoss",
+      "text": "在森林深處的苔蘚下找到了一把長弓。"
+    },
+    {
+      "if": "flag:bossDefeated",
+      "text": "擊敗了發狂的森林之主。一團黑霧從牠體內竄出，消失在樹冠間。"
+    },
+    {
+      "if": "flag:chapter1Done",
+      "text": "長老說，南方的河港村傳出河水夜裡發光的怪事。"
+    },
+    {
+      "if": "flag:portIntro",
+      "text": "河港村的漁船半個月沒出海，河口的沉船洞窟發出藍光。"
+    },
+    {
+      "if": "flag:metBal",
+      "text": "在河口沙洲和護衛巴爾一起擊退了怪物。巴爾加入了隊伍。"
+    },
+    {
+      "if": "flag:waterLowered",
+      "text": "巴爾轉動了沉船側艙的絞盤，排掉了樓梯的積水。"
+    },
+    {
+      "if": "flag:chestCaptain",
+      "text": "在船長的箱子裡找到海盜彎刀。航海日誌寫著：「黑霧……從潭底……」"
+    },
+    {
+      "if": "flag:serpentDefeated",
+      "text": "擊敗了深潭水蛇。黑霧往東飄去，留下一塊黑色結晶。"
+    },
+    {
+      "if": "flag:chapter2Done",
+      "text": "港務長建議去東方的砂岩城，請學者調查黑色結晶。"
+    },
+    {
+      "if": "flag:cityIntro",
+      "text": "抵達砂岩城。城東的熾熱遺跡每晚冒出紅光。"
+    },
+    {
+      "if": "flag:scholarTalk",
+      "text": "薩德老先生說：三位守護者維持著魔王的封印，黑色結晶是被侵蝕的封印石。"
+    },
+    {
+      "if": "party:xue",
+      "text": "北方來的神官小雪加入了隊伍。"
+    },
+    {
+      "if": "flag:ruinsWest && flag:ruinsEast",
+      "text": "同時啟動了日與月的石台，遺跡的石門打開了。"
+    },
+    {
+      "if": "flag:guardianDefeated",
+      "text": "擊敗了遺跡守衛。最後一團黑霧飛向北方，祭壇留下一塊封印石碎片。"
+    },
+    {
+      "if": "flag:chapter3Done",
+      "text": "魔王城從北方荒原浮起。帶著封印石碎片，就能穿過它的結界。"
+    },
+    {
+      "if": "flag:castleOpen",
+      "text": "封印石碎片打開了魔王城的結界。"
+    },
+    {
+      "if": "flag:chestTower",
+      "text": "在東塔找到三百年前的聖劍。"
+    },
+    {
+      "if": "flag:towerTorch && flag:cryptTorch",
+      "text": "熄滅了兩處黑色火炬，王座之門打開了。"
+    },
+    {
+      "if": "flag:demonKingDefeated",
+      "text": "在王座之間打倒了魔王。魔王城沉回了荒原的地底。"
+    },
+    {
+      "if": "flag:gameCleared",
+      "text": "和平回到了世界。四人各自踏上了歸途。"
+    }
+  ]
+}
