@@ -157,5 +157,196 @@
       }
     },
     "useMessage": "灑下一陣甜膩的[purple]催眠孢子[/]……"
+  },
+  {
+    "id": "thunder",
+    "name": "雷擊",
+    "mpCost": 6,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Magical",
+      "power": 230,
+      "element": "Thunder"
+    },
+    "description": "召喚落雷攻擊一名敵人。水中的生物特別怕雷。",
+    "useMessage": "舉劍指向天空——[gold]雷擊[/]落下！"
+  },
+  {
+    "id": "provoke",
+    "name": "挑釁",
+    "mpCost": 2,
+    "target": "Self",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "Taunt",
+        "turns": 3
+      }
+    },
+    "description": "敲響盾牌，3 回合內讓敵人只攻擊自己。",
+    "useMessage": "用斧柄敲響盾牌：「來啊，衝著我來！」"
+  },
+  {
+    "id": "heavyBlow",
+    "name": "重擊",
+    "mpCost": 3,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 165
+    },
+    "description": "掄起斧頭全力劈下。",
+    "useMessage": "掄起斧頭，使出[orange]重擊[/]！"
+  },
+  {
+    "id": "ironWall",
+    "name": "鐵壁",
+    "mpCost": 6,
+    "target": "AllAllies",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "DefenseUp",
+        "turns": 3
+      }
+    },
+    "description": "大盾一立，全隊 3 回合內防禦提升。",
+    "useMessage": "把大盾往地上一插——[cyan]鐵壁[/]！"
+  },
+  {
+    "id": "rapidShot",
+    "name": "疾風連射",
+    "mpCost": 6,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 230
+    },
+    "description": "一口氣射出三支箭。",
+    "useMessage": "手指一勾一放，箭矢連成一線——[cyan]疾風連射[/]！"
+  },
+  {
+    "id": "stingTouch",
+    "name": "電觸",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 80,
+      "status": {
+        "kind": "Paralysis",
+        "chance": 0.25,
+        "turns": 2
+      }
+    },
+    "useMessage": "伸出帶電的觸鬚[gold]電觸[/]！"
+  },
+  {
+    "id": "hardenShell",
+    "name": "硬殼",
+    "target": "Self",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "DefenseUp",
+        "turns": 3
+      }
+    },
+    "useMessage": "縮進殼裡，殼變得更[gray]硬[/]了！"
+  },
+  {
+    "id": "venomTongue",
+    "name": "毒舌",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 100,
+      "status": {
+        "kind": "Poison",
+        "chance": 0.4,
+        "turns": 3
+      }
+    },
+    "useMessage": "吐出長長的[purple]毒舌[/]！"
+  },
+  {
+    "id": "diveAttack",
+    "name": "俯衝",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 145
+    },
+    "useMessage": "從高空[red]俯衝[/]而下！"
+  },
+  {
+    "id": "grudge",
+    "name": "怨念",
+    "mpCost": 4,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "AttackDown",
+        "chance": 0.5,
+        "turns": 3
+      }
+    },
+    "useMessage": "發出低沉的哀嚎，四周瀰漫著[purple]怨念[/]……"
+  },
+  {
+    "id": "inkSpray",
+    "name": "墨汁",
+    "mpCost": 3,
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Status",
+      "status": {
+        "kind": "AttackDown",
+        "chance": 0.7,
+        "turns": 3
+      }
+    },
+    "useMessage": "噴出一大團[dim]墨汁[/]！"
+  },
+  {
+    "id": "tidalWave",
+    "name": "水龍捲",
+    "mpCost": 8,
+    "target": "AllEnemies",
+    "effect": {
+      "kind": "Magical",
+      "power": 105
+    },
+    "useMessage": "捲起漩渦，一道[cyan]水龍捲[/]撲了過來！"
+  },
+  {
+    "id": "constrict",
+    "name": "纏繞",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 120,
+      "status": {
+        "kind": "Paralysis",
+        "chance": 0.4,
+        "turns": 2
+      }
+    },
+    "useMessage": "用冰冷的身軀緊緊[red]纏繞[/]！"
+  },
+  {
+    "id": "leechBite",
+    "name": "吸附",
+    "target": "SingleEnemy",
+    "effect": {
+      "kind": "Physical",
+      "power": 90,
+      "status": {
+        "kind": "Poison",
+        "chance": 0.5,
+        "turns": 3
+      }
+    },
+    "useMessage": "緊緊[red]吸附[/]上來！"
   }
 ]

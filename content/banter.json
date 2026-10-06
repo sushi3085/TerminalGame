@@ -53,6 +53,52 @@
     "script": "banterChapterEnd"
   },
   {
+    "id": "balJoin",
+    "at": [
+      "riverMouth"
+    ],
+    "if": "flag:metBal",
+    "script": "banterBalJoin"
+  },
+  {
+    "id": "wreck",
+    "at": [
+      "wreckEntrance",
+      "wreckDeck"
+    ],
+    "if": "party:bal",
+    "script": "banterWreck"
+  },
+  {
+    "id": "serpent",
+    "at": [
+      "wreckHold"
+    ],
+    "if": "flag:serpentDefeated == 0",
+    "script": "banterSerpent"
+  },
+  {
+    "id": "port",
+    "at": [
+      "riverPort"
+    ],
+    "if": "flag:metBal && flag:serpentDefeated == 0",
+    "script": "banterPort"
+  },
+  {
+    "id": "afterSerpent",
+    "if": "flag:serpentDefeated && flag:chapter2Done == 0",
+    "script": "banterAfterSerpent"
+  },
+  {
+    "id": "chapter2End",
+    "at": [
+      "riverPort"
+    ],
+    "if": "flag:chapter2Done",
+    "script": "banterChapter2End"
+  },
+  {
     "id": "smallTalk",
     "once": false,
     "script": "banterSmallTalk"
@@ -67,5 +113,11 @@
       "woodsDeep"
     ],
     "script": "banterForestTalk"
+  },
+  {
+    "id": "balTalk",
+    "once": false,
+    "if": "party:bal",
+    "script": "banterBalTalk"
   }
 ]

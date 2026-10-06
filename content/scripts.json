@@ -34,10 +34,19 @@
     {
       "cases": [
         {
+          "if": "flag:chapter2Done",
+          "then": [
+            {
+              "say": "聽說你們連河裡的怪物都解決了！……東邊的砂岩城，就拜託你們了。",
+              "speaker": "[cyan]長老[/]"
+            }
+          ]
+        },
+        {
           "if": "flag:chapter1Done",
           "then": [
             {
-              "say": "河港村的事……等你們準備好了再說吧。今晚好好睡一覺。",
+              "say": "河港村就在南方大道的盡頭。路上小心。",
               "speaker": "[cyan]長老[/]"
             }
           ]
@@ -414,7 +423,7 @@
       "speaker": "[cyan]長老[/]"
     },
     {
-      "say": "這是謝禮。先好好休息幾天吧——接下來的路，恐怕會更長。",
+      "say": "這是謝禮。好好休息，準備好了就沿著[cyan]南方大道[/]去河港村看看吧。",
       "speaker": "[cyan]長老[/]"
     },
     {
@@ -424,7 +433,10 @@
       "setFlag": "chapter1Done"
     },
     {
-      "say": "[gold b]── 第一章「低語森林」 完 ──[/]\n\n感謝遊玩！第二章「河港村」製作中。"
+      "say": "[gold b]── 第一章「低語森林」 完 ──[/]"
+    },
+    {
+      "say": "[gold b]第二章「河港村」[/]\n\n[dim](晨曦鎮的出口多了一條往南的路。)[/]"
     }
   ],
   "traveler": [
@@ -658,6 +670,589 @@
             {
               "say": "鳥叫聲回來了。這才是我熟悉的森林。",
               "speaker": "[cyan]琳[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "willowRoadArrive": [
+    {
+      "say": "河邊的水草間，有一點一點的藍光在漂。"
+    },
+    {
+      "say": "……跟森林裡那些紅色孢子很像。顏色不一樣，可是感覺一樣討厭。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "setFlag": "sawRiverGlow"
+    }
+  ],
+  "portArrive": [
+    {
+      "say": "一個戴著船長帽的中年人，正對著空蕩蕩的碼頭嘆氣。"
+    },
+    {
+      "say": "……旅人？晨曦鎮來的？那正好，聽我發個牢騷吧。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "半個月前，河口的[cyan]沉船洞窟[/]開始發出藍光。從那之後，河裡的魚全躲起來，水母和螃蟹卻發了瘋似的攻擊漁船。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "村裡的護衛[cyan]巴爾[/]說要一個人去洞窟看看……那傢伙力氣大，腦袋卻是一根筋。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "你們要是有空，去[cyan]河口沙洲[/]幫他一把吧。我會付報酬的。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "setFlag": "portIntro"
+    },
+    {
+      "say": "[dim](河港村的出口多了「往河口沙洲」。)[/]"
+    }
+  ],
+  "harborMaster": [
+    {
+      "cases": [
+        {
+          "if": "flag:chapter2Done",
+          "then": [
+            {
+              "say": "漁船又能出海了！你們是整個村子的恩人。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:serpentDefeated",
+          "then": [
+            {
+              "say": "河水不發光了！快，跟我說說底下發生了什麼。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:metBal",
+          "then": [
+            {
+              "say": "巴爾那傢伙跟你們一起？太好了。\n沉船的樓梯泡在水裡——船上應該有能排水的[gold]絞盤[/]，找找看吧。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "巴爾往[cyan]河口沙洲[/]去了。拜託你們，別讓他一個人逞強。",
+              "speaker": "[cyan]港務長[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "portItemShop": [
+    {
+      "shop": "portItems"
+    }
+  ],
+  "portSmithShop": [
+    {
+      "say": "鐵是從東邊的砂岩城運來的。用料可不馬虎。",
+      "speaker": "[cyan]鐵匠[/]"
+    },
+    {
+      "shop": "portSmith"
+    }
+  ],
+  "portInn": [
+    {
+      "inn": 15
+    }
+  ],
+  "portFisher": [
+    {
+      "oneOf": [
+        {
+          "if": "flag:serpentDefeated == 0",
+          "then": [
+            {
+              "say": "沉船裡那些螃蟹、章魚都怕[gold]雷[/]。被雷劈過的螃蟹，殼一下就裂了。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:serpentDefeated == 0",
+          "then": [
+            {
+              "say": "我爺爺說過，那艘沉船的底下，連著一座深不見底的水潭。\n潭裡住著一條水蛇……我一直以為只是故事。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "倒下的同伴，用[gold]不死鳥之羽[/]就能叫醒。道具店有賣，貴是貴了點。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:metBal",
+          "then": [
+            {
+              "say": "巴爾啊？他的盾可是全村最硬的。要是他喊「衝著我來」，你們就躲在他後面吧。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "if": "flag:serpentDefeated",
+          "then": [
+            {
+              "say": "聽說東邊的[cyan]砂岩城[/]也不太平……沙漠裡的遺跡，晚上會冒出紅光。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "喝一杯？不？那就聽我說——今年的鯡魚季，全被這怪事毀了。",
+              "speaker": "[cyan]漁夫[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "balTalk": [
+    {
+      "say": "（碼頭邊站著一個扛著大盾的壯漢……可是走近一看，只是他留下的備用盾牌。）"
+    },
+    {
+      "say": "巴爾一大早就往河口去囉。",
+      "speaker": "[cyan]漁夫[/]"
+    }
+  ],
+  "balEvent": [
+    {
+      "say": "沙洲上，一個扛著大盾的壯漢正被一群螃蟹和怪鳥圍住！"
+    },
+    {
+      "say": "哈！就這點程度？再來啊！……喂，那邊的，看什麼看，來幫忙！",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "join": "bal",
+      "level": 9
+    },
+    {
+      "battle": [
+        "riverCrab",
+        "stormGull",
+        "riverCrab"
+      ],
+      "canEscape": false
+    },
+    {
+      "setFlag": "metBal"
+    },
+    {
+      "say": "呼……多謝。我是[cyan]巴爾[/]，河港村的護衛。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "你們是來查沉船的吧？正好，我一個人頂不住那些東西——盾牌擋得了前面，擋不了背後。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "一起走吧。站在我後面，我幫你們擋。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "[dim](巴爾加入了隊伍。他會用「挑釁」把敵人的攻擊引到自己身上。)[/]"
+    }
+  ],
+  "chestDriftwood": [
+    {
+      "if": "flag:chestDriftwood",
+      "then": [
+        {
+          "say": "漂流木下只剩沙子。"
+        }
+      ],
+      "else": [
+        {
+          "say": "漂流木下卡著一個防水的油布包……"
+        },
+        {
+          "giveItem": "phoenixDown"
+        },
+        {
+          "giveGold": 80
+        },
+        {
+          "setFlag": "chestDriftwood"
+        }
+      ]
+    }
+  ],
+  "chestBarrel": [
+    {
+      "if": "flag:chestBarrel",
+      "then": [
+        {
+          "say": "木桶裡只剩鹹水。"
+        }
+      ],
+      "else": [
+        {
+          "say": "木桶裡漂著幾個封好的小瓶子。"
+        },
+        {
+          "giveItem": "hiPotion",
+          "count": 2
+        },
+        {
+          "setFlag": "chestBarrel"
+        }
+      ]
+    }
+  ],
+  "floodedStairs": [
+    {
+      "say": "樓梯整個泡在水裡。水底有東西在發光，冷得刺骨。"
+    },
+    {
+      "say": "游下去？別開玩笑了。這種船都有排水用的絞盤，找找看。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "winch": [
+    {
+      "cases": [
+        {
+          "if": "flag:waterLowered",
+          "then": [
+            {
+              "say": "絞盤已經轉到底了。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "絞盤生鏽得厲害，一個人根本轉不動。"
+            },
+            {
+              "say": "讓開——這種粗活交給我！",
+              "speaker": "[cyan]巴爾[/]"
+            },
+            {
+              "say": "嘎……嘎嘎嘎……！鐵鍊繃緊，遠處傳來一陣嘩啦啦的排水聲。"
+            },
+            {
+              "setFlag": "waterLowered"
+            },
+            {
+              "say": "[dim](中層甲板的積水退了，可以走下樓梯了。)[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "galleyRest": [
+    {
+      "cases": [
+        {
+          "if": "flag:restedGalley",
+          "then": [
+            {
+              "say": "吊床已經爛得不能再躺了。"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "船長的吊床居然還很結實。你們輪流躺下休息了一會兒……"
+            },
+            {
+              "restore": true
+            },
+            {
+              "setFlag": "restedGalley"
+            },
+            {
+              "say": "全員的 HP 與 MP 都恢復了。\n[dim](吊床發出一聲哀鳴——大概撐不住第二次了。)[/]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chestCaptain": [
+    {
+      "if": "flag:chestCaptain",
+      "then": [
+        {
+          "say": "箱子裡只剩泡爛的航海日誌。"
+        }
+      ],
+      "else": [
+        {
+          "say": "船長的箱子裡，躺著一把閃閃發亮的彎刀。"
+        },
+        {
+          "giveItem": "corsairSaber"
+        },
+        {
+          "say": "（航海日誌的最後一頁寫著：「黑霧……從潭底……」）"
+        },
+        {
+          "setFlag": "chestCaptain"
+        }
+      ]
+    }
+  ],
+  "chestShell": [
+    {
+      "if": "flag:chestShell",
+      "then": [
+        {
+          "say": "寶箱已經空了。"
+        }
+      ],
+      "else": [
+        {
+          "say": "鑲著貝殼的寶箱裡，放著一面巨大的螺殼盾。"
+        },
+        {
+          "giveItem": "shellShield"
+        },
+        {
+          "giveItem": "phoenixDown"
+        },
+        {
+          "setFlag": "chestShell"
+        }
+      ]
+    }
+  ],
+  "serpentFight": [
+    {
+      "say": "深潭的水面忽然隆起——一條比沉船還長的水蛇，緩緩抬起了頭。"
+    },
+    {
+      "say": "牠的眼睛……跟森林之主一樣，被什麼東西弄紅了。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "管牠什麼顏色！我在前面擋著，你們瞄準牠的頭！",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "choice": [
+        {
+          "label": "開戰！",
+          "then": [
+            {
+              "battle": [
+                "bloodLeech",
+                "deepSerpent",
+                "bloodLeech"
+              ],
+              "canEscape": false
+            },
+            {
+              "setFlag": "serpentDefeated"
+            },
+            {
+              "say": "水蛇發出一聲長嘯，沉入潭底。潭水的藍光一點一點熄滅了。"
+            },
+            {
+              "say": "一團黑霧從水面竄起，往東方飄去……水面上，浮著一塊冰冷的黑色結晶。"
+            },
+            {
+              "giveItem": "darkCrystal"
+            },
+            {
+              "say": "又是黑霧……這已經不是巧合了。",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "先回村子吧。港務長那邊，總得有人去報告。",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "label": "先撤退",
+          "then": [
+            {
+              "say": "你們屏住呼吸，悄悄退回了樓梯口。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "afterSerpent": [
+    {
+      "say": "深潭靜悄悄的。偶爾有小魚游過，水面映著從裂縫透進來的天光。"
+    }
+  ],
+  "chapter2End": [
+    {
+      "say": "你們回來了！河水……河水不發光了！",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "潭底有一條被黑霧附身的水蛇。牠身上掉出了這個。",
+      "speaker": "[gold]艾倫[/]"
+    },
+    {
+      "say": "黑色結晶？……東邊[cyan]砂岩城[/]的學者，專門研究這類古怪的東西。也許他們知道些什麼。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "say": "這是說好的報酬。巴爾，你也跟著去吧——村子的事交給我。",
+      "speaker": "[cyan]港務長[/]"
+    },
+    {
+      "giveGold": 300
+    },
+    {
+      "say": "……哼，正有此意。這黑霧害我們村子半個月不能出海，我非揍它一頓不可。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "setFlag": "chapter2Done"
+    },
+    {
+      "say": "[gold b]── 第二章「河港村」 完 ──[/]"
+    },
+    {
+      "say": "[gold b]第三章「砂岩城」[/]\n\n[dim](河港村的出口多了一條往東的沙漠之路。)[/]"
+    }
+  ],
+  "banterBalJoin": [
+    {
+      "say": "巴爾，你一直都一個人守著村子？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "護衛就我一個。村長說請不起第二個。……哈哈，開玩笑的，是沒人想幹。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "盾牌這東西，有人在後面才有意義。今天總算有人站在我後面了。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterWreck": [
+    {
+      "say": "好冷……這艘船沉了多少年了？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "我爺爺小時候就在了。船長據說是個海盜，把寶物全藏在船艙裡。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "海盜的寶物啊……要是有一把好劍就好了。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterSerpent": [
+    {
+      "say": "深潭裡的東西……我聽得見牠在呼吸。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "怕了？",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "……才沒有。倒是你，記得先喊「衝著我來」，別讓牠盯上艾倫。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "水裡的東西應該怕[gold]雷[/]。我的雷擊總算派上用場了。",
+      "speaker": "[gold]艾倫[/]"
+    }
+  ],
+  "banterPort": [
+    {
+      "say": "這村子的魚乾真香……等事情解決了，我要買一大袋回去。",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "哈！那妳得先讓漁船能出海才行。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterAfterSerpent": [
+    {
+      "say": "森林之主、水蛇……都是被黑霧附身的。下一個會是哪裡？",
+      "speaker": "[cyan]琳[/]"
+    },
+    {
+      "say": "黑霧往東邊去了。東邊……是沙漠。",
+      "speaker": "[cyan]巴爾[/]"
+    }
+  ],
+  "banterChapter2End": [
+    {
+      "say": "砂岩城啊，我年輕時跟著商隊去過一次。熱得要命，連影子都會被曬乾。",
+      "speaker": "[cyan]巴爾[/]"
+    },
+    {
+      "say": "記得多帶水。……還有，聽說遺跡裡的怪物都怕[cyan]冰[/]。",
+      "speaker": "[cyan]琳[/]"
+    }
+  ],
+  "banterBalTalk": [
+    {
+      "oneOf": [
+        {
+          "then": [
+            {
+              "say": "我的盾？是我爹留下來的。上面的船錨，是河港村的紋章。",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "艾倫，你劍法還行，但是腳步太浮了。下次戰鬥站穩一點。",
+              "speaker": "[cyan]巴爾[/]"
+            }
+          ]
+        },
+        {
+          "then": [
+            {
+              "say": "琳，妳的箭是怎麼射得那麼準的？",
+              "speaker": "[cyan]巴爾[/]"
+            },
+            {
+              "say": "你的斧頭是怎麼劈得那麼歪的？",
+              "speaker": "[cyan]琳[/]"
+            },
+            {
+              "say": "……哈哈哈！好一張利嘴！",
+              "speaker": "[cyan]巴爾[/]"
             }
           ]
         }

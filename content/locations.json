@@ -56,6 +56,11 @@
     "exits": [
       {
         "to": "woodsEdge"
+      },
+      {
+        "to": "willowRoad",
+        "label": "往南方大道",
+        "if": "flag:chapter1Done"
       }
     ]
   },
@@ -343,6 +348,419 @@
       {
         "to": "woodsClearing",
         "label": "回林間空地"
+      }
+    ]
+  },
+  {
+    "id": "willowRoad",
+    "name": "柳岸大道",
+    "palette": "river",
+    "art": [
+      "[green]   ,/   ,/        ,/       ,/        ,/      ,/    [/]",
+      "[green]  //|  //|       //|      //|       //|     //|    [/]",
+      "[orange]    |    |  [/][gray]=========================[/][orange]  |      |    [/]",
+      "[cyan] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [/]",
+      "[blue]  ~~ ~~~~ ~~~ ~~~~~ ~~~ ~~~~ ~~~ ~~~~~ ~~ ~~~~ ~~   [/]"
+    ],
+    "description": "垂柳沿著大河排成一列。河面平靜得出奇——可是靠近岸邊時，水底好像有東西在發光。",
+    "encounterRate": 0.35,
+    "encounters": [
+      {
+        "enemies": [
+          "blueJelly",
+          "blueJelly"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "bogFrog",
+          "blueJelly"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "riverCrab"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "riverCrab",
+          "blueJelly"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "willowRoadArrive",
+        "if": "flag:sawRiverGlow == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "dawnTown",
+        "label": "回晨曦鎮"
+      },
+      {
+        "to": "riverPort",
+        "label": "前往河港村"
+      }
+    ]
+  },
+  {
+    "id": "riverPort",
+    "name": "河港村",
+    "kind": "Town",
+    "palette": "river",
+    "art": [
+      "        [orange]_[/]     [gray]|[/]          [orange]___[/]              [gray]|[/]\\       ",
+      "  [orange]____|_|___[/]  [gray]|\\[/]    [orange]_____|[/][red]田[/][orange]|_____[/]       [gray]|[/] \\      ",
+      " [orange]|  [/][gold]酒館[/][orange]    |[/] [gray]| \\[/]  [orange]|   村 公 所   |[/]    [gray]_|__\\_[/]    ",
+      " [orange]|___[]_____|[/][gray]_|__\\[/] [orange]|_[]______[]_|[/]  [orange]\\______/[/]   ",
+      "[gray]=========[/][orange]##########################[/][gray]===========[/]   ",
+      "[cyan] ~~~~ ~~~~~ ~~~ ~~~~ ~~~~~ ~~~~ ~~~ ~~~~~ ~~~ ~~~~  [/]"
+    ],
+    "description": "漁船都綁在碼頭邊，沒有一艘出海。村子裡飄著魚乾和焦油的味道。",
+    "onEnter": [
+      {
+        "script": "portArrive",
+        "if": "flag:portIntro == 0"
+      },
+      {
+        "script": "chapter2End",
+        "if": "flag:serpentDefeated && flag:chapter2Done == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "港務長的辦公室",
+        "script": "harborMaster"
+      },
+      {
+        "label": "道具店",
+        "script": "portItemShop"
+      },
+      {
+        "label": "武器防具店",
+        "script": "portSmithShop"
+      },
+      {
+        "label": "旅館",
+        "script": "portInn"
+      },
+      {
+        "label": "酒館的漁夫",
+        "script": "portFisher"
+      },
+      {
+        "label": "碼頭的大塊頭",
+        "script": "balTalk",
+        "if": "flag:metBal == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "willowRoad",
+        "label": "回柳岸大道"
+      },
+      {
+        "to": "riverMouth",
+        "label": "往河口沙洲",
+        "if": "flag:portIntro"
+      }
+    ]
+  },
+  {
+    "id": "riverMouth",
+    "name": "河口沙洲",
+    "palette": "river",
+    "art": [
+      "[gold]                           .   [/][white]~v~[/][gold]      .           [/]",
+      "[gray]   ___                                          __   [/]",
+      "[gray]  /   \\___       [/][orange]  |\\  [/][gray]               ___/  \\  [/]",
+      "[gold] ..........[/][orange]  ___|_\\___  [/][gold]...............      [/]",
+      "[cyan] ~~~~~~~~~~~[/][orange] \\________/ [/][cyan]~~~~~~~~~~~~~~~~~~~~~~ [/]",
+      "[blue]  ~~~ ~~ ~~~~~ ~~~ ~~~~ ~~~ ~~~~~ ~~~ ~~~ ~~~~ ~~  [/]"
+    ],
+    "description": "河水在這裡匯入大海。沙洲盡頭，一艘巨大沉船的船頭斜斜插在礁石之間。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "stormGull",
+          "stormGull",
+          "bogFrog"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "riverCrab",
+          "bogFrog",
+          "blueJelly"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "stormGull",
+          "riverCrab",
+          "blueJelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "bogFrog",
+          "bogFrog",
+          "stormGull"
+        ],
+        "weight": 1
+      }
+    ],
+    "onEnter": [
+      {
+        "script": "balEvent",
+        "if": "flag:metBal == 0"
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查漂流木",
+        "script": "chestDriftwood"
+      }
+    ],
+    "exits": [
+      {
+        "to": "riverPort",
+        "label": "回河港村"
+      },
+      {
+        "to": "wreckEntrance",
+        "label": "進入沉船洞窟",
+        "if": "flag:metBal"
+      }
+    ]
+  },
+  {
+    "id": "wreckEntrance",
+    "name": "沉船洞窟・破裂的船身",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[gray]   _________________________________________________   [/]",
+      "[gray]  |[/] [orange]| | | | | | | |[/]      [dim]滴答[/]           [orange]| | | | | |[/] [gray]|  [/]",
+      "[gray]  |[/] [orange]|_|_|_|_|_|_|_|[/]     [cyan]°  °[/]            [orange]|_|_|_|_|_|[/] [gray]|  [/]",
+      "[gray]  |                                                 |  [/]",
+      "[cyan] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [/]"
+    ],
+    "description": "潮水從船身的裂縫灌進來，腳下的木板又濕又滑。遠處傳來像是呼吸一樣的水聲。",
+    "encounterRate": 0.4,
+    "encounters": [
+      {
+        "enemies": [
+          "drownedSailor",
+          "blueJelly",
+          "bloodLeech"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "caveOctopus",
+          "bloodLeech"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "bloodLeech",
+          "bloodLeech",
+          "blueJelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "drownedSailor",
+          "drownedSailor"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "打開浸水的木桶",
+        "script": "chestBarrel"
+      }
+    ],
+    "exits": [
+      {
+        "to": "riverMouth",
+        "label": "離開洞窟"
+      },
+      {
+        "to": "wreckDeck",
+        "label": "往船艙深處"
+      }
+    ]
+  },
+  {
+    "id": "wreckDeck",
+    "name": "沉船洞窟・中層甲板",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[orange]  ||      ||      ||      ||      ||      ||      ||  [/]",
+      "[orange] =||======||======||======||======||======||======||= [/]",
+      "[gray]  ||  [/][gold]⚓[/][gray]  ||      ||  [/][dim]__[/][gray]  ||      ||  [/][gold]⚓[/][gray]  ||      ||  [/]",
+      "[cyan] ~~~~~~~~~~~~~~~~~~~[/][blue]▼ 樓梯 ▼[/][cyan]~~~~~~~~~~~~~~~~~~~~~~~ [/]"
+    ],
+    "description": "一排排吊床還掛在梁上。通往下層的樓梯完全泡在水裡，水面下閃著藍光。",
+    "encounterRate": 0.45,
+    "encounters": [
+      {
+        "enemies": [
+          "drownedSailor",
+          "caveOctopus"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "bloodLeech",
+          "bloodLeech",
+          "drownedSailor"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "caveOctopus",
+          "caveOctopus"
+        ],
+        "weight": 2
+      }
+    ],
+    "spots": [
+      {
+        "label": "調查淹水的樓梯",
+        "script": "floodedStairs",
+        "if": "flag:waterLowered == 0"
+      }
+    ],
+    "exits": [
+      {
+        "to": "wreckEntrance",
+        "label": "回破裂的船身"
+      },
+      {
+        "to": "wreckGalley",
+        "label": "往側艙"
+      },
+      {
+        "to": "wreckHold",
+        "label": "走下樓梯",
+        "if": "flag:waterLowered"
+      }
+    ]
+  },
+  {
+    "id": "wreckGalley",
+    "name": "沉船洞窟・側艙",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[gray]   _______________________________________________   [/]",
+      "[gray]  |[/]  [orange](@)[/][gray]  絞盤[/]                       [orange][≡≡≡][/][gray]  吊床  [/][gray]|  [/]",
+      "[gray]  |[/]  [orange]/|\\[/]                             [orange]\\___/[/]        [gray]|  [/]",
+      "[gray]  |_______________________________________________|  [/]"
+    ],
+    "description": "這裡沒有進水，空氣裡有股霉味。角落有一座生鏽的大絞盤，鐵鍊一路通往樓梯下方。",
+    "spots": [
+      {
+        "label": "轉動生鏽的絞盤",
+        "script": "winch"
+      },
+      {
+        "label": "船長的吊床",
+        "script": "galleyRest"
+      },
+      {
+        "label": "翻找船長的箱子",
+        "script": "chestCaptain"
+      }
+    ],
+    "exits": [
+      {
+        "to": "wreckDeck",
+        "label": "回中層甲板"
+      }
+    ]
+  },
+  {
+    "id": "wreckHold",
+    "name": "沉船洞窟・底艙",
+    "kind": "Dungeon",
+    "palette": "wreck",
+    "art": [
+      "[dim]  .   [/][cyan]°[/][dim]     .        [/][cyan]°[/][dim]        .      [/][cyan]°[/][dim]     .     [/]",
+      "[gray]  ___                                         ___    [/]",
+      "[gray] /   \\_______[/][blue]  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  [/][gray]______/   \\   [/]",
+      "[blue]          ~~~~~ [/][cyan]( ◉ )[/][blue] ~~~~~~~~~ [/][cyan]( ◉ )[/][blue] ~~~~~       [/]",
+      "[blue]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   [/]"
+    ],
+    "description": "底艙破了一個大洞，直接連著一座漆黑的深潭。潭底，兩點巨大的光一明一暗。",
+    "encounterRate": 0.5,
+    "encounters": [
+      {
+        "enemies": [
+          "drownedSailor",
+          "caveOctopus",
+          "bloodLeech"
+        ],
+        "weight": 3
+      },
+      {
+        "enemies": [
+          "caveOctopus",
+          "caveOctopus",
+          "blueJelly"
+        ],
+        "weight": 2
+      },
+      {
+        "enemies": [
+          "drownedSailor",
+          "drownedSailor",
+          "drownedSailor"
+        ],
+        "weight": 1
+      }
+    ],
+    "spots": [
+      {
+        "label": "打開鑲貝殼的寶箱",
+        "script": "chestShell"
+      },
+      {
+        "label": "走向漆黑的深潭",
+        "script": "serpentFight",
+        "if": "flag:serpentDefeated == 0"
+      },
+      {
+        "label": "平靜的深潭",
+        "script": "afterSerpent",
+        "if": "flag:serpentDefeated"
+      }
+    ],
+    "exits": [
+      {
+        "to": "wreckDeck",
+        "label": "回中層甲板"
       }
     ]
   }

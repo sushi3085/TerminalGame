@@ -152,6 +152,8 @@ public sealed record ScriptCommandDef
     public int? takeGold { get; init; }
 
     public string? join { get; init; }
+
+    /// <summary>For <see cref="join"/>: the minimum level; the newcomer joins at the party's average level if that is higher.</summary>
     public int level { get; init; } = 1;
 
     public IReadOnlyList<string>? battle { get; init; }

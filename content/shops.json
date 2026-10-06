@@ -21,5 +21,30 @@
       "acornCharm",
       "swiftCharm"
     ]
+  },
+  {
+    "id": "portItems",
+    "name": "河港村・道具店「浪花」",
+    "items": [
+      "potion",
+      "hiPotion",
+      "antidote",
+      "mintLeaf",
+      "ether",
+      "phoenixDown"
+    ]
+  },
+  {
+    "id": "portSmith",
+    "name": "河港村・武器防具店",
+    "items": [
+      "ironSword",
+      "compositeBow",
+      "ironAxe",
+      "chainMail",
+      "rangerVest",
+      "ironHelm",
+      "pearlAmulet"
+    ]
   }
 ]

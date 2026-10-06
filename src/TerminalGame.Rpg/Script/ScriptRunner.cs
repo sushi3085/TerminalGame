@@ -238,9 +238,14 @@ public sealed class ScriptRunner
 
         if (c.join is not null)
         {
-            return session.party.Any(m => m.def.id == c.join)
-                ? null
-                : new MemberJoinedRequest(session.addMember(c.join, c.level));
+            if (session.party.Any(m => m.def.id == c.join))
+            {
+                return null;
+            }
+
+            // Newcomers never lag far behind a party that has been levelling: at least the party's average level.
+            int level = Math.Max(c.level, session.party.Count == 0 ? 1 : (int)session.party.Average(m => m.level));
+            return new MemberJoinedRequest(session.addMember(c.join, level));
         }
 
         if (c.battle is not null)

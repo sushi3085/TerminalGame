@@ -137,4 +137,30 @@ public class BalanceTests
         Assert.True(expected >= 0.8, $"boss at Lv7: {expected:P0}");
         Assert.True(low <= 0.6, $"boss at Lv5 should be a real risk: {low:P0}");
     }
+
+    [Fact]
+    public void deepSerpentIsBeatableButNotFreeWhenUnderLevelled()
+    {
+        (string, int, string[])[] at(int level) =>
+        [
+            ("hero", level, ["corsairSaber", "chainMail", "ironHelm", "pearlAmulet"]),
+            ("rin", level, ["compositeBow", "rangerVest", "ironHelm"]),
+            ("bal", level, ["ironAxe", "chainMail", "leatherCap", "shellShield"]),
+        ];
+        string[] fight = ["bloodLeech", "deepSerpent", "bloodLeech"];
+        GameSession stocked(int seed, int level)
+        {
+            GameSession session = party(seed, at(level));
+            session.inventory.add("hiPotion", 3);
+            session.inventory.add("ether", 2);
+            session.inventory.add("phoenixDown", 2);
+            return session;
+        }
+
+        double expected = winRate(seed => stocked(seed, 12), fight, new AutoPolicy());
+        double low = winRate(seed => stocked(seed, 10), fight, new AutoPolicy());
+
+        Assert.True(expected >= 0.75, $"serpent at Lv12: {expected:P0}");
+        Assert.True(low <= 0.6, $"serpent at Lv10 should be a real risk: {low:P0}");
+    }
 }

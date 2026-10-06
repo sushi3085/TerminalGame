@@ -25,7 +25,27 @@
     },
     {
       "if": "flag:chapter1Done",
-      "text": "第一章完。第二章「河港村」製作中。"
+      "text": "沿著南方大道，前往[cyan]河港村[/]。"
+    },
+    {
+      "if": "flag:portIntro",
+      "text": "到[cyan]河口沙洲[/]找護衛巴爾。"
+    },
+    {
+      "if": "flag:metBal",
+      "text": "進入[cyan]沉船洞窟[/]，查明藍光的來源。"
+    },
+    {
+      "if": "flag:metBal && flag:waterLowered",
+      "text": "積水退了。走下樓梯，前往[cyan]底艙[/]。"
+    },
+    {
+      "if": "flag:serpentDefeated",
+      "text": "回[gold]河港村[/]向港務長報告。"
+    },
+    {
+      "if": "flag:chapter2Done",
+      "text": "往東前往沙漠中的[cyan]砂岩城[/]。"
     }
   ],
   "chronicle": [
@@ -59,7 +79,31 @@
     },
     {
       "if": "flag:chapter1Done",
-      "text": "向長老報告後得知：南方的河港村，河水在夜裡會發光。"
+      "text": "長老說，南方的河港村傳出河水夜裡發光的怪事。"
+    },
+    {
+      "if": "flag:portIntro",
+      "text": "河港村的漁船半個月沒出海，河口的沉船洞窟發出藍光。"
+    },
+    {
+      "if": "flag:metBal",
+      "text": "在河口沙洲和護衛巴爾一起擊退了怪物。巴爾加入了隊伍。"
+    },
+    {
+      "if": "flag:waterLowered",
+      "text": "巴爾轉動了沉船側艙的絞盤，排掉了樓梯的積水。"
+    },
+    {
+      "if": "flag:chestCaptain",
+      "text": "在船長的箱子裡找到海盜彎刀。航海日誌寫著：「黑霧……從潭底……」"
+    },
+    {
+      "if": "flag:serpentDefeated",
+      "text": "擊敗了深潭水蛇。黑霧往東飄去，留下一塊黑色結晶。"
+    },
+    {
+      "if": "flag:chapter2Done",
+      "text": "港務長建議去東方的砂岩城，請學者調查黑色結晶。"
     }
   ]
 }

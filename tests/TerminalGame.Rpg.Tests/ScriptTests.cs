@@ -97,6 +97,21 @@ public class ScriptTests
     }
 
     [Fact]
+    public void newcomersJoinAtLeastAtThePartysAverageLevel()
+    {
+        GameSession session = TestContent.session();
+        session.party[0].gainExp(100_000);
+        int lead = session.party[0].level;
+        ScriptRunner runner = ScriptRunner.forScript(session, "quiz");
+        runner.start();
+        runner.next();
+
+        MemberJoinedRequest joined = Assert.IsType<MemberJoinedRequest>(runner.choose(1));
+
+        Assert.Equal(lead, joined.member.level);
+    }
+
+    [Fact]
     public void choiceMustBeAnsweredWithChoose()
     {
         GameSession session = TestContent.session();

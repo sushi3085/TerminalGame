@@ -30,6 +30,10 @@
       {
         "skillId": "rally",
         "level": 6
+      },
+      {
+        "skillId": "thunder",
+        "level": 9
       }
     ],
     "initialEquipment": [
@@ -69,6 +73,10 @@
       {
         "skillId": "arrowRain",
         "level": 6
+      },
+      {
+        "skillId": "rapidShot",
+        "level": 11
       }
     ],
     "initialEquipment": [
@@ -76,5 +84,45 @@
       "clothTunic"
     ],
     "attackMessage": "拉弓放箭！"
+  },
+  {
+    "id": "bal",
+    "name": "巴爾",
+    "baseStats": {
+      "maxHp": 40,
+      "maxMp": 4,
+      "attack": 6,
+      "defense": 5,
+      "magic": 2,
+      "speed": 1
+    },
+    "growth": {
+      "maxHp": 11,
+      "maxMp": 1,
+      "attack": 2,
+      "defense": 2,
+      "magic": 0,
+      "speed": 1
+    },
+    "skills": [
+      {
+        "skillId": "provoke",
+        "level": 1
+      },
+      {
+        "skillId": "heavyBlow",
+        "level": 1
+      },
+      {
+        "skillId": "ironWall",
+        "level": 11
+      }
+    ],
+    "initialEquipment": [
+      "boardingAxe",
+      "clothTunic",
+      "harborShield"
+    ],
+    "attackMessage": "揮動短斧劈砍！"
   }
 ]

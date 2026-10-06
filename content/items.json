@@ -73,7 +73,10 @@
     "bonus": {
       "attack": 2
     },
-    "description": "練習用的木劍。"
+    "description": "練習用的木劍。",
+    "equippableBy": [
+      "hero"
+    ]
   },
   {
     "id": "bronzeSword",
@@ -84,7 +87,10 @@
     "bonus": {
       "attack": 6
     },
-    "description": "鎮上鐵匠打的青銅劍，沉甸甸的。"
+    "description": "鎮上鐵匠打的青銅劍，沉甸甸的。",
+    "equippableBy": [
+      "hero"
+    ]
   },
   {
     "id": "huntersBow",
@@ -96,7 +102,10 @@
       "attack": 4,
       "speed": 1
     },
-    "description": "琳的父親親手做的獵弓。"
+    "description": "琳的父親親手做的獵弓。",
+    "equippableBy": [
+      "rin"
+    ]
   },
   {
     "id": "longBow",
@@ -108,7 +117,10 @@
       "attack": 9,
       "speed": 1
     },
-    "description": "紫杉木製的長弓，射程極遠。"
+    "description": "紫杉木製的長弓，射程極遠。",
+    "equippableBy": [
+      "rin"
+    ]
   },
   {
     "id": "clothTunic",
@@ -171,5 +183,174 @@
     "name": "森林之心",
     "kind": "Key",
     "description": "森林之主留下的翠綠色種子。摸起來暖暖的。"
+  },
+  {
+    "id": "phoenixDown",
+    "name": "不死鳥之羽",
+    "kind": "Consumable",
+    "price": 120,
+    "target": "SingleAlly",
+    "effect": {
+      "kind": "Revive",
+      "power": 30
+    },
+    "description": "讓倒下的同伴復活，恢復三成 HP。"
+  },
+  {
+    "id": "boardingAxe",
+    "name": "登船斧",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 160,
+    "bonus": {
+      "attack": 7
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "港口護衛用的短柄斧。"
+  },
+  {
+    "id": "harborShield",
+    "name": "港口圓盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 120,
+    "bonus": {
+      "defense": 4
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "刻著船錨紋章的圓盾。"
+  },
+  {
+    "id": "ironSword",
+    "name": "鐵劍",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 320,
+    "bonus": {
+      "attack": 12
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "河港村鍛造的鐵劍，刃口很利。"
+  },
+  {
+    "id": "compositeBow",
+    "name": "複合弓",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 340,
+    "bonus": {
+      "attack": 14,
+      "speed": 1
+    },
+    "equippableBy": [
+      "rin"
+    ],
+    "description": "以獸角與木材貼合的強弓。"
+  },
+  {
+    "id": "ironAxe",
+    "name": "鐵斧",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 300,
+    "bonus": {
+      "attack": 12
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "沉重的雙手斧。"
+  },
+  {
+    "id": "chainMail",
+    "name": "鎖子甲",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 300,
+    "bonus": {
+      "defense": 9
+    },
+    "equippableBy": [
+      "hero",
+      "bal"
+    ],
+    "description": "細密的鐵環編成的甲。"
+  },
+  {
+    "id": "rangerVest",
+    "name": "遊俠背心",
+    "kind": "Equipment",
+    "slot": "Body",
+    "price": 240,
+    "bonus": {
+      "defense": 6,
+      "speed": 2
+    },
+    "description": "輕巧的皮背心，不妨礙拉弓。"
+  },
+  {
+    "id": "ironHelm",
+    "name": "鐵盔",
+    "kind": "Equipment",
+    "slot": "Head",
+    "price": 160,
+    "bonus": {
+      "defense": 4
+    },
+    "description": "擋得住落石的鐵盔。"
+  },
+  {
+    "id": "pearlAmulet",
+    "name": "珍珠墜飾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 280,
+    "bonus": {
+      "maxMp": 10,
+      "magic": 3
+    },
+    "description": "河蚌裡取出的珍珠，泛著柔光。"
+  },
+  {
+    "id": "corsairSaber",
+    "name": "海盜彎刀",
+    "kind": "Equipment",
+    "slot": "Weapon",
+    "price": 0,
+    "bonus": {
+      "attack": 17,
+      "speed": 1
+    },
+    "equippableBy": [
+      "hero"
+    ],
+    "description": "沉船船長的彎刀，刀身沒有一點鏽。"
+  },
+  {
+    "id": "shellShield",
+    "name": "螺殼大盾",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "defense": 8,
+      "maxHp": 15
+    },
+    "equippableBy": [
+      "bal"
+    ],
+    "description": "巨大海螺殼打磨成的盾。"
+  },
+  {
+    "id": "darkCrystal",
+    "name": "黑色結晶",
+    "kind": "Key",
+    "description": "水蛇體內取出的結晶，摸起來冰冷刺骨。"
   }
 ]

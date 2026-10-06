@@ -42,7 +42,7 @@
 ```
 
 - `target`：`Self`、`SingleAlly`、`AllAllies`、`SingleEnemy`、`AllEnemies`（以使用者的角度；敵人的 `SingleEnemy` 就是我方一人）
-- `effect.kind`：`Physical`、`Magical`、`Heal`（可加 `magicScaling`）、`RestoreMp`、`Status`（不改 HP/MP，只附加或解除狀態）
+- `effect.kind`：`Physical`、`Magical`、`Heal`（可加 `magicScaling`）、`RestoreMp`、`Status`（不改 HP/MP，只附加或解除狀態）、`Revive`（讓倒下的同伴以最大 HP 的 `power`% 復活；只能指定倒下的人，戰鬥與地圖上都能用）
 - `effect.element`（只限傷害）：`Fire`、`Ice`、`Thunder`、`Holy`
 - `effect.status`：`{ "kind": "Poison", "chance": 0.3, "turns": 3 }`，對每個目標各擲一次；傷害技能只有在目標還站著時才附加，失敗不會顯示訊息；`Status` 技能失敗會顯示「沒有效果」
 - `effect.cures`：`[ "Poison" ]`，解除這些狀態（解毒草、薄荷葉）
@@ -56,12 +56,13 @@
 | `Paralysis` | 每回合 50% 機率無法行動 |
 | `AttackUp` / `DefenseUp` | 攻擊／防禦 ×1.5 |
 | `AttackDown` / `DefenseDown` | 攻擊／防禦 ×0.75；和對應的提升互相抵消 |
+| `Taunt` | 對方的單體攻擊與單體技能都會打向自己（坦克用） |
 
 - `turns` 是「持有者自己的回合數」，在持有者的回合結束時扣 1；在自己的回合對自己施加的狀態，那一回合不算。重複施加會取較長的剩餘回合。
 - 所有狀態都只存在於戰鬥中，戰鬥結束就消失（不寫進存檔）。
 - `useMessage` 接在使用者名字後面，例如「艾倫」+「詠唱火球術！」
 
-道具 `kind`：`Consumable`（要有 `effect`）、`Equipment`（要有 `slot`：`Weapon`／`Body`／`Head`／`Accessory`，和 `bonus`）、`Key`（重要物品，不能賣）。`price` 0 表示不販售；賣價是半價。
+道具 `kind`：`Consumable`（要有 `effect`）、`Equipment`（要有 `slot`：`Weapon`／`Body`／`Head`／`Accessory`，和 `bonus`；`equippableBy: ["hero"]` 限定能裝備的角色，省略 = 任何人）、`Key`（重要物品，不能賣）。`price` 0 表示不販售；賣價是半價。
 
 ## 敵人
 
@@ -76,6 +77,8 @@
 ```
 
 `actions` 是加權隨機表；沒有 `skillId` 的那一項是普通攻擊；MP 不夠的技能、以及自己身上已經有的增益技能會被略過。`art` 每一行一個字串；反斜線要寫成 `\\`。
+
+兩階段 Boss：`"nextPhase": "敵人id"` 讓這隻敵人倒下時由另一隻在同一個位置接手，`"phaseMessage"` 是變身時的敘述；兩個型態的經驗值、金錢、掉落物都會給。
 
 屬性與抗性：`"weakTo": [ "Fire" ]`（×1.5，戰鬥中顯示「效果拔群！」）、`"resists": [ "Ice" ]`（×0.5）、`"immuneTo": [ "Sleep", "Paralysis" ]`（Boss 通常免疫控制類狀態）。
 
@@ -92,7 +95,7 @@
 ```
 
 - `kind`：`Town`（安全，不遇敵）、`Field`、`Dungeon`
-- `palette`：視窗配色，目前有 `town`、`forest`、`deepForest`、`cave`（見 `src/TerminalGame.Demo/Palettes.cs`）
+- `palette`：視窗配色，目前有 `town`、`forest`、`deepForest`、`cave`、`river`、`wreck`、`desert`、`ruins`、`castle`（見 `src/TerminalGame.Demo/Palettes.cs`）
 - `encounterRate`：抵達時遇敵的機率；選單裡的「四處探索」則必定遇敵
 - `onEnter`：抵達時，第一個條件成立的腳本會執行（用旗標避免重複觸發）
 - `spots`、`exits` 的 `if` 不成立時不會出現在選單裡
@@ -127,7 +130,7 @@ gold               持有金錢
 | `{ "setFlag": "x", "value": 2 }` / `{ "addFlag": "x", "value": 1 }` | 設定／增加旗標（`value` 預設 1） |
 | `{ "giveItem": "potion", "count": 2 }` / `{ "takeItem": "key" }` | 給予／拿走道具（會顯示訊息） |
 | `{ "giveGold": 50 }` / `{ "takeGold": 10 }` | 金錢 |
-| `{ "join": "rin", "level": 4 }` | 角色加入（已在隊伍則略過） |
+| `{ "join": "rin", "level": 4 }` | 角色加入（已在隊伍則略過）；等級至少為 `level`，若隊伍平均等級較高則用平均等級 |
 | `{ "battle": ["wolf", "wolf"], "canEscape": false }` | 戰鬥；**只有勝利才會繼續執行後面的指令** |
 | `{ "shop": "dawnItems" }` | 開啟商店 |
 | `{ "inn": 8 }` | 旅館：付費、全員恢復、設為復活點、詢問是否存檔 |

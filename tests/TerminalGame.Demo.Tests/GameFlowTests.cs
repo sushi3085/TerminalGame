@@ -292,6 +292,51 @@ public sealed class GameFlowTests : IDisposable
     }
 
     [Fact]
+    public void chapterTwoCanBePlayedToTheEnd()
+    {
+        GameSession session = startAt("dawnTown", "metRin", "bossDefeated", "chapter1Done");
+        session.addMember("rin", 8);
+        foreach (PartyMember member in session.party)
+        {
+            member.gainExp(60_000);
+        }
+
+        act("往南方大道");
+        act("前往河港村");
+        pressEnterUntil(atActions); // the harbor master's story
+        Assert.Equal(1, session.flags["portIntro"]);
+
+        act("往河口沙洲");
+        List<string> rescue = pressEnterUntil(atActions);
+        Assert.Contains(rescue, s => s.Contains("巴爾加入了隊伍"));
+        Assert.Equal(new[] { "hero", "rin", "bal" }, session.party.Select(m => m.def.id));
+        Assert.Equal(session.party[0].level, session.party[2].level); // joins at the party's level
+
+        act("進入沉船洞窟");
+        act("往船艙深處");
+        Assert.DoesNotContain("走下樓梯", screen);
+        act("往側艙");
+        act("轉動生鏽的絞盤");
+        act("翻找船長的箱子");
+        act("回中層甲板");
+        act("走下樓梯");
+        act("走向漆黑的深潭");
+        List<string> boss = pressEnterUntil(atActions);
+        Assert.Contains(boss, s => s.Contains("深潭水蛇"));
+        Assert.Equal(1, session.flags["serpentDefeated"]);
+        Assert.True(session.inventory.has("darkCrystal"));
+        Assert.True(session.inventory.has("corsairSaber"));
+
+        act("回中層甲板");
+        act("回破裂的船身");
+        act("離開洞窟");
+        act("回河港村");
+        List<string> ending = pressEnterUntil(atActions);
+        Assert.Contains(ending, s => s.Contains("第二章「河港村」 完"));
+        Assert.Equal(1, session.flags["chapter2Done"]);
+    }
+
+    [Fact]
     public void statusPanelShowsDerivedStatsAndEquipment()
     {
         GameSession session = game.startNew();
