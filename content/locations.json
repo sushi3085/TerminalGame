@@ -756,6 +756,11 @@
         "script": "chestShell"
       },
       {
+        "label": "塌了一半的船長室",
+        "script": "captainCabin",
+        "if": "flag:sailorQuest == 1 && item:oldCompass == 0"
+      },
+      {
         "label": "走向漆黑的深潭",
         "script": "serpentFight",
         "if": "flag:serpentDefeated == 0"
@@ -876,6 +881,10 @@
       {
         "label": "市集的商人",
         "script": "cityMerchant"
+      },
+      {
+        "label": "酒館的老水手",
+        "script": "sailorQuest"
       }
     ],
     "exits": [

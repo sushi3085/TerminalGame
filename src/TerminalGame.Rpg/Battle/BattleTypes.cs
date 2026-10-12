@@ -95,7 +95,14 @@ public sealed record DefeatedEvent(Combatant target) : BattleEvent;
 
 public sealed record EscapeEvent(Combatant actor, bool succeeded) : BattleEvent;
 
-public sealed record VictoryEvent(int exp, int gold, IReadOnlyList<ItemDef> drops) : BattleEvent;
+/// <summary><paramref name="exp"/> is the enemies' full worth; <see cref="shares"/> is what each surviving member actually earned.</summary>
+public sealed record VictoryEvent(int exp, int gold, IReadOnlyList<ItemDef> drops) : BattleEvent
+{
+    public IReadOnlyList<ExpShare> shares { get; init; } = [];
+}
+
+/// <summary>Experience one member earned from a victory, after the level-gap falloff.</summary>
+public sealed record ExpShare(PartyMember member, int exp);
 
 public sealed record LevelUpEvent(LevelUp levelUp) : BattleEvent;
 

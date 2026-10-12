@@ -407,6 +407,64 @@ public sealed class GameFlowTests : IDisposable
     }
 
     [Fact]
+    public void sailorSideQuestSendsThePartyBackToTheWreck()
+    {
+        GameSession session = startAt("sandstoneCity", "metRin", "bossDefeated", "chapter1Done", "portIntro", "metBal", "waterLowered",
+            "serpentDefeated", "chapter2Done", "cityIntro", "scholarTalk");
+        foreach (string id in new[] { "rin", "bal", "xue" })
+        {
+            session.addMember(id, 14);
+        }
+
+        string[][] gear = [["steelSword", "steelPlate", "sandTurban"], ["hornBow", "desertCloak", "sandTurban"],
+            ["warHammer", "steelPlate", "sandTurban", "shellShield"], ["crystalStaff", "desertCloak", "sandTurban"]];
+        for (int i = 0; i < 4; i++)
+        {
+            session.party[i].gainExp(200_000);
+            foreach (string itemId in gear[i])
+            {
+                session.party[i].equip(game.content.item(itemId));
+            }
+
+            session.party[i].restore();
+        }
+
+        act("酒館的老水手");
+        pressEnterUntil(atActions); // the first choice accepts the errand
+        Assert.Equal(1, session.flags["sailorQuest"]);
+
+        act("回灼熱沙原");
+        act("回河港村");
+        act("往河口沙洲");
+        act("進入沉船洞窟");
+        act("往船艙深處");
+        act("走下樓梯");
+        pressEnterUntil(atActions);
+        session.restoreParty();
+        act("塌了一半的船長室");
+        pressEnterUntil(() => app.currentScene is BattleScene battle && battle.focusedWidget is MenuList && !battle.hasModal);
+        press(Key.Up, Key.Enter); // 自動
+        List<string> fight = pressEnterUntil(atActions);
+        Assert.Contains(fight, s => s.Contains("幽靈船長"));
+        Assert.True(session.inventory.has("oldCompass"));
+        Assert.DoesNotContain("塌了一半的船長室", screen);
+
+        act("回中層甲板");
+        act("回破裂的船身");
+        act("離開洞窟");
+        act("回河港村");
+        act("往東方沙漠");
+        act("前往砂岩城");
+        int goldBefore = session.gold;
+        act("酒館的老水手");
+        pressEnterUntil(atActions);
+        Assert.Equal(2, session.flags["sailorQuest"]);
+        Assert.False(session.inventory.has("oldCompass"));
+        Assert.True(session.inventory.has("tideCharm"));
+        Assert.Equal(goldBefore + 800, session.gold);
+    }
+
+    [Fact]
     public void finalChapterCanBePlayedToTheEnding()
     {
         GameSession session = startAt("sandstoneCity", "metRin", "bossDefeated", "chapter1Done", "portIntro", "metBal", "serpentDefeated",

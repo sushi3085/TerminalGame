@@ -67,7 +67,8 @@ public static class Simulator
             BattleAction action = engine.currentActor!.side == Side.Party ? policy.decide(engine, session) : engine.decideEnemyAction();
             IReadOnlyList<BattleEvent> events = engine.execute(action);
             itemsUsed += events.OfType<ItemUsedEvent>().Count();
-            exp += events.OfType<VictoryEvent>().Sum(v => v.exp);
+            // The lead's share (after the level-gap falloff), matching how levelling time is estimated.
+            exp += events.OfType<VictoryEvent>().Sum(v => v.shares.FirstOrDefault(sh => sh.member == session.party[0])?.exp ?? 0);
         }
 
         int maxHp = session.party.Sum(m => m.stats.maxHp);

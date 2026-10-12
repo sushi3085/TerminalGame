@@ -354,6 +354,25 @@
     "description": "水蛇體內取出的結晶，摸起來冰冷刺骨。"
   },
   {
+    "id": "oldCompass",
+    "name": "銀羅盤",
+    "kind": "Key",
+    "description": "沉船船長的羅盤。指針不指北，一直指著東方的沙漠。"
+  },
+  {
+    "id": "tideCharm",
+    "name": "潮汐護符",
+    "kind": "Equipment",
+    "slot": "Accessory",
+    "price": 0,
+    "bonus": {
+      "maxHp": 30,
+      "maxMp": 10,
+      "defense": 4
+    },
+    "description": "老水手年輕時的護身符。貝殼裡聽得見遠方的浪聲。"
+  },
+  {
     "id": "hiEther",
     "name": "高級魔力水",
     "kind": "Consumable",
@@ -400,7 +419,7 @@
     "name": "鋼劍",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 620,
+    "price": 500,
     "bonus": {
       "attack": 18
     },
@@ -414,7 +433,7 @@
     "name": "角弓",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 640,
+    "price": 510,
     "bonus": {
       "attack": 20,
       "speed": 2
@@ -429,7 +448,7 @@
     "name": "戰鎚",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 600,
+    "price": 480,
     "bonus": {
       "attack": 19
     },
@@ -443,7 +462,7 @@
     "name": "水晶杖",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 580,
+    "price": 460,
     "bonus": {
       "attack": 5,
       "magic": 9
@@ -458,7 +477,7 @@
     "name": "鋼板甲",
     "kind": "Equipment",
     "slot": "Body",
-    "price": 600,
+    "price": 480,
     "bonus": {
       "defense": 14
     },
@@ -473,7 +492,7 @@
     "name": "沙漠斗篷",
     "kind": "Equipment",
     "slot": "Body",
-    "price": 480,
+    "price": 380,
     "bonus": {
       "defense": 9,
       "speed": 2,
@@ -486,7 +505,7 @@
     "name": "沙漠頭巾",
     "kind": "Equipment",
     "slot": "Head",
-    "price": 300,
+    "price": 240,
     "bonus": {
       "defense": 6,
       "maxHp": 10
@@ -498,7 +517,7 @@
     "name": "太陽護符",
     "kind": "Equipment",
     "slot": "Accessory",
-    "price": 520,
+    "price": 420,
     "bonus": {
       "maxHp": 30,
       "defense": 2
@@ -577,7 +596,7 @@
     "name": "秘銀劍",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 1200,
+    "price": 960,
     "bonus": {
       "attack": 28
     },
@@ -591,7 +610,7 @@
     "name": "疾風弓",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 1250,
+    "price": 1000,
     "bonus": {
       "attack": 30,
       "speed": 3
@@ -606,7 +625,7 @@
     "name": "巨人斧",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 1200,
+    "price": 960,
     "bonus": {
       "attack": 29
     },
@@ -620,7 +639,7 @@
     "name": "賢者之杖",
     "kind": "Equipment",
     "slot": "Weapon",
-    "price": 1100,
+    "price": 880,
     "bonus": {
       "attack": 8,
       "magic": 14
@@ -635,7 +654,7 @@
     "name": "秘銀甲",
     "kind": "Equipment",
     "slot": "Body",
-    "price": 1150,
+    "price": 920,
     "bonus": {
       "defense": 20
     },
@@ -650,7 +669,7 @@
     "name": "神秘法袍",
     "kind": "Equipment",
     "slot": "Body",
-    "price": 1000,
+    "price": 800,
     "bonus": {
       "defense": 13,
       "magic": 5,
@@ -667,7 +686,7 @@
     "name": "秘銀盔",
     "kind": "Equipment",
     "slot": "Head",
-    "price": 700,
+    "price": 560,
     "bonus": {
       "defense": 9,
       "maxHp": 20
@@ -679,7 +698,7 @@
     "name": "天使之戒",
     "kind": "Equipment",
     "slot": "Accessory",
-    "price": 1100,
+    "price": 880,
     "bonus": {
       "maxHp": 40,
       "maxMp": 15,

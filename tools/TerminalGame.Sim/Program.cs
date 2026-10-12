@@ -19,6 +19,13 @@ AutoPolicy allOut = new() { spendMp = true };
 double totalMinutes = 0;
 HashSet<string> countedTargets = new(); // areas sharing a levelling target (dungeon rooms) are alternatives, not additions
 
+// Economy ledger: gold from the random battles needed to level between checkpoints plus boss gold, minus the gear each
+// checkpoint expects (old gear sold back at half price; chest gear costs 0) and the consumables it carries beyond the
+// previous one. Inns and restocking used-up items are not counted, so real wallets are somewhat thinner. A shortfall
+// carries over as debt (the rest is bought later), so a later "covered" also pays off earlier gaps.
+double wallet = content.newGame?.gold ?? 0;
+List<string> economy = new();
+
 void area(string locationId, Checkpoint checkpoint, Checkpoint? next)
 {
     LocationDef location = content.location(locationId);
@@ -26,14 +33,17 @@ void area(string locationId, Checkpoint checkpoint, Checkpoint? next)
     Console.WriteLine($"   {"encounter",-30} {"win%",6} {"HP left",8} {"rounds",7} {"MP used",8}");
     int totalWeight = location.encounters.Sum(e => e.weight);
     double expPerBattle = 0;
+    double goldPerBattle = 0;
     double roundsPerBattle = 0;
+    int leadLevel = checkpoint.party[0].level;
     foreach (EncounterDef encounter in location.encounters)
     {
         Summary s = Simulator.repeat(content, checkpoint, encounter.enemies, careful, runs);
         string names = string.Join("+", encounter.enemies.Select(id => content.enemy(id).name));
         Console.WriteLine($"   {names,-30} {s.winRate,6:P1} {s.hpLeft,8:P0} {s.rounds,7:F1} {s.mpUsed,8:F1}");
         double share = encounter.weight / (double)totalWeight;
-        expPerBattle += share * encounter.enemies.Sum(id => content.enemy(id).exp);
+        expPerBattle += share * encounter.enemies.Sum(id => Progression.scaledExp(content.enemy(id).exp, leadLevel, content.enemy(id).level));
+        goldPerBattle += share * encounter.enemies.Sum(id => content.enemy(id).gold);
         roundsPerBattle += share * s.rounds;
     }
 
@@ -52,12 +62,49 @@ void area(string locationId, Checkpoint checkpoint, Checkpoint? next)
         if (countedTargets.Add(next.name))
         {
             totalMinutes += minutes;
+            wallet += battlesNeeded * goldPerBattle;
         }
 
-        Console.WriteLine($"   to reach Lv{to}: {needed} exp ≈ {battlesNeeded:F1} battles ≈ {minutes:F1} min");
+        Console.WriteLine($"   to reach Lv{to}: {needed} exp ≈ {battlesNeeded:F1} battles ≈ {minutes:F1} min, {goldPerBattle:F0} gold/battle");
     }
 
     Console.WriteLine();
+}
+
+// A boss's gold, collected once.
+void loot(IReadOnlyList<string> enemyIds) => wallet += enemyIds.Sum(id => content.enemy(id).gold);
+
+// Buys the gear `to` has and `from` lacks, selling what is no longer worn; records how much of it the wallet covers.
+void shop(Checkpoint from, Checkpoint to)
+{
+    // Members who join between the two checkpoints bring their initial equipment.
+    List<string> before = from.party.SelectMany(m => m.gear)
+        .Concat(to.party.Where(m => from.party.All(f => f.characterId != m.characterId)).SelectMany(m => content.character(m.characterId).initialEquipment))
+        .ToList();
+    List<string> after = to.party.SelectMany(m => m.gear).ToList();
+    List<string> bought = new(after);
+    List<string> sold = new(before);
+    foreach (string id in before)
+    {
+        if (bought.Remove(id))
+        {
+            sold.Remove(id);
+        }
+    }
+
+    int gearCost = bought.Sum(id => content.item(id).price);
+    int refund = sold.Sum(id => content.item(id).price / 2);
+    int supplies = to.items.Sum(i => Math.Max(0, i.count - from.items.Where(f => f.itemId == i.itemId).Sum(f => f.count)) * content.item(i.itemId).price);
+    if (gearCost == 0)
+    {
+        wallet -= supplies;
+        return;
+    }
+
+    int cost = gearCost + supplies;
+    double available = wallet + refund;
+    economy.Add($"   {to.name,-16} gear {gearCost,6}  items {supplies,4}  sell-back {refund,5}  wallet {available,7:F0}  covered {Math.Clamp(available / cost, 0, 1),5:P0}");
+    wallet = available - cost; // a shortfall carries over: the player buys the rest later
 }
 
 void story(string title, Checkpoint checkpoint, IReadOnlyList<string> enemyIds)
@@ -93,13 +140,18 @@ string[] forestLord = ["venomShroom", "forestLord", "venomShroom"];
 if (chapter(1, "低語森林"))
 {
     area("woodsEdge", edge, path);
+    shop(edge, path);
     area("woodsPath", path, rescue);
     story("救援琳（野狼×2）", rescue, ["wolf", "wolf"]);
+    shop(rescue, clearing);
     area("woodsClearing", clearing, deep);
+    shop(clearing, deep);
     area("woodsDeep", deep, ch1Boss(7));
+    shop(deep, ch1Boss(7));
     story("森林之主", ch1Boss(7), forestLord);
     story("森林之主（多練一級）", ch1Boss(8), forestLord);
     story("森林之主（少一級）", ch1Boss(6), forestLord);
+    loot(forestLord);
 }
 
 // ── Chapter 2 ────────────────────────────────────────────────────────────────────────────────
@@ -128,15 +180,21 @@ string[] serpent = ["bloodLeech", "deepSerpent", "bloodLeech"];
 
 if (chapter(2, "河港村"))
 {
+    shop(ch1Boss(7), road);
     area("willowRoad", road, balRescue);
+    shop(road, balRescue);
     story("巴爾登場（河蟹+海鷗+河蟹）", balRescue, ["riverCrab", "stormGull", "riverCrab"]);
+    shop(balRescue, mouth);
     area("riverMouth", mouth, wreck);
     area("wreckEntrance", wreck, hold);
     area("wreckDeck", wreck, hold);
+    shop(wreck, hold);
     area("wreckHold", hold, ch2Boss(12));
+    shop(hold, ch2Boss(12));
     story("深潭水蛇", ch2Boss(12), serpent);
     story("深潭水蛇（多練一級）", ch2Boss(13), serpent);
     story("深潭水蛇（少一級）", ch2Boss(11), serpent);
+    loot(serpent);
 }
 
 // ── Chapter 3 ────────────────────────────────────────────────────────────────────────────────
@@ -159,19 +217,30 @@ Checkpoint halls = new("迴廊 Lv14×4", tier3(14, balShield: "guardianShield"),
 (string, int)[] guardianItems = [("potion", 4), ("hiPotion", 5), ("ether", 2), ("hiEther", 2), ("phoenixDown", 3), ("mintLeaf", 2)];
 Checkpoint ch3Boss(int level) => new($"守衛 Lv{level}×4", tier3(level, "sunBlade", "guardianShield", "frostRing"), guardianItems);
 string[] guardian = ["fireSpirit", "ruinGuardian", "fireSpirit"];
+string[] captain = ["drownedSailor", "drownedCaptain", "drownedSailor"];
+Checkpoint tier3At(int level) => new($"迴廊 Lv{level}×4", tier3(level, balShield: "guardianShield"), ch3Items);
 
 if (chapter(3, "砂岩城"))
 {
+    shop(ch2Boss(12), desert);
     area("desertRoad", desert, oasisParty);
+    shop(desert, oasisParty);
     area("oasis", oasisParty, court);
+    shop(oasisParty, court);
     area("ruinsCourt", court, halls);
+    shop(court, halls);
     area("ruinsHall", halls, ch3Boss(16));
     area("ruinsWest", halls, ch3Boss(16));
     area("ruinsEast", halls, ch3Boss(16));
+    // Optional: the old sailor's errand sends the chapter 3 party back to the wreck's hold.
+    story("支線：幽靈船長", halls, captain);
+    story("支線：幽靈船長（多練一級）", tier3At(15), captain);
+    shop(halls, ch3Boss(16));
     story("遺跡守衛", ch3Boss(16), guardian);
     story("遺跡守衛（多練一級）", ch3Boss(17), guardian);
     story("遺跡守衛（少一級）", ch3Boss(15), guardian);
     story("遺跡守衛（少兩級）", ch3Boss(14), guardian);
+    loot(guardian);
 }
 
 // ── Final chapter ────────────────────────────────────────────────────────────────────────────
@@ -196,10 +265,13 @@ string[] demonKing = ["shadowKnight", "demonKing", "shadowKnight"];
 
 if (chapter(4, "魔王城"))
 {
+    shop(ch3Boss(16), wastes);
     area("northWastes", wastes, castle);
+    shop(wastes, castle);
     area("castleHall", castle, finalBoss(19));
     area("castleTower", castle, finalBoss(19));
     area("castleCrypt", castle, finalBoss(19));
+    shop(castle, finalBoss(19));
     story("魔王（兩階段）", finalBoss(19), demonKing);
     story("魔王（多練一級）", finalBoss(20), demonKing);
     story("魔王（少一級）", finalBoss(18), demonKing);
@@ -208,3 +280,8 @@ if (chapter(4, "魔王城"))
 
 // Each area's levelling segment counts once; story, bosses, shops and walking are not included (roughly +25 min overall).
 Console.WriteLine($"Estimated levelling time (random battles only): {totalMinutes:F0} min");
+if (onlyChapter == 0)
+{
+    Console.WriteLine("\nEconomy (gold from levelling battles + bosses vs. the gear each checkpoint expects):");
+    economy.ForEach(Console.WriteLine);
+}

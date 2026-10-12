@@ -31,10 +31,23 @@ public static class WorldRules
         return session.content.location(exit.to);
     }
 
-    /// <summary>Rolls for a random battle; <paramref name="forced"/> skips the encounter-rate check (searching the area).</summary>
+    /// <summary>The level of the strongest enemy that can appear in <paramref name="location"/>; 0 without encounters.</summary>
+    public static int areaLevel(this GameSession session, LocationDef location) =>
+        location.encounters.SelectMany(e => e.enemies).Select(id => session.content.enemy(id).level).DefaultIfEmpty(0).Max();
+
+    /// <summary>The chance of a random battle per step, lowered when the party has far outgrown the area.</summary>
+    public static double encounterRate(this GameSession session, LocationDef location) =>
+        session.party.Count == 0
+            ? location.encounterRate
+            : location.encounterRate * Progression.encounterScale(session.party.Average(m => m.level), session.areaLevel(location));
+
+    /// <summary>
+    /// Rolls for a random battle; <paramref name="forced"/> skips the encounter-rate check (searching the area), so an
+    /// over-levelled party that wants to grind gold still can.
+    /// </summary>
     public static EncounterDef? rollEncounter(this GameSession session, LocationDef location, bool forced = false)
     {
-        if (!location.hasEncounters || (!forced && session.random.NextDouble() >= location.encounterRate))
+        if (!location.hasEncounters || (!forced && session.random.NextDouble() >= session.encounterRate(location)))
         {
             return null;
         }

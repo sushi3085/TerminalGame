@@ -479,13 +479,12 @@ public sealed class BattleEngine
 
     private void grantRewards(List<BattleEvent> events)
     {
-        int exp = 0;
-        int gold = 0;
+        List<EnemyDef> defeated = pastPhases.Concat(enemySide.Cast<EnemyCombatant>().Select(e => e.def)).ToList();
+        int exp = defeated.Sum(def => def.exp);
+        int gold = defeated.Sum(def => def.gold);
         List<ItemDef> drops = new();
-        foreach (EnemyDef def in pastPhases.Concat(enemySide.Cast<EnemyCombatant>().Select(e => e.def)))
+        foreach (EnemyDef def in defeated)
         {
-            exp += def.exp;
-            gold += def.gold;
             foreach (DropDef drop in def.drops)
             {
                 if (random.NextDouble() < drop.chance)
@@ -501,12 +500,16 @@ public sealed class BattleEngine
             session.inventory.add(item.id);
         }
 
-        events.Add(new VictoryEvent(exp, gold, drops));
+        // Everyone still standing gets the full amount, less for enemies far below their level; fallen members get nothing.
+        List<ExpShare> shares = partySide.Cast<PartyCombatant>()
+            .Where(c => c.isAlive)
+            .Select(c => new ExpShare(c.member, defeated.Sum(def => Progression.scaledExp(def.exp, c.member.level, def.level))))
+            .ToList();
+        events.Add(new VictoryEvent(exp, gold, drops) { shares = shares });
 
-        // Everyone still standing gets the full amount; fallen members get nothing.
-        foreach (PartyCombatant member in partySide.Cast<PartyCombatant>().Where(c => c.isAlive))
+        foreach (ExpShare share in shares)
         {
-            foreach (LevelUp levelUp in member.member.gainExp(exp))
+            foreach (LevelUp levelUp in share.member.gainExp(share.exp))
             {
                 events.Add(new LevelUpEvent(levelUp));
             }

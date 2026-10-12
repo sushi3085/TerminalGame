@@ -10,7 +10,7 @@
       "speed": 5
     },
     "exp": 24,
-    "gold": 10,
+    "gold": 15,
     "drops": [
       {
         "itemId": "potion",
@@ -37,7 +37,7 @@
       "speed": 12
     },
     "exp": 18,
-    "gold": 8,
+    "gold": 12,
     "drops": [
       {
         "itemId": "potion",
@@ -66,7 +66,7 @@
       "speed": 4
     },
     "exp": 30,
-    "gold": 15,
+    "gold": 22,
     "actions": [
       {
         "weight": 2
@@ -106,7 +106,7 @@
       "speed": 11
     },
     "exp": 36,
-    "gold": 16,
+    "gold": 24,
     "actions": [
       {
         "weight": 5
@@ -148,7 +148,7 @@
       "speed": 6
     },
     "exp": 400,
-    "gold": 200,
+    "gold": 300,
     "actions": [
       {
         "weight": 2
@@ -199,7 +199,7 @@
       "speed": 9
     },
     "exp": 58,
-    "gold": 22,
+    "gold": 44,
     "actions": [
       {
         "weight": 3
@@ -238,7 +238,7 @@
       "speed": 6
     },
     "exp": 64,
-    "gold": 26,
+    "gold": 52,
     "actions": [
       {
         "weight": 3
@@ -277,7 +277,7 @@
       "speed": 14
     },
     "exp": 60,
-    "gold": 22,
+    "gold": 44,
     "actions": [
       {
         "weight": 3
@@ -312,7 +312,7 @@
       "speed": 20
     },
     "exp": 62,
-    "gold": 24,
+    "gold": 48,
     "actions": [
       {
         "weight": 3
@@ -352,7 +352,7 @@
       "speed": 8
     },
     "exp": 78,
-    "gold": 32,
+    "gold": 64,
     "actions": [
       {
         "weight": 3
@@ -399,7 +399,7 @@
       "speed": 10
     },
     "exp": 80,
-    "gold": 34,
+    "gold": 68,
     "actions": [
       {
         "weight": 3
@@ -438,7 +438,7 @@
       "speed": 7
     },
     "exp": 70,
-    "gold": 20,
+    "gold": 40,
     "actions": [
       {
         "weight": 2
@@ -471,7 +471,7 @@
       "speed": 12
     },
     "exp": 900,
-    "gold": 500,
+    "gold": 1200,
     "actions": [
       {
         "weight": 3
@@ -510,6 +510,56 @@
     ]
   },
   {
+    "id": "drownedCaptain",
+    "name": "幽靈船長",
+    "level": 16,
+    "stats": {
+      "maxHp": 2500,
+      "maxMp": 120,
+      "attack": 76,
+      "defense": 22,
+      "magic": 56,
+      "speed": 14
+    },
+    "exp": 1000,
+    "gold": 600,
+    "actions": [
+      {
+        "weight": 2
+      },
+      {
+        "skillId": "tidalWave",
+        "weight": 2
+      },
+      {
+        "skillId": "constrict",
+        "weight": 1
+      },
+      {
+        "skillId": "grudge",
+        "weight": 1
+      }
+    ],
+    "weakTo": [
+      "Holy"
+    ],
+    "immuneTo": [
+      "Poison",
+      "Sleep",
+      "Paralysis"
+    ],
+    "attackMessage": "揮動長滿藤壺的彎刀砍了過來！",
+    "art": [
+      "[gray]    _[/][red]X[/][gray]_____    [/]",
+      "[gray]   /_______\\   [/]",
+      "[gray]    ( [/][cyan]o[/][gray] [/][cyan]o[/][gray] )    [/]",
+      "[gray]     \\ ~ /     [/]",
+      "[blue]  ==/|===|\\==  [/]",
+      "[blue]  / |     | \\[/][gray]─[/]",
+      "[gray]    _|   |_    [/]"
+    ]
+  },
+  {
     "id": "sandScorpion",
     "name": "沙蠍",
     "level": 12,
@@ -520,7 +570,7 @@
       "speed": 12
     },
     "exp": 95,
-    "gold": 40,
+    "gold": 80,
     "actions": [
       {
         "weight": 3
@@ -558,7 +608,7 @@
       "speed": 24
     },
     "exp": 90,
-    "gold": 38,
+    "gold": 76,
     "actions": [
       {
         "weight": 3
@@ -596,7 +646,7 @@
       "speed": 6
     },
     "exp": 115,
-    "gold": 45,
+    "gold": 90,
     "actions": [
       {
         "weight": 3
@@ -635,7 +685,7 @@
       "speed": 9
     },
     "exp": 105,
-    "gold": 42,
+    "gold": 84,
     "actions": [
       {
         "weight": 3
@@ -670,7 +720,7 @@
       "speed": 18
     },
     "exp": 140,
-    "gold": 44,
+    "gold": 88,
     "actions": [
       {
         "weight": 1
@@ -713,7 +763,7 @@
       "speed": 8
     },
     "exp": 150,
-    "gold": 48,
+    "gold": 96,
     "actions": [
       {
         "weight": 3
@@ -757,7 +807,7 @@
       "speed": 5
     },
     "exp": 165,
-    "gold": 52,
+    "gold": 104,
     "actions": [
       {
         "weight": 3
@@ -797,7 +847,7 @@
       "speed": 10
     },
     "exp": 155,
-    "gold": 50,
+    "gold": 100,
     "actions": [
       {
         "weight": 2
@@ -834,7 +884,7 @@
       "speed": 11
     },
     "exp": 2000,
-    "gold": 900,
+    "gold": 2000,
     "actions": [
       {
         "weight": 3
@@ -888,7 +938,7 @@
       "speed": 14
     },
     "exp": 230,
-    "gold": 80,
+    "gold": 176,
     "actions": [
       {
         "weight": 3
@@ -932,7 +982,7 @@
       "speed": 16
     },
     "exp": 210,
-    "gold": 70,
+    "gold": 154,
     "actions": [
       {
         "weight": 2
@@ -977,7 +1027,7 @@
       "speed": 20
     },
     "exp": 200,
-    "gold": 60,
+    "gold": 132,
     "actions": [
       {
         "weight": 2
@@ -1021,7 +1071,7 @@
       "speed": 22
     },
     "exp": 220,
-    "gold": 75,
+    "gold": 165,
     "actions": [
       {
         "weight": 3

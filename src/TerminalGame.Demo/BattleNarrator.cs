@@ -111,6 +111,11 @@ public static class BattleNarrator
     {
         StringBuilder text = new("戰鬥勝利！\n");
         text.Append($"獲得 [gold]{v.exp}[/] 點經驗值、[gold]{v.gold}[/] 枚金幣。");
+        foreach (ExpShare share in v.shares.Where(s => s.exp < v.exp))
+        {
+            text.Append($"\n[dim]{share.member.name}的等級遠高於對手，只得到 {share.exp} 點經驗值。[/]");
+        }
+
         foreach (ItemDef item in v.drops)
         {
             text.Append($"\n得到了[green]{item.name}[/]！");

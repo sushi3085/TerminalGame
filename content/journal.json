@@ -170,6 +170,18 @@
       "text": "北方來的神官小雪加入了隊伍。"
     },
     {
+      "if": "flag:sailorQuest",
+      "text": "砂岩城酒館的老水手，託我們到[cyan]沉船洞窟・底艙[/]找回船長的銀羅盤。"
+    },
+    {
+      "if": "item:oldCompass || flag:sailorQuest == 2",
+      "text": "在底艙的船長室讓幽靈船長安息，取回了銀羅盤。"
+    },
+    {
+      "if": "flag:sailorQuest == 2",
+      "text": "把銀羅盤交給老水手，收下了他的積蓄與潮汐護符。"
+    },
+    {
       "if": "flag:ruinsWest && flag:ruinsEast",
       "text": "同時啟動了日與月的石台，遺跡的石門打開了。"
     },

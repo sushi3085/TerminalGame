@@ -101,6 +101,48 @@ public class BalanceTests
         return wins / (double)runs;
     }
 
+    /// <summary>
+    /// Gold has to keep up with experience, or players out-level the gear each town sells before they can afford it
+    /// (first playtest). Experience is shared in full by every member while gold buys one set of gear per member.
+    /// </summary>
+    [Fact]
+    public void everyAreaPaysEnoughGoldForItsExperience()
+    {
+        foreach (LocationDef location in content.locations.Where(l => l.hasEncounters))
+        {
+            double exp = location.encounters.Sum(e => e.weight * e.enemies.Sum(id => content.enemy(id).exp));
+            double gold = location.encounters.Sum(e => e.weight * e.enemies.Sum(id => content.enemy(id).gold));
+            Assert.InRange(gold / exp, 0.55, 0.9);
+        }
+    }
+
+    [Fact]
+    public void ghostCaptainSideQuestSuitsTheChapterThreeParty()
+    {
+        (string, int, string[])[] at(int level) =>
+        [
+            ("hero", level, ["steelSword", "steelPlate", "sandTurban", "pearlAmulet"]),
+            ("rin", level, ["hornBow", "desertCloak", "sandTurban", "acornCharm"]),
+            ("bal", level, ["warHammer", "steelPlate", "ironHelm", "guardianShield"]),
+            ("xue", level, ["crystalStaff", "priestRobe", "sandTurban", "acornCharm"]),
+        ];
+        string[] fight = ["drownedSailor", "drownedCaptain", "drownedSailor"];
+        GameSession stocked(int seed, int level)
+        {
+            GameSession session = party(seed, at(level));
+            session.inventory.add("hiPotion", 4);
+            session.inventory.add("ether", 2);
+            session.inventory.add("phoenixDown", 2);
+            return session;
+        }
+
+        double expected = winRate(seed => stocked(seed, 14), fight, new AutoPolicy());
+        double low = winRate(seed => stocked(seed, 12), fight, new AutoPolicy());
+
+        Assert.True(expected >= 0.8, $"captain at Lv14: {expected:P0}");
+        Assert.True(low <= 0.7, $"captain at Lv12 should be a real risk: {low:P0}");
+    }
+
     [Theory]
     [InlineData("woodsEdge")]
     [InlineData("woodsPath")]
